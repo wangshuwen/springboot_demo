@@ -74,7 +74,7 @@ public class ExceptionHandle extends BaseLog {
         }
         if (exception instanceof IncorrectCredentialsException) {
             IncorrectCredentialsException systemException = (IncorrectCredentialsException) exception;
-            systemException.printStackTrace();
+            //systemException.printStackTrace();
             return ResultUtil.error(ResultEnum.PWD_IS_ERROR);
         }
 

@@ -53,7 +53,7 @@ public class CustomRealm extends AuthorizingRealm {
 //      authorizationInfo.addRole("admin");
         authorizationInfo.addStringPermission("list");
 
-//获取权限集合 TODO
+//      获取权限集合 TODO
 //      authorizationInfo.addStringPermission("list");
 //      User userInfo = (User) principals.getPrimaryPrincipal();
 //

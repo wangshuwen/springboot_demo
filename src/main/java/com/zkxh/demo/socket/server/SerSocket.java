@@ -188,10 +188,35 @@ public class SerSocket implements Runnable {
         //解析数据协议头
         int ret = 0;
 
-        long message_header_frame_head = ((pkg[0] & 0xFF) << 0) + ((pkg[1] & 0xFF) << 8);
+        //数据帧头
+        long message_header_frame_head = ((pkg[0] & 0xFF) ) + ((pkg[1] & 0xFF) << 8);
 
-        long message_header_control = (pkg[19] & 0xFF) + ((pkg[20] & 0xFF) << 8)
-                + ((pkg[21] & 0xFF) << 16) + ((pkg[22] & 0xFF) << 24);
+        //设备端ID
+        long message_header_terminal_id = ((pkg[2]& 0xFF))+((pkg[3]& 0xFF)<<8)+((pkg[4]& 0xFF)<<16)+((pkg[5]& 0xFF)<<24);
+
+        //基站ID
+        long message_header_station_id  = ((pkg[6]& 0xFF))+((pkg[7]& 0xFF)<<8)+((pkg[8]& 0xFF)<<16)+((pkg[9]& 0xFF)<<24);
+
+        //设备端IP
+        long message_header_terminal_ip  = ((pkg[10]& 0xFF))+((pkg[11]& 0xFF)<<8);
+
+        //基站IP
+        long message_header_station_ip  = ((pkg[12]& 0xFF))+((pkg[13]& 0xFF)<<8);
+
+        //数据总长度
+        long message_header_total_length  = ((pkg[14]& 0xFF))+((pkg[15]& 0xFF)<<8);
+
+        //控制类型
+        long message_header_control = (pkg[16] & 0xFF) + ((pkg[17] & 0xFF) << 8);
+
+        //流水号
+        long message_header_sequence_id = (pkg[18] & 0xFF) + ((pkg[19] & 0xFF) << 8);
+
+        //数据头时间
+        long meaasge_header_real_time = ((pkg[20]& 0xFF))+((pkg[21]& 0xFF)<<8)+((pkg[22]& 0xFF)<<16)+((pkg[23]& 0xFF)<<24);
+
+        long message_body_result = (pkg[24] & 0xFF);
+
 
         if (message_header_frame_head != SocketMsg.MSG_HEADER_FREAME_HEAD.getCode()) {
             System.out.println(1);
