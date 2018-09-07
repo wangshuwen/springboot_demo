@@ -2,9 +2,7 @@ package com.zkxh.demo.dao.user;
 
 import com.zkxh.demo.model.user.SysUser;
 import com.zkxh.demo.model.user.SysUserExample;
-
 import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
 
 public interface SysUserMapper {
@@ -95,4 +93,6 @@ public interface SysUserMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(SysUser record);
+
+    SysUser selectUserAndRoleByAccount(String account);
 }

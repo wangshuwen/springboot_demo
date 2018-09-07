@@ -1,5 +1,6 @@
-package com.zkxh.demo.service;
+package com.zkxh.demo.service.user;
 
+import com.zkxh.demo.dto.UserInfoDto;
 import com.zkxh.demo.model.user.SysUser;
 import com.zkxh.demo.vo.UserLoginVOReq;
 import com.zkxh.demo.vo.UserLoginVOResp;
@@ -32,4 +33,6 @@ public interface UserService {
      * @auther lifeng
      **/
     public UserLoginVOResp userLogin(UserLoginVOReq userLoginVOReq);
+
+    public UserInfoDto findUserInfoDtoByAccount(String account);
 }

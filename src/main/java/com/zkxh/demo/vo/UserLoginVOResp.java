@@ -1,6 +1,10 @@
 package com.zkxh.demo.vo;
 
+import com.zkxh.demo.model.menu.SysMenu;
+import com.zkxh.demo.model.role.SysRole;
+
 import java.util.Date;
+import java.util.List;
 
 /**
  * @ClassName UserLoginVOResp
@@ -28,10 +32,17 @@ public class UserLoginVOResp {
 
     private String token;
 
+    //权限
+    private List<SysMenu> menus;
+
+    //角色
+    private SysRole sysRole;
+
+
     public UserLoginVOResp() {
     }
 
-    public UserLoginVOResp(Integer userId, String userName, String account, String nickName, String headimg, String phone, Date lastLoginTime, String token) {
+    public UserLoginVOResp(Integer userId, String userName, String account, String nickName, String headimg, String phone, Date lastLoginTime, String token, List<SysMenu> menus, SysRole sysRole) {
         this.userId = userId;
         this.userName = userName;
         this.account = account;
@@ -40,6 +51,8 @@ public class UserLoginVOResp {
         this.phone = phone;
         this.lastLoginTime = lastLoginTime;
         this.token = token;
+        this.menus = menus;
+        this.sysRole = sysRole;
     }
 
     @Override
@@ -53,7 +66,25 @@ public class UserLoginVOResp {
                 ", phone='" + phone + '\'' +
                 ", lastLoginTime=" + lastLoginTime +
                 ", token='" + token + '\'' +
+                ", menus=" + menus +
+                ", sysRole=" + sysRole +
                 '}';
+    }
+
+    public List<SysMenu> getMenus() {
+        return menus;
+    }
+
+    public void setMenus(List<SysMenu> menus) {
+        this.menus = menus;
+    }
+
+    public SysRole getSysRole() {
+        return sysRole;
+    }
+
+    public void setSysRole(SysRole sysRole) {
+        this.sysRole = sysRole;
     }
 
     public Integer getUserId() {
