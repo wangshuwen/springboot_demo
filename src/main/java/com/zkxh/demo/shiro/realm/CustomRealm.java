@@ -1,12 +1,11 @@
 package com.zkxh.demo.shiro.realm;
 
 import com.zkxh.demo.common.da.redis.RedisService;
-import com.zkxh.demo.model.user.SysUser;
-import com.zkxh.demo.service.UserService;
-import org.apache.shiro.SecurityUtils;
+import com.zkxh.demo.dto.UserInfoDto;
+import com.zkxh.demo.model.menu.SysMenu;
+import com.zkxh.demo.service.user.UserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
-import org.apache.shiro.authz.Permission;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -50,20 +49,16 @@ public class CustomRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
 
         logger.info("执行授权过程");
-//      authorizationInfo.addRole("admin");
+        UserInfoDto userInfo = (UserInfoDto) principals.getPrimaryPrincipal();
+
+        //只拥有一中角色
+        authorizationInfo.addRole(userInfo.getSysRole().getSysRolename());
+
         authorizationInfo.addStringPermission("list");
 
-//      获取权限集合 TODO
-//      authorizationInfo.addStringPermission("list");
-//      User userInfo = (User) principals.getPrimaryPrincipal();
-//
-//        for (SysRole role : userInfo.getRoleList()) {
-//          authorizationInfo.addRole(role.getRole());
-//            for (SysPermission p : role.getPermissions()) {
-//                  authorizationInfo.addStringPermission(p.getPermission());
-//              }
-//         }
-//      SecurityUtils.getSubject().checkPermission("admin:list");
+        for (SysMenu p : userInfo.getSysMenus()) {
+            authorizationInfo.addStringPermission(p.getPermissionCode());
+        }
 
         return authorizationInfo;
 
@@ -82,18 +77,18 @@ public class CustomRealm extends AuthorizingRealm {
         //1、从主题传过来的认证信息中，获取用户名
         String account = (String) token.getPrincipal();
         //从数据库获取SysUser信息
-        SysUser sysUser = userService.findSysUserByAccount(account);
+        UserInfoDto userInfo = userService.findUserInfoDtoByAccount(account);
         //2、通过用户名到数据库中获取凭证
-        if (sysUser == null) {
+        if (userInfo == null) {
             throw new AuthenticationException();
         }
-        if (!sysUser.getEnabled()) { //账户冻结
+        if (!userInfo.getSysUser().getEnabled()) { //账户冻结
             throw new LockedAccountException();
         }
         //Shiro认证
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(sysUser,
-                sysUser.getSysPassword(),
-                ByteSource.Util.bytes(sysUser.getSysAccount()),
+        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(userInfo,
+                userInfo.getSysUser().getSysPassword(),
+                ByteSource.Util.bytes(userInfo.getSysUser().getSysAccount()),
                 getName());
 
         return authenticationInfo;

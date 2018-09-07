@@ -2,18 +2,13 @@ package com.zkxh.demo.controller.user;
 
 import com.zkxh.demo.common.base.controller.impl.BaseController;
 import com.zkxh.demo.common.da.kafka.KafkaSender;
-import com.zkxh.demo.common.enums.ResultEnum;
 import com.zkxh.demo.common.result.ResultUtil;
 import com.zkxh.demo.model.user.SysUser;
-import com.zkxh.demo.service.UserService;
-import com.zkxh.demo.vo.UserLoginVOReq;
-import com.zkxh.demo.vo.UserLoginVOResp;
 import com.zkxh.demo.websocket.WSServer;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.*;
 

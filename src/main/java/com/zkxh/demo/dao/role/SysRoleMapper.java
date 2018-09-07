@@ -96,4 +96,5 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
      * @mbg.generated
      */
     int updateByPrimaryKey(SysRole record);
+
 }

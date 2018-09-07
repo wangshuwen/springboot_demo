@@ -10,6 +10,15 @@
         <result column="sys_rolename" jdbcType="VARCHAR" property="sysRolename"/>
         <result column="sys_roledesc" jdbcType="VARCHAR" property="sysRoledesc"/>
         <result column="enable" jdbcType="BIT" property="enable"/>
+
+        <collection column="sys_roleid" property="sysMenuRoleList" javaType="java.util.ArrayList"
+                    ofType="com.zkxh.demo.model.sys_menu_role.SysMenuRole"
+                    select="com.zkxh.demo.dao.sys_menu_role.SysMenuRoleMapper.selectByPrimaryKey"
+                    fetchType="lazy">
+            <id column="munu_role_id" property="menuRoleId"/>
+            <result column="sys_role_id" property="sysRoleId"/>
+            <result column="sys_menu_id" property="sysMenuId"/>
+        </collection>
     </resultMap>
     <sql id="Example_Where_Clause">
         <!--

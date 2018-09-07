@@ -3,16 +3,15 @@ package com.zkxh.demo.controller.login;
 import com.zkxh.demo.common.base.controller.impl.BaseController;
 import com.zkxh.demo.common.enums.ResultEnum;
 import com.zkxh.demo.common.result.ResultUtil;
-import com.zkxh.demo.service.UserService;
+import com.zkxh.demo.service.user.UserService;
 import com.zkxh.demo.vo.UserLoginVOReq;
 import com.zkxh.demo.vo.UserLoginVOResp;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.shiro.SecurityUtils;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -24,6 +23,7 @@ import javax.annotation.Resource;
  * @Vserion v0.0.1
  */
 
+@RequestMapping("user")
 @RestController
 @Api(value = "LoginController", tags = {"用户登录操作接口"})
 public class LoginController extends BaseController {
@@ -54,5 +54,19 @@ public class LoginController extends BaseController {
         } else {
             return ResultUtil.jsonToStringError(ResultEnum.FAILED);
         }
+    }
+
+    /**
+     * @param []
+     * @return java.lang.String
+     * @description 用户推出登录
+     * @date 10:46 2018/9/7
+     * @auther lifeng
+     **/
+    @ApiOperation(value = "用户退出登录接口")
+    @GetMapping("/logout")
+    public String logout() {
+        SecurityUtils.getSubject().logout();
+        return ResultUtil.jsonToStringSuccess();
     }
 }
