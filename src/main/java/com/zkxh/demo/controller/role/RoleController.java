@@ -57,12 +57,17 @@ public class RoleController {
         return ResultUtil.jsonToStringSuccess();
     }
 
+    /**
+     * @description 根据角色ID删除角色信息
+     * @date 10:37 2018/9/7
+     * @param [id]
+     * @auther lifeng
+     * @return java.lang.String
+     **/
     @ApiOperation(value = "删除角色信息", notes = "根据角色ID删除角色信息")
     @ApiImplicitParams({
             @ApiImplicitParam(dataType = "java.lang.Integer", name = "id", value = "角色ID")
     })
-
-
     @DeleteMapping("/role/delete/{id}")
     public String deleteRole(@PathVariable Integer id) {
         return ResultUtil.jsonToStringSuccess();
