@@ -1,5 +1,7 @@
 package com.zkxh.demo.service.menu;
 
+import com.alibaba.fastjson.JSONObject;
+
 /**
  * @ClassName MenuService
  * @Description
@@ -9,4 +11,6 @@ package com.zkxh.demo.service.menu;
  */
 
 public interface MenuService {
+
+    JSONObject findMenusByRoleId(Integer roleId);
 }

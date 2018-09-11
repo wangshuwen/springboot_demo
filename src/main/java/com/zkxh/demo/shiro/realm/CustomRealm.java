@@ -3,6 +3,7 @@ package com.zkxh.demo.shiro.realm;
 import com.zkxh.demo.common.da.redis.RedisService;
 import com.zkxh.demo.dto.UserInfoDto;
 import com.zkxh.demo.model.menu.SysMenu;
+import com.zkxh.demo.model.user.SysUser;
 import com.zkxh.demo.service.user.UserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -49,14 +50,16 @@ public class CustomRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
 
         logger.info("执行授权过程");
-        UserInfoDto userInfo = (UserInfoDto) principals.getPrimaryPrincipal();
+        SysUser userInfo = (SysUser) principals.getPrimaryPrincipal();
+
+        String account = userInfo.getSysAccount();
+
+        UserInfoDto userInfoDto = userService.findUserInfoDtoByAccount(account);
 
         //只拥有一中角色
-        authorizationInfo.addRole(userInfo.getSysRole().getSysRolename());
+        authorizationInfo.addRole(userInfoDto.getSysRole().getSysRolename());
 
-        authorizationInfo.addStringPermission("list");
-
-        for (SysMenu p : userInfo.getSysMenus()) {
+        for (SysMenu p : userInfoDto.getSysMenus()) {
             authorizationInfo.addStringPermission(p.getPermissionCode());
         }
 
@@ -77,18 +80,19 @@ public class CustomRealm extends AuthorizingRealm {
         //1、从主题传过来的认证信息中，获取用户名
         String account = (String) token.getPrincipal();
         //从数据库获取SysUser信息
-        UserInfoDto userInfo = userService.findUserInfoDtoByAccount(account);
+        // UserInfoDto userInfo = userService.findUserInfoDtoByAccount(account);
+        SysUser sysUser = userService.findSysUserByAccount(account);
         //2、通过用户名到数据库中获取凭证
-        if (userInfo == null) {
+        if (sysUser == null) {
             throw new AuthenticationException();
         }
-        if (!userInfo.getSysUser().getEnabled()) { //账户冻结
+        if (!sysUser.getEnabled()) { //账户冻结
             throw new LockedAccountException();
         }
         //Shiro认证
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(userInfo,
-                userInfo.getSysUser().getSysPassword(),
-                ByteSource.Util.bytes(userInfo.getSysUser().getSysAccount()),
+        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(sysUser,
+                sysUser.getSysPassword(),
+                ByteSource.Util.bytes(sysUser.getSysAccount()),
                 getName());
 
         return authenticationInfo;

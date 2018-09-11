@@ -71,15 +71,15 @@ public class UserServiceImpl extends BaseService<SysUserMapper, SysUser, SysUser
         subject.login(token);
         //TODO 返回菜单树另写接口
         //通过Shiro获取返回的User信息
-        UserInfoDto user = (UserInfoDto) SecurityUtils.getSubject().getPrincipal();
+        SysUser user = (SysUser) SecurityUtils.getSubject().getPrincipal();
         //封装返回数据
         UserLoginVOResp resp = new UserLoginVOResp();
-        resp.setAccount(user.getSysUser().getSysAccount());
-        resp.setUserId(user.getSysUser().getSysUserid());
-        resp.setUserName(user.getSysUser().getSysUsername());
-        resp.setHeadimg(user.getSysUser().getSysHeadimg());
-        resp.setLastLoginTime(user.getSysUser().getSysLastLoginTime());
-        resp.setPhone(user.getSysUser().getSysPhonenumber());
+        resp.setAccount(user.getSysAccount());
+        resp.setUserId(user.getSysUserid());
+        resp.setUserName(user.getSysUsername());
+        resp.setHeadimg(user.getSysHeadimg());
+        resp.setLastLoginTime(user.getSysLastLoginTime());
+        resp.setPhone(user.getSysPhonenumber());
         resp.setToken(subject.getSession().getId().toString());
 
         logger.info("sessionid : " + subject.getSession().getId());
@@ -89,6 +89,7 @@ public class UserServiceImpl extends BaseService<SysUserMapper, SysUser, SysUser
 
     @Override
     public UserInfoDto findUserInfoDtoByAccount(String account) {
+
         //通过账号User所有信息
         SysUser sysUser = sysUserMapper.selectUserAndRoleByAccount(account);
         //获取 一对一关系的Role
@@ -107,11 +108,11 @@ public class UserServiceImpl extends BaseService<SysUserMapper, SysUser, SysUser
         UserInfoDto userInfoDto = new UserInfoDto();
 
         userInfoDto.setSysUser(sysUser);
-
+        System.out.println(sysUser.toString());
         userInfoDto.setSysRole(sysRole);
-
+        System.out.println(sysRole.toString());
         userInfoDto.setSysMenus(sysMenus);
-
+        System.out.println(sysMenus.toString());
         return userInfoDto;
 
     }

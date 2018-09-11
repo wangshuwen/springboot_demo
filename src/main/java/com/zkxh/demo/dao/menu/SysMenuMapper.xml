@@ -401,6 +401,8 @@
   </select>
 
   <select id="selectMenusByMenuId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    SELECT <include refid="Base_Column_List"/> FROM sys_menu WHERE menu_id = #{menuId} AND type = 0 AND enable = 1
+      SELECT
+      <include refid="Base_Column_List"/>
+      FROM sys_menu WHERE menu_id = #{menuId} AND enable = 1 AND type = 0 ORDER BY menu_parent_id ASC
   </select>
 </mapper>

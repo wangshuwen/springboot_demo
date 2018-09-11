@@ -9,8 +9,8 @@ package com.zkxh.demo.socket.server;
  */
 
 public enum SocketEnum {
-    ERR_NO_ERROR(0x00, "用户不存在！"),
-    ERR_RECV_PKG(0x01, "用户不存在！"),
+    ERR_NO_ERROR(0x01, "无错误！"),
+    ERR_RECV_PKG(0x01, "错误信息！"),
     ;
 
     private int code;

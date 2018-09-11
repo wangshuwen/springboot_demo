@@ -24,6 +24,26 @@ public class UserInfoDto implements Serializable {
 
     private List<SysMenu> sysMenus;
 
+
+    public UserInfoDto() {
+    }
+
+    public UserInfoDto(SysUser sysUser, SysRole sysRole, List<SysMenu> sysMenus) {
+        this.sysUser = sysUser;
+        this.sysRole = sysRole;
+        this.sysMenus = sysMenus;
+    }
+
+    @Override
+    public String toString() {
+        return "UserInfoDto{" +
+                "sysUser=" + sysUser +
+                ", sysRole=" + sysRole +
+                ", sysMenus=" + sysMenus +
+                '}';
+    }
+
+
     public SysUser getSysUser() {
         return sysUser;
     }
@@ -47,4 +67,6 @@ public class UserInfoDto implements Serializable {
     public void setSysMenus(List<SysMenu> sysMenus) {
         this.sysMenus = sysMenus;
     }
+
+
 }

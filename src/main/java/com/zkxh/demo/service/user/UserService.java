@@ -26,13 +26,21 @@ public interface UserService {
 
 
     /**
+     * @description 用户登录过程
+     * @date 9:34 2018/9/10
      * @param [userLoginVOReq]
-     * @return com.zkxh.demo.vo.UserLoginVOResp
-     * @description 用户登录 service
-     * @date 9:12 2018/9/4
      * @auther lifeng
+     * @return com.zkxh.demo.vo.UserLoginVOResp
      **/
     public UserLoginVOResp userLogin(UserLoginVOReq userLoginVOReq);
 
+
+    /**
+     * @description Shiro 授权过程 service 用法
+     * @date 9:32 2018/9/10
+     * @param [account]
+     * @auther lifeng
+     * @return com.zkxh.demo.dto.UserInfoDto
+     **/
     public UserInfoDto findUserInfoDtoByAccount(String account);
 }

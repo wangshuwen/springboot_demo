@@ -6,6 +6,7 @@ import com.zkxh.demo.model.sys_menu_role.SysMenuRole;
 import java.util.List;
 
 public class SysMenu extends BaseEntity {
+
     private List<SysMenuRole> sysMenuRoleList;
 
     public List<SysMenuRole> getSysMenuRoleList() {

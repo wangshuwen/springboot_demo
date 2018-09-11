@@ -1,7 +1,9 @@
 package com.zkxh.demo.controller.menu;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.zkxh.demo.common.result.ResultUtil;
-import com.zkxh.demo.dto.UserInfoDto;
+import com.zkxh.demo.common.util.ClazzUtil;
 import com.zkxh.demo.service.menu.MenuService;
 import io.swagger.annotations.Api;
 import org.apache.shiro.SecurityUtils;
@@ -26,10 +28,14 @@ public class MenuController {
 
     @GetMapping("user/treeMenu")
     public String getTreeMenu() {
-        UserInfoDto userInfoDto = (UserInfoDto) SecurityUtils.getSubject().getPrincipal();
-        Integer roleId = userInfoDto.getSysRole().getSysRoleid();
-        //menuService.findMenusByRoleId(roleId);
 
-        return ResultUtil.jsonToStringSuccess();
+        Object sysUser = SecurityUtils.getSubject().getPrincipal();
+
+        ClazzUtil clazzUtil = new ClazzUtil();
+
+        Integer roleId = (Integer) clazzUtil.getFieldValueByName("roleId", sysUser);
+
+        JSONObject menuTreeOfJsonObj = menuService.findMenusByRoleId(roleId);
+        return ResultUtil.jsonToStringSuccess(menuTreeOfJsonObj);
     }
 }

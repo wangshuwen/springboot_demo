@@ -543,4 +543,28 @@ public class SysUser extends BaseEntity {
     public void setRoleId(Integer roleId) {
         this.roleId = roleId;
     }
+
+
+    @Override
+    public String toString() {
+        return "SysUser{" +
+                "sysRole=" + sysRole +
+                ", sysUserid=" + sysUserid +
+                ", sysUsername='" + sysUsername + '\'' +
+                ", sysAccount='" + sysAccount + '\'' +
+                ", sysPassword='" + sysPassword + '\'' +
+                ", sysNickname='" + sysNickname + '\'' +
+                ", sysHeadimg='" + sysHeadimg + '\'' +
+                ", sysRegisterTime=" + sysRegisterTime +
+                ", sysLastModifyTime=" + sysLastModifyTime +
+                ", sysPhonenumber='" + sysPhonenumber + '\'' +
+                ", sysLastLoginTime=" + sysLastLoginTime +
+                ", userGroupId=" + userGroupId +
+                ", sysUserLevel='" + sysUserLevel + '\'' +
+                ", enabled=" + enabled +
+                ", createBy=" + createBy +
+                ", userSalt='" + userSalt + '\'' +
+                ", roleId=" + roleId +
+                '}';
+    }
 }

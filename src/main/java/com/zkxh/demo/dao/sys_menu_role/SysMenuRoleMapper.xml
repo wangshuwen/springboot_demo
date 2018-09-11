@@ -46,7 +46,8 @@
     <result column="sys_role_id" jdbcType="INTEGER" property="sysRoleId" />
     <result column="sys_menu_id" jdbcType="INTEGER" property="sysMenuId" />
 
-    <association property="SysMenu" javaType="com.zkxh.demo.model.menu.SysMenu" column="sys_menu_id" select="com.zkxh.demo.dao.menu.SysMenuMapper.selectMenusByMenuId" fetchType="lazy">
+      <association property="sysMenu" javaType="com.zkxh.demo.model.menu.SysMenu" column="sys_menu_id"
+                   select="com.zkxh.demo.dao.menu.SysMenuMapper.selectMenusByMenuId" fetchType="lazy">
       <id column="menu_id" jdbcType="INTEGER" property="menuId" />
       <result column="menu_url" jdbcType="VARCHAR" property="menuUrl" />
       <result column="menu_path" jdbcType="VARCHAR" property="menuPath" />
@@ -292,9 +293,15 @@
   </update>
 
   <select id="selectSysMenuRoleByRoleIdOfPermission" parameterType="java.lang.Integer" resultMap="BaseResultMapPermission">
-    SELECT <include refid="Base_Column_List"/> FROM sys_menu_role WHERE sys_role_id = #{roleId}
+      SELECT
+      <include refid="Base_Column_List"/>
+      FROM sys_menu_role JOIN sys_menu ON sys_menu_role.sys_menu_id = sys_menu.menu_id WHERE sys_role_id = #{roleId} AND
+      sys_menu.type = 1
   </select>
   <select id="selectSysMenuRoleByRoleIdOfMenus" parameterType="java.lang.Integer" resultMap="BaseResultMapMenus">
-    SELECT <include refid="Base_Column_List"/> FROM sys_menu_role WHERE sys_role_id = #{roleId}
+      SELECT
+      <include refid="Base_Column_List"/>
+      FROM sys_menu_role JOIN sys_menu ON sys_menu_role.sys_menu_id = sys_menu.menu_id WHERE sys_role_id = #{roleId} AND
+      sys_menu.type = 0
   </select>
 </mapper>
