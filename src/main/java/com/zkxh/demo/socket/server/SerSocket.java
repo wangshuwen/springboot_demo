@@ -194,7 +194,10 @@ public class SerSocket implements Runnable {
                 switch ((int) message_body_data_type) {
                     case SocketCode.MSG_BODY_NODE_NAME_SENSOR_DATA: //传感器环境数据
                         logger.info("传感器环境数据......");
-
+                        System.out.println(message_header_total_length);
+                        for (int i = 30; i < pkgLen - 2; i++) {
+                            System.out.printf("0x%02x ", pkg[i]);
+                        }
                         break;
                     case SocketCode.MSG_BODY_NODE_NAME_HANDWARE_VERSION:    //硬件版本号
                         logger.info("收到硬件版本号......");
