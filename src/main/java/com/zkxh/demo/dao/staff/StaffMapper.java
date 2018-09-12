@@ -2,9 +2,7 @@ package com.zkxh.demo.dao.staff;
 
 import com.zkxh.demo.model.staff.Staff;
 import com.zkxh.demo.model.staff.StaffExample;
-
 import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
 
 public interface StaffMapper {

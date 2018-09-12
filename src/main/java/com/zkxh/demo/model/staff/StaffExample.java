@@ -282,6 +282,76 @@ public class StaffExample {
             return (Criteria) this;
         }
 
+        public Criteria andStaffNumberIsNull() {
+            addCriterion("staff_number is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStaffNumberIsNotNull() {
+            addCriterion("staff_number is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStaffNumberEqualTo(String value) {
+            addCriterion("staff_number =", value, "staffNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andStaffNumberNotEqualTo(String value) {
+            addCriterion("staff_number <>", value, "staffNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andStaffNumberGreaterThan(String value) {
+            addCriterion("staff_number >", value, "staffNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andStaffNumberGreaterThanOrEqualTo(String value) {
+            addCriterion("staff_number >=", value, "staffNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andStaffNumberLessThan(String value) {
+            addCriterion("staff_number <", value, "staffNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andStaffNumberLessThanOrEqualTo(String value) {
+            addCriterion("staff_number <=", value, "staffNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andStaffNumberLike(String value) {
+            addCriterion("staff_number like", value, "staffNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andStaffNumberNotLike(String value) {
+            addCriterion("staff_number not like", value, "staffNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andStaffNumberIn(List<String> values) {
+            addCriterion("staff_number in", values, "staffNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andStaffNumberNotIn(List<String> values) {
+            addCriterion("staff_number not in", values, "staffNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andStaffNumberBetween(String value1, String value2) {
+            addCriterion("staff_number between", value1, value2, "staffNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andStaffNumberNotBetween(String value1, String value2) {
+            addCriterion("staff_number not between", value1, value2, "staffNumber");
+            return (Criteria) this;
+        }
+
         public Criteria andStaffNameIsNull() {
             addCriterion("staff_name is null");
             return (Criteria) this;
@@ -1129,6 +1199,66 @@ public class StaffExample {
 
         public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
             addCriterion("create_time not between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupIdIsNull() {
+            addCriterion("group_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupIdIsNotNull() {
+            addCriterion("group_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupIdEqualTo(Integer value) {
+            addCriterion("group_id =", value, "groupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupIdNotEqualTo(Integer value) {
+            addCriterion("group_id <>", value, "groupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupIdGreaterThan(Integer value) {
+            addCriterion("group_id >", value, "groupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("group_id >=", value, "groupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupIdLessThan(Integer value) {
+            addCriterion("group_id <", value, "groupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupIdLessThanOrEqualTo(Integer value) {
+            addCriterion("group_id <=", value, "groupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupIdIn(List<Integer> values) {
+            addCriterion("group_id in", values, "groupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupIdNotIn(List<Integer> values) {
+            addCriterion("group_id not in", values, "groupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupIdBetween(Integer value1, Integer value2) {
+            addCriterion("group_id between", value1, value2, "groupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("group_id not between", value1, value2, "groupId");
             return (Criteria) this;
         }
     }
