@@ -8,8 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 
 
+
 @MapperScan("com.zkxh.demo.dao")
-@SpringBootApplication(exclude = {HibernateJpaAutoConfiguration.class})
+@SpringBootApplication(scanBasePackages = "com.zkxh.demo", exclude = {HibernateJpaAutoConfiguration.class})
 public class DemoApplication {
 
     public static void main(String[] args) {
@@ -18,6 +19,7 @@ public class DemoApplication {
 
         springApplication.run(args);
         new Thread(new SerSocket()).start();
+
     }
 
 

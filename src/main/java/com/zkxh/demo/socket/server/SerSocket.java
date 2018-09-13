@@ -37,21 +37,19 @@ public class SerSocket implements Runnable {
     Logger logger = LoggerFactory.getLogger(SerSocket.class);
 
     private static final int SERVER_PORT = 8087;
+    private static SerSocket serSocket;
 
     @Autowired
-    private UpLoadService upLoadService;  //添加所需service的私有成员
-    private static SerSocket serSocket;  //  关键点1   静态初使化 一个工具类  这样是为了在spring初使化之前
+    protected UpLoadService upLoadService;
 
-//    public void setUpLoadService(UpLoadService upLoadService) {
-//        this.upLoadService = upLoadService;
-//    }
-
-    @PostConstruct     //关键二   通过@PostConstruct 和 @PreDestroy 方法 实现初始化和销毁bean之前进行的操作
+    @PostConstruct //通过@PostConstruct实现初始化bean之前进行的操作
     public void init() {
         serSocket = this;
-        serSocket.upLoadService = this.upLoadService;   // 初使化时将已静态化的testService实例化
+        serSocket.upLoadService = this.upLoadService;
     }
 
+    public SerSocket() {
+    }
 
     @Override
     public void run() {
@@ -64,7 +62,6 @@ public class SerSocket implements Runnable {
             boolean f = true;
             while (f) {
                 // 等待客户端的连接，如果没有获取连接
-
                 client = server.accept();
                 System.out.println("\n收到客户端指令。");
                 // 为每个客户端连接开启一个线程
@@ -143,7 +140,7 @@ public class SerSocket implements Runnable {
      * @date 15:08 2018/9/3
      * @auther lifeng
      **/
-    private int processPkg(OutputStream outStream, byte[] pkg, int pkgLen) throws NumberFormatException {
+    private int processPkg(OutputStream outStream, byte[] pkg, int pkgLen) throws NumberFormatException, ParseException {
 
         //解析数据协议头
         int ret = 0;
@@ -272,12 +269,13 @@ public class SerSocket implements Runnable {
                         upLoadGasDto.setSequenceId(sqeuenceId);
                         upLoadGasDto.setO2(o2);
 
-                        try {
-                            upLoadService.sendGasInfoToQueue(upLoadGasDto);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                            throw new RuntimeOtherException(111, "sss");
-                        }
+                        // try {
+                        //this.upLoadService.sendGasInfoToQueue(upLoadGasDto);
+                        serSocket.upLoadService.sendGasInfoToQueue(upLoadGasDto);
+                        //  } catch (ParseException e) {
+                        //      e.printStackTrace();
+                        //      throw new RuntimeOtherException(111, "sss");
+                        //  }
                         break;
                     case SocketCode.MSG_BODY_NODE_NAME_HANDWARE_VERSION:    //硬件版本号
                         logger.info("收到硬件版本号......");
