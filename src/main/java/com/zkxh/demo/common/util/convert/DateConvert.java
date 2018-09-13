@@ -1,5 +1,6 @@
 package com.zkxh.demo.common.util.convert;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -30,6 +31,19 @@ public class DateConvert {
                 return HHmmss.format(source);
             default:
                 return yyyyMMddHHmmss.format(source);
+        }
+    }
+
+    public static Date convertStringToDate(String s, int type) throws ParseException {
+        switch (type) {
+            case 10:
+                return yyyyMMdd.parse(s);
+            case 19:
+                return yyyyMMddHHmmss.parse(s);
+            case 8:
+                return HHmmss.parse(s);
+            default:
+                return yyyyMMddHHmmss.parse(s);
         }
     }
 }
