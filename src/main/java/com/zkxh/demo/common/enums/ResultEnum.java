@@ -15,6 +15,7 @@ public enum ResultEnum {
     USER_IS_LOCKED(108, "账号已被冻结！"),
     PWD_IS_ERROR(109, "密码错误！"),
     USER_NOT_EXIST(109, "用户不存在！"),
+    WEBSOCKET_SEND_ERROR(110, "websocket error"),
     ;
 
     private Integer code;
