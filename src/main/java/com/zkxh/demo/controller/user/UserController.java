@@ -19,7 +19,7 @@ import java.util.*;
  * @DATE 2018/8/16 15:51
  * @Vserion v0.0.1
  */
-@Api(value = "UserController", tags = {"用户操作接口"})
+@Api(value = "UserController", tags = {"系统用户信息操作接口"})
 @RestController
 public class UserController extends BaseController {
 

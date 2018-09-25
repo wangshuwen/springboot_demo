@@ -21,16 +21,70 @@ public class UpLoadGasDto implements Serializable {
     private String createTime;
     private String result;
     private double co;
+    private int co_type;
     private double co2;
+    private int co2_type;
     private double o2;
+    private int o2_type;
     private double ch4;
+    private int ch4_type;
     private double t;
+    private int t_type;
     private double h;
+    private int h_type;
 
     public UpLoadGasDto() {
     }
 
-    public UpLoadGasDto(String terminalId, String stationId, String terminalIp, String stationIp, String sequenceId, String RT, String createTime, String result, double co, double co2, double o2, double ch4, double t, double h) {
+    public int getCo_type() {
+        return co_type;
+    }
+
+    public void setCo_type(int co_type) {
+        this.co_type = co_type;
+    }
+
+    public int getCo2_type() {
+        return co2_type;
+    }
+
+    public void setCo2_type(int co2_type) {
+        this.co2_type = co2_type;
+    }
+
+    public int getO2_type() {
+        return o2_type;
+    }
+
+    public void setO2_type(int o2_type) {
+        this.o2_type = o2_type;
+    }
+
+    public int getCh4_type() {
+        return ch4_type;
+    }
+
+    public void setCh4_type(int ch4_type) {
+        this.ch4_type = ch4_type;
+    }
+
+    public int getT_type() {
+        return t_type;
+    }
+
+    public void setT_type(int t_type) {
+        this.t_type = t_type;
+    }
+
+    public int getH_type() {
+        return h_type;
+    }
+
+    public void setH_type(int h_type) {
+        this.h_type = h_type;
+    }
+
+    public UpLoadGasDto(String terminalId, String stationId, String terminalIp, String stationIp, String sequenceId, String RT, String createTime, String result, double co, int co_type, double co2, int co2_type, double o2, int o2_type, double ch4, int ch4_type, double t, int t_type, double h, int h_type) {
         this.terminalId = terminalId;
         this.stationId = stationId;
         this.terminalIp = terminalIp;
@@ -40,11 +94,17 @@ public class UpLoadGasDto implements Serializable {
         this.createTime = createTime;
         this.result = result;
         this.co = co;
+        this.co_type = co_type;
         this.co2 = co2;
+        this.co2_type = co2_type;
         this.o2 = o2;
+        this.o2_type = o2_type;
         this.ch4 = ch4;
+        this.ch4_type = ch4_type;
         this.t = t;
+        this.t_type = t_type;
         this.h = h;
+        this.h_type = h_type;
     }
 
     public String getTerminalId() {
@@ -171,11 +231,17 @@ public class UpLoadGasDto implements Serializable {
                 ", createTime='" + createTime + '\'' +
                 ", result='" + result + '\'' +
                 ", co=" + co +
+                ", co_type=" + co_type +
                 ", co2=" + co2 +
+                ", co2_type=" + co2_type +
                 ", o2=" + o2 +
+                ", o2_type=" + o2_type +
                 ", ch4=" + ch4 +
+                ", ch4_type=" + ch4_type +
                 ", t=" + t +
+                ", t_type=" + t_type +
                 ", h=" + h +
+                ", h_type=" + h_type +
                 '}';
     }
 }

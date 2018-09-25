@@ -95,4 +95,6 @@ public interface StaffDeptMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(StaffDept record);
+
+    List<StaffDept> selectStaffDepts();
 }

@@ -31,6 +31,13 @@
         <result column="sequence_id" jdbcType="VARCHAR" property="sequenceId"/>
         <result column="position_id" jdbcType="INTEGER" property="positionId"/>
     </resultMap>
+
+    <!--<resultMap id="GasInfoOfUserMap" type="">-->
+
+
+    <!--</resultMap>-->
+
+
     <sql id="Example_Where_Clause">
         <!--
           WARNING - @mbg.generated
@@ -570,4 +577,14 @@
         position_id = #{positionId,jdbcType=INTEGER}
         where rt_gas_info_id = #{rtGasInfoId,jdbcType=INTEGER}
     </update>
+
+    <!--<select id="selectGasInfoByStaffName" parameterType="java.lang.String" resultMap="GasInfoOfUserMap">-->
+    <!--SELECT * FROM staff JOIN WHERE staff.staff_name-->
+    <!--</select>-->
+
+    <select id="selectGasInfoByStaffName">
+        SELECT * FROM staff a ,staff_terminal b ,terminal c ,terminal_update_ip d WHERE a.staff_id = b.staff_id AND b.terminal_id = c.terminal_id AND c.terminal_id = d.terminal_num
+        AND a.staff_name CONNECT (CONNECT ('%',#{staffName}),'%')
+
+    </select>
 </mapper>

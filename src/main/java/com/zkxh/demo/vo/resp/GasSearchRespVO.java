@@ -1,15 +1,14 @@
 package com.zkxh.demo.vo.resp;
 
 /**
- * @ClassName GasWSRespVO
+ * @ClassName GasSearchRespVO
  * @Description
  * @Auther lifeng
- * @DATE 2018/9/12 9:22
+ * @DATE 2018/9/21 16:12
  * @Vserion v0.0.1
  */
 
-public class GasWSRespVO {
-
+public class GasSearchRespVO {
     private double o2;
     private double o2_type;
 

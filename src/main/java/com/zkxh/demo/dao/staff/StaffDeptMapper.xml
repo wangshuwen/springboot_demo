@@ -223,4 +223,10 @@
         set dept_name = #{deptName,jdbcType=VARCHAR}
         where dept_id = #{deptId,jdbcType=INTEGER}
     </update>
+
+    <select id="selectStaffDepts" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM staff_dept ORDER BY staff_id ASC
+    </select>
 </mapper>

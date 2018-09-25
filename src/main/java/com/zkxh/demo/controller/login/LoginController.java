@@ -25,7 +25,7 @@ import javax.annotation.Resource;
 
 @RequestMapping("user")
 @RestController
-@Api(value = "LoginController", tags = {"用户登录操作接口"})
+@Api(value = "LoginController", tags = {"系统用户登录操作接口"})
 public class LoginController extends BaseController {
 
 
@@ -41,7 +41,7 @@ public class LoginController extends BaseController {
      * @auther lifeng
      * @return java.lang.String
      **/
-    @ApiOperation(value = "用户登录方法接口", notes = "根据User对象的account ，passWord 参数进行登录验证")
+    @ApiOperation(value = "系统用户登录方法接口", notes = "根据User对象的account ，passWord 参数进行登录验证")
     @ApiImplicitParams({
             @ApiImplicitParam(dataType = "java.lang.String", name = "account", value = "账号信息", required = true),
             @ApiImplicitParam(dataType = "java.lang.String", name = "passWord", value = "密码信息", required = true)
@@ -63,7 +63,7 @@ public class LoginController extends BaseController {
      * @date 10:46 2018/9/7
      * @auther lifeng
      **/
-    @ApiOperation(value = "用户退出登录接口")
+    @ApiOperation(value = "系统用户退出登录接口")
     @GetMapping("/logout")
     public String logout() {
         SecurityUtils.getSubject().logout();

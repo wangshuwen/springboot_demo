@@ -8,7 +8,6 @@ import com.zkxh.demo.service.gas.UpLoadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
@@ -44,14 +43,14 @@ public class UpLoadServiceImpl extends BaseLog implements UpLoadService {
         future.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
             @Override
             public void onFailure(Throwable throwable) {
-                logger.info("Produce: The message failed to be sent:" + throwable.getMessage());
+                logger.info("消息发送失败：" + throwable.getMessage());
             }
 
             @Override
             public void onSuccess(SendResult<String, Object> stringObjectSendResult) {
                 //TODO 业务处理
-                logger.info("Produce: The message was sent successfully:");
-                logger.info("Produce: _+_+_+_+_+_+_+ result: " + stringObjectSendResult.toString());
+                logger.info("消息发送成功");
+                logger.info("消息发送内容：" + stringObjectSendResult.toString());
             }
         });
     }

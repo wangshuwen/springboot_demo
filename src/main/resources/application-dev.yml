@@ -75,6 +75,8 @@ spring:
     restart:
       enabled: true
       additional-paths: src/main/java
+  resources:
+    static-locations: classpath:resources/**
 #打印日志
 logging:
   level:

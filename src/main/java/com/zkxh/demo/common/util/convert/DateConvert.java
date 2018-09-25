@@ -16,6 +16,7 @@ public class DateConvert {
 
     private static final SimpleDateFormat yyyyMMdd = new SimpleDateFormat("yyyy-MM-dd");
     private static final SimpleDateFormat yyyyMMddHHmmss = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static final SimpleDateFormat yyyyMMddHHmmss_t = new SimpleDateFormat("yyyyMMddHHmmss");
     private static final SimpleDateFormat HHmmss = new SimpleDateFormat("HH:mm:ss");
     private static final int T_YYYY_MM_DD = 10;
     private static final int T_yyyyMMddHHmmss = 19;
@@ -25,6 +26,8 @@ public class DateConvert {
         switch (type) {
             case 10:
                 return yyyyMMdd.format(source);
+            case 15:
+                return yyyyMMddHHmmss_t.format(source);
             case 19:
                 return yyyyMMddHHmmss.format(source);
             case 8:

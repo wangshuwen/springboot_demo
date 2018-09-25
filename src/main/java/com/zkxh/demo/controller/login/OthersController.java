@@ -42,7 +42,7 @@ public class OthersController implements ErrorController {
     @RequestMapping(value = ERROR_PATH, method = {RequestMethod.DELETE, RequestMethod.POST, RequestMethod.GET})
     @ResponseBody
     public String handleError() {
-        return ResultUtil.jsonToStringError(ResultEnum.FAILED);
+        return ResultUtil.jsonToStringError(ResultEnum.PAGE_NOT_FOUND);
     }
 
     @Override

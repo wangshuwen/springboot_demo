@@ -1,4 +1,4 @@
-package com.zkxh.demo.socket;
+package com.zkxh.demo.common.util.voice;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

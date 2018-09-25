@@ -2,6 +2,8 @@ package com.zkxh.demo.socket.server;
 
 import com.zkxh.demo.common.handle.RuntimeOtherException;
 import com.zkxh.demo.common.util.convert.DateConvert;
+import com.zkxh.demo.common.util.file.FileTypeEnums;
+import com.zkxh.demo.common.util.file.FileUtils;
 import com.zkxh.demo.dto.UpLoadGasDto;
 import com.zkxh.demo.service.gas.UpLoadService;
 import com.zkxh.demo.socket.SocketCode;
@@ -16,7 +18,8 @@ import java.io.*;
 import java.net.Socket;
 import java.net.ServerSocket;
 import java.text.ParseException;
-import java.util.Date;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @ClassName ServerSocket
@@ -54,7 +57,7 @@ public class SerSocket implements Runnable {
     @Override
     public void run() {
         try {
-            // 服务端在20006端口监听客户端请求的TCP连接
+            // 服务端在8087端口监听客户端请求的TCP连接
 
             ServerSocket server = new ServerSocket(SERVER_PORT);
             System.out.println("创建监听" + SERVER_PORT + "的服务端SerSocket");
@@ -86,49 +89,159 @@ public class SerSocket implements Runnable {
     class RecvServerThread implements Runnable {
 
         //定义生成的 pcm 临时文件 内容
-        final String in = "C:\\Users\\wr\\Desktop\\6666.pcm";
+        final String in = "C:\\Users\\wr\\Desktop\\demo.pcm";
 
         private Socket client = null;
+
+        public static final int PACKET_HEAD_LENGTH = 26;//包头长度
+        private volatile byte[] bytes = new byte[0];
 
         public RecvServerThread(Socket client) {
             this.client = client;
         }
 
+        public byte[] mergebyte(byte[] a, byte[] b, int begin, int end) {
+            byte[] add = new byte[a.length + end - begin];
+            int i = 0;
+            for (i = 0; i < a.length; i++) {
+                add[i] = a[i];
+            }
+            for (int k = begin; k < end; k++, i++) {
+                add[i] = b[k];
+            }
+            return add;
+        }
+
+
         @Override
         public void run() {
+            int count = 0;
+            OutputStream outStream = null;
+            InputStream inStream = null;
             try {
-                // 获取Socket的输出流，用来向客户端发送数据
-                OutputStream outStream = client.getOutputStream();
-                InputStream inStream = client.getInputStream();
-                boolean flag = true;
-                System.out.println("开启线程");
-                while (flag) {
-                    // 接收从客户端发送过来的数据
-                    int count = 1024;
-                    byte[] recvCmd = new byte[count];
-                    int recvCount = inStream.read(recvCmd);
-                    if (recvCount == -1) {
-                        System.out.println("接收完毕.");
-                        break;
-                    } else {
-                        for (int i = 0; i < recvCount; i++) {
-                            System.out.printf("0x%02x ", recvCmd[i]);
+                outStream = client.getOutputStream();
+                inStream = client.getInputStream();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            while (true) {
+                try {
+
+                    // 获取Socket的输出流，用来向客户端发送数据
+
+//                boolean flag = true;
+//                System.out.println("开启线程");
+//                while (flag) {
+//                    // 接收从客户端发送过来的数据
+//                    int count = 1024;
+//                    byte[] recvCmd = new byte[count];
+//                    int recvCount = inStream.read(recvCmd);
+//                    if (recvCount == -1) {
+//                        System.out.println("接收完毕.");
+//                        break;
+//                    } else {
+//                        System.out.println("length : " + recvCount);
+//                        for (int i = 0; i < recvCount; i++) {
+//                            System.out.printf("0x%02x ", recvCmd[i]);
+//                        }
+//                        long message_header_total_length = ((recvCmd[14] & 0xFF) << 8) + ((recvCmd[15] & 0xFF));
+//                        int current_length = recvCount;
+//                        int total_length = (int)message_header_total_length;
+//                        int head_length = 44;
+//                        int body_length = total_length - 26;
+//
+//
+//
+//                        //处理数据包过程
+//                        processPkg(outStream, recvCmd, recvCount);
+//
+//                    }
+//                }
+                    System.out.println("数据头长 : " + PACKET_HEAD_LENGTH);
+                    System.out.println("临时数组长度  : " + bytes.length);
+
+                    int c = 0;
+                    int one_pkg_length = 0;
+                    if (bytes.length < PACKET_HEAD_LENGTH) {
+                        byte[] head = new byte[PACKET_HEAD_LENGTH - bytes.length];
+                        int couter = inStream.read(head);
+                        System.out.println("第 " + count + "次 获取IO流中的数据长度 ： " + couter);
+                        c = couter;
+                        if (c == -1) {
+                            System.out.println("客户端断开连接");
+                            break;
                         }
-                        System.out.printf("\nrecvCount: %d\n", recvCount);
-                        //处理数据包过程
-                        processPkg(outStream, recvCmd, recvCount);
-                        //   SerSocket.inputPcmFile(in,recvCmd);
+                        if (c == 0) {
+                            continue;
+                        }
+
+                        if (c < PACKET_HEAD_LENGTH) {
+                            continue;
+                        }
+                        bytes = mergebyte(bytes, head, 0, PACKET_HEAD_LENGTH);
+//                        if (c == 26) {
+
+//                        }
+
                     }
+
+                    long message_header_total_length = ((bytes[14] & 0xFF) << 8) + ((bytes[15] & 0xFF));
+                    one_pkg_length = (int) message_header_total_length;
+                    //数据头读取结束
+                    int body_length = one_pkg_length - 26;  //当前数据体 应有的长度
+                    System.out.println("数据体应该有的长度 ： " + body_length);
+
+                    byte[] temp = new byte[0];
+                    temp = mergebyte(temp, bytes, 0, PACKET_HEAD_LENGTH);
+                    String templength = new String(temp);
+                    int len = templength.length();
+                    if (bytes.length - PACKET_HEAD_LENGTH < body_length) {//不够一个包
+                        byte[] body = new byte[body_length + PACKET_HEAD_LENGTH - bytes.length];//剩下应该读的字节(凑一个包)
+                        int couter1 = inStream.read(body);
+                        System.out.println("第 " + count + "次 获取IO流中的数据长度 ： " + couter1);
+                        if (couter1 < 0) {
+                            continue;
+                        }
+                        if (couter1 == -1) {
+                            System.out.println("客户端断开连接");
+                            break;
+                        }
+                        bytes = mergebyte(bytes, body, 0, couter1);
+                        if (couter1 < body.length) {
+                            continue;
+                        }
+                    }
+                    byte[] body = new byte[0];
+                    body = mergebyte(body, bytes, PACKET_HEAD_LENGTH, bytes.length);
+
+
+                    System.out.println("=====================" + count);
+                    for (int i = 0; i < bytes.length; i++) {
+                        System.out.printf("0x%02x ", bytes[i]);
+                    }
+                    System.out.println("\n=====================" + count);
+                    processPkg(outStream, bytes, bytes.length);
+
+                    count++;
+                    bytes = new byte[0];
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+            }
+
+
+            try {
                 inStream.close();
                 outStream.close();
                 client.close();
-            } catch (Exception e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-    }
 
+    }
 
     /**
      * @param [outStream, pkg, pkgLen]
@@ -140,19 +253,34 @@ public class SerSocket implements Runnable {
      * @date 15:08 2018/9/3
      * @auther lifeng
      **/
-    private int processPkg(OutputStream outStream, byte[] pkg, int pkgLen) throws NumberFormatException, ParseException {
+    private static Map<String, String> mapOfSequenceId = new ConcurrentHashMap<>();
+
+    private int processPkg(OutputStream outStream, byte[] pkg, int pkgLen) throws IOException {
+
+
+        final String in = "C:\\Users\\wr\\Desktop\\demo.pcm";
+        // SerSocket.inputPcmFile(in,pkg);
 
         //解析数据协议头
         int ret = 0;
 
         //数据帧头
         long message_header_frame_head = ((pkg[0] & 0xFF) << 8) + ((pkg[1] & 0xFF));
+        //根据数据帧头判定是否为错误信息
+        if (message_header_frame_head != SocketCode.MSG_HEADER_FREAME_HEAD) {
+            //TODO 回复数据错误
+            //sendConfirmPkg(outStream, message_header_control, confirmStatus);
+            return SocketEnum.ERR_RECV_PKG.getCode();
+        }
+        //数据总长度
+        long message_header_total_length = ((pkg[14] & 0xFF) << 8) + ((pkg[15] & 0xFF));
+//
 
         //设备端ID
-        long message_header_terminal_id = ((pkg[2] & 0xFF) << 8) + ((pkg[3] & 0xFF) << 16) + ((pkg[4] & 0xFF) << 24) + ((pkg[5] & 0xFF));
+        long message_header_terminal_id = ((pkg[2] & 0xFF) << 24) + ((pkg[3] & 0xFF) << 16) + ((pkg[4] & 0xFF) << 8) + ((pkg[5] & 0xFF));
         String terminalId = String.valueOf(message_header_terminal_id);
         //基站ID
-        long message_header_station_id = ((pkg[6] & 0xFF) << 8) + ((pkg[7] & 0xFF) << 16) + ((pkg[8] & 0xFF) << 24) + ((pkg[9] & 0xFF));
+        long message_header_station_id = ((pkg[6] & 0xFF) << 24) + ((pkg[7] & 0xFF) << 16) + ((pkg[8] & 0xFF) << 8) + ((pkg[9] & 0xFF));
         String stationId = String.valueOf(message_header_station_id);
         //设备端IP
         long message_header_terminal_ip1 = (pkg[10] & 0xFF);
@@ -169,9 +297,6 @@ public class SerSocket implements Runnable {
         StringBuilder stationIp = new StringBuilder();
         stationIp.append(stationIp1).append(".").append(stationIp2);
 
-
-        //数据总长度
-        long message_header_total_length = ((pkg[14] & 0xFF) << 8) + ((pkg[15] & 0xFF));
 
         //控制类型
         long message_header_control = ((pkg[16] & 0xFF) << 8) + ((pkg[17] & 0xFF));
@@ -199,21 +324,18 @@ public class SerSocket implements Runnable {
 
 
         //信息传送结果 0x55成功 ， 0x22失败 ， -1无意义
-        long message_body_result = (pkg[26] & 0xFF);
+        //long message_body_result = (pkg[26] & 0xFF);
 
         //基站中  设备挂载数量
-        long message_body_nodeCount = (pkg[27] & 0xFF);
+        // long message_body_nodeCount = (pkg[27] & 0xFF);
 
 
         long message_body_data_type = ((pkg[28] & 0xFF) << 8) + ((pkg[29] & 0xFF));
 
+        System.out.println("数据体 的 数据与类型 : " + message_body_data_type);
 
-        //根据数据帧头判定是否为错误信息
-        if (message_header_frame_head != SocketCode.MSG_HEADER_FREAME_HEAD) {
-            return SocketEnum.ERR_RECV_PKG.getCode();
-        }
         int confirmStatus = 0x0;
-
+//        final String in = "C:\\Users\\wr\\Desktop\\demo.pcm";
         switch ((int) message_header_control) {
             case SocketCode.MSG_HEADER_COMMAND_ID_HEARTBEAT: // 心跳包
                 logger.info("收到心跳包......");
@@ -222,6 +344,7 @@ public class SerSocket implements Runnable {
                     System.out.printf("0x%02x ", pkg[i]);
                 }
                 System.out.println("\n=============================");
+                sendConfirmPkg(outStream, message_header_control, confirmStatus);
                 break;
 //            case SocketCode.MSG_HEADER_COMMAND_ID_LOGIN: // (保留) web登录命令
 //                sendConfirmPkg(outStream, message_header_control, confirmStatus);
@@ -229,86 +352,171 @@ public class SerSocket implements Runnable {
 //            case SocketCode.MSG_HEADER_COMMAND_ID_RESPONSE: // 应答
 //                sendConfirmPkg(outStream, message_header_control, confirmStatus);
 //                break;
-            case SocketCode.MSG_HEADER_COMMAND_ID_REQUEST: // 采集数据上报
-                logger.info("收到终端采集的数据信息");
-                switch ((int) message_body_data_type) {
-                    case SocketCode.MSG_BODY_NODE_NAME_SENSOR_DATA: //传感器环境数据
-                        logger.info("传感器环境数据......");
-                        for (int i = 30; i < pkgLen - 2; i++) {
-                            System.out.printf("0x%02x ", pkg[i]);
-                        }
-                        System.out.println();
-                        long CO = (pkg[30] & 0xFF << 8) + ((pkg[31] & 0xFF));
-                        double co = CO / 10.0;
-                        long CO2 = (pkg[32] & 0xFF << 8) + ((pkg[33] & 0xFF));
-                        double co2 = CO / 10.0;
-                        long O2 = (pkg[34] & 0xFF << 8) + ((pkg[35] & 0xFF));
-                        double o2 = CO / 10.0;
-                        long CH4 = (pkg[36] & 0xFF << 8) + ((pkg[37] & 0xFF));
-                        double ch4 = CO / 10.0;
-                        long T = (pkg[38] & 0xFF << 8) + ((pkg[39] & 0xFF));
-                        double t = CO / 10.0;
-                        long H = (pkg[40] & 0xFF << 8) + ((pkg[41] & 0xFF));
-                        double h = CO / 10.0;
+                case SocketCode.MSG_HEADER_COMMAND_ID_REQUEST: // TODO 采集数据上报
+                    logger.info("收到终端采集的数据信息");
+                    switch ((int) message_body_data_type) {
+                        case SocketCode.MSG_BODY_NODE_NAME_SENSOR_DATA: //传感器环境数据
+                            logger.info("传感器环境数据......");
+                            for (int i = 30; i < pkgLen - 2; i++) {
+                                System.out.printf("0x%02x ", pkg[i]);
+                            }
+                            System.out.println();
+                            long CO = (pkg[30] & 0xFF << 8) + ((pkg[31] & 0xFF));
+                            double co = CO / 10.0;
+                            long co_type = (pkg[32] & 0xFF);
+                            long CO2 = (pkg[33] & 0xFF << 8) + ((pkg[34] & 0xFF));
+                            double co2 = CO2 / 10.0;
+                            long co2_type = (pkg[35] & 0xFF);
+                            long O2 = (pkg[36] & 0xFF << 8) + ((pkg[37] & 0xFF));
+                            double o2 = O2 / 10.0;
+                            long o2_type = (pkg[38] & 0xFF);
+                            long CH4 = (pkg[39] & 0xFF << 8) + ((pkg[40] & 0xFF));
+                            double ch4 = CH4 / 10.0;
+                            long ch4_type = (pkg[41] & 0xFF);
+                            long T = (pkg[42] & 0xFF << 8) + ((pkg[43] & 0xFF));
+                            double t = T / 10.0;
+                            long t_type = (pkg[44] & 0xFF);
+                            long H = (pkg[45] & 0xFF << 8) + ((pkg[46] & 0xFF));
+                            double h = H / 10.0;
+                            long h_type = (pkg[47] & 0xFF);
 
 
-                        UpLoadGasDto upLoadGasDto = new UpLoadGasDto();
+                            UpLoadGasDto upLoadGasDto = new UpLoadGasDto();
 
-                        upLoadGasDto.setTerminalId(terminalId);
-                        upLoadGasDto.setStationId(stationId);
-                        upLoadGasDto.setT(t);
-                        upLoadGasDto.setH(h);
-                        upLoadGasDto.setCo2(co2);
-                        upLoadGasDto.setCo(co);
-                        upLoadGasDto.setRT(rt.toString());
-                        upLoadGasDto.setCreateTime(DateConvert.convert(new Date(), 19));
-                        upLoadGasDto.setCh4(ch4);
-                        upLoadGasDto.setResult("success");
-                        upLoadGasDto.setTerminalIp(terminalIp.toString());
-                        upLoadGasDto.setStationIp(stationIp.toString());
-                        upLoadGasDto.setSequenceId(sqeuenceId);
-                        upLoadGasDto.setO2(o2);
+                            upLoadGasDto.setTerminalId(terminalId);
+                            upLoadGasDto.setStationId(stationId);
+                            upLoadGasDto.setT(t);
+                            upLoadGasDto.setH(h);
+                            upLoadGasDto.setCo2(co2);
+                            upLoadGasDto.setCo(co);
+                            upLoadGasDto.setRT(rt.toString());
+                            upLoadGasDto.setCreateTime(DateConvert.convert(new Date(), 19));
+                            upLoadGasDto.setCh4(ch4);
+                            upLoadGasDto.setResult("success");
+                            upLoadGasDto.setTerminalIp(terminalIp.toString());
+                            upLoadGasDto.setStationIp(stationIp.toString());
+                            upLoadGasDto.setSequenceId(sqeuenceId);
+                            upLoadGasDto.setO2(o2);
+                            upLoadGasDto.setT_type((int) t_type);
+                            upLoadGasDto.setH_type((int) h_type);
+                            upLoadGasDto.setCo2_type((int) co2_type);
+                            upLoadGasDto.setCo_type((int) co_type);
+                            upLoadGasDto.setCh4_type((int) ch4_type);
+                            upLoadGasDto.setO2_type((int) o2_type);
 
-                        // try {
-                        //this.upLoadService.sendGasInfoToQueue(upLoadGasDto);
-                        serSocket.upLoadService.sendGasInfoToQueue(upLoadGasDto);
-                        //  } catch (ParseException e) {
-                        //      e.printStackTrace();
-                        //      throw new RuntimeOtherException(111, "sss");
-                        //  }
-                        break;
-                    case SocketCode.MSG_BODY_NODE_NAME_HANDWARE_VERSION:    //硬件版本号
-                        logger.info("收到硬件版本号......");
-                        break;
-                    case SocketCode.MSG_BODY_NODE_NAME_SOFTWARE_VERSION: //软件版本号
-                        logger.info("收到软件版本号......");
-                        break;
-                    case SocketCode.MSG_BODY_NODE_NAME_SELFCHECK_RESULT:   //自检结果
-                        logger.info("收到自检结果......");
-                        break;
-                    case SocketCode.MSG_BODY_NODE_NAME_LOCATOR_DATA:    //定位数据
-                        logger.info("收到定位数据......");
-                        break;
-                    case SocketCode.MSG_BODY_NODE_NAME_VOICE_DATA:  //语音数据
-                        logger.info("收到语音数据......");
-                        break;
-                    case SocketCode.MSG_BODY_NODE_NAME_HEARTBEAT:   //心跳数据
-                        logger.info("收到心跳数据......");
-                        break;
-                    default:
-                        System.out.println("未知数据指令包内容:");
-                        System.out.println("\n=============================");
-                        for (int i = 0; i < pkgLen; i++) {
-                            System.out.printf("0x%02x ", pkg[i]);
-                        }
-                        System.out.println("\n=============================");
-                        sendConfirmPkg(outStream, message_header_control, confirmStatus);
-                        break;
-                }
-                sendConfirmPkg(outStream, message_header_control, confirmStatus);
-                break;
+                            try {
+                                serSocket.upLoadService.sendGasInfoToQueue(upLoadGasDto);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
+                            //TODO
+                            sendConfirmPkg(outStream, message_header_control, confirmStatus);
+                            break;
+                        case SocketCode.MSG_BODY_NODE_NAME_HANDWARE_VERSION:    //硬件版本号
+                            logger.info("收到硬件版本号......");
+                            break;
+                        case SocketCode.MSG_BODY_NODE_NAME_SOFTWARE_VERSION: //软件版本号
+                            logger.info("收到软件版本号......");
+                            break;
+                        case SocketCode.MSG_BODY_NODE_NAME_SELFCHECK_RESULT:   //自检结果
+                            logger.info("收到自检结果......");
+                            break;
+                        case SocketCode.MSG_BODY_NODE_NAME_LOCATOR_DATA:    //定位数据
+                            logger.info("收到定位数据......");
+                            break;
+                        case SocketCode.MSG_BODY_NODE_NAME_VOICE_DATA:  //语音数据
+                            logger.info("原始包 收到语音数据......");
+                            break;
+                        case SocketCode.MSG_BODY_NODE_NAME_HEARTBEAT:   //心跳数据
+                            logger.info("收到心跳数据......");
+                            break;
+                        default:
+                            System.out.println("未知数据指令包内容:");
+                            System.out.println("\n=============================");
+                            for (int i = 0; i < pkgLen; i++) {
+                                System.out.printf("0x%02x ", pkg[i]);
+                            }
+                            System.out.println("\n=============================");
+                            sendConfirmPkg(outStream, message_header_control, confirmStatus);
+//                        try {
+////                            SerSocket.inputPcmFile(in,pkg);
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+                            break;
+                    }
+                    sendConfirmPkg(outStream, message_header_control, confirmStatus);
+                    break;
             case SocketCode.MSG_HEADER_COMMAND_ID_NULL: // 语音数据上报
-                sendConfirmPkg(outStream, message_header_control, confirmStatus);
+                logger.info("收到语音数据......");
+                String basePath = "D:\\resources\\file\\voice\\";
+
+                //创建根目录文件夹
+                StringBuffer folderName = new StringBuffer(basePath);
+                folderName.append(terminalId);
+
+                String currentTime = DateConvert.convert(new Date(), 15);
+
+                //创建文件名称  格式 ： 时间 + 终端ID + 序列号
+                StringBuffer fileName = new StringBuffer();
+                fileName.append(currentTime).append(terminalId).append(sqeuenceId);
+
+                StringBuffer realPath = new StringBuffer(folderName);
+                realPath.append("\\").append(fileName).append(".").append(FileTypeEnums.PCM);
+                logger.info("文件路径 : [" + folderName.toString() + "] , 文件名称 ：[" + fileName.toString() + "] ，文件类型 [" + FileTypeEnums.PCM + "]");
+                byte[] temp = new byte[512]; //TODO 是否加锁
+                //判断是否存在与Map 中
+                if (!mapOfSequenceId.containsKey(sqeuenceId)) {  //如果不存在，则认为是语音的第一天 也可以利用语音数据包的序号判断 数组的31，32位
+                    mapOfSequenceId.put(sqeuenceId, currentTime);
+
+                    logger.info("当前终端: ID>[" + terminalId + "] || IP>[" + terminalIp + "] 当前语音队列中无该终端语音信息，已创建改音频文件");
+                    File file = new File(folderName.toString() + fileName.toString() + FileTypeEnums.PCM);
+                    boolean flag = false;
+                    if (!file.exists()) {
+                        flag = FileUtils.createFile(folderName.toString(), fileName.toString(), FileTypeEnums.PCM);
+                    }
+
+//                        if (true){//如果创建成功
+                    //TODO 写入此条数据（第一条）
+                    //TODO pkg[32]=>最后
+
+                    System.arraycopy(pkg, 32, temp, 0, 511);
+                    SerSocket.inputPcmFile(realPath.toString(), temp);
+//                            for (int i = 32 ; i < 544 ; i ++){
+//                                SerSocket.inputPcmFile(realPath.toString(),pkg[i]);
+//                            }
+                }
+//                   }
+                else {
+                    logger.info("当前终端: ID>[" + terminalId + "] || IP>[" + terminalIp + "] 当前语音队列中已存在终端语音信息，持续接收中......");
+                    int voiceDateLength = (int) (((pkg[14] & 0xff) << 8) + ((pkg[15] & 0xff)));
+                    if (voiceDateLength == 36) {
+                        //TODO 执行 PCM ==> WAV 函数
+                        logger.info("当前终端: ID>[" + terminalId + "] || IP>[" + terminalIp + "] 接收语音结束，执行PCM转WAV");
+
+                        mapOfSequenceId.remove(sqeuenceId);
+
+                        logger.info("当前终端: ID>[" + terminalId + "] || IP>[" + terminalIp + "] 已被移除语音队列");
+                        break;
+                    }
+                    //TODO 向文件中写入内容（除第一条外其他内容）
+                    String val = mapOfSequenceId.get(sqeuenceId);
+                    //TODO pkg[32]=>最后
+                    System.arraycopy(pkg, 32, temp, 0, 511);
+                    StringBuffer t_path = new StringBuffer(folderName);
+                    t_path.append("\\").append("\\").append(val).append(terminalId).append(sqeuenceId).append(".").append(FileTypeEnums.PCM);
+                    SerSocket.inputPcmFile(t_path.toString(), temp);
+
+//                        for (int i = 32 ; i < 544 ; i ++){
+//                            SerSocket.inputPcmFile(t_path.toString(),pkg[i]);
+//                        }
+                    long t_num = (pkg[30] & 0xFF << 8) + ((pkg[31] & 0xFF));
+                    int num = (int) t_num;
+
+                    logger.info("第几[" + num + "]包");
+                }
+                // sendConfirmPkg(outStream, message_header_control, confirmStatus);
                 break;
 //            case SocketCode.MSG_HEADER_COMMAND_ID_CONTROL: // 控制
 //                sendConfirmPkg(outStream, message_header_control, confirmStatus);
@@ -317,11 +525,12 @@ public class SerSocket implements Runnable {
 //                sendConfirmPkg(outStream, message_header_control, confirmStatus);
 //                break;
             default:    //未知数据
-                System.out.println("未知数据指令包内容:");
+                System.out.println("未知数据指令包内容:" + pkg.length);
                 System.out.println("\n=============================");
                 for (int i = 0; i < pkgLen; i++) {
                     System.out.printf("0x%02x ", pkg[i]);
                 }
+//                SerSocket.inputPcmFile(in,pkg);
                 System.out.println("\n=============================");
                 sendConfirmPkg(outStream, message_header_control, confirmStatus);
                 break;
@@ -339,6 +548,7 @@ public class SerSocket implements Runnable {
      * @auther lifeng
      **/
     public static void inputPcmFile(String str, byte[] s) throws IOException {
+
         File file = new File(str);    //1、建立连接
         OutputStream os = null;
         //2、选择输出流,以追加形式(在原有内容上追加) 写出文件 必须为true 否则为覆盖
@@ -348,7 +558,7 @@ public class SerSocket implements Runnable {
         // String string = "Programmer say : Hello World!";
         //  byte[] data = s.getBytes();    //将字符串转换为字节数组,方便下面写入
 
-        os.write(s, 0, s.length);    //3、写入文件
+        os.write(s);    //3、写入文件
         os.flush();    //将存储在管道中的数据强制刷新出去
         os.close();
 
@@ -413,10 +623,11 @@ public class SerSocket implements Runnable {
         pkg[16] = (byte) 0x55;
         pkg[17] = (byte) 0x66;
         pkg[18] = (byte) 0x77;
-        pkg[19] = (byte) 0x88;
+            pkg[19] = (byte) 0x88;
 
-        return pkg;
-    }
+            return pkg;
+        }
+
 
 
 }

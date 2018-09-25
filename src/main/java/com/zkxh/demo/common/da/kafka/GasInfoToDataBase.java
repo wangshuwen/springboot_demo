@@ -53,20 +53,40 @@ public class GasInfoToDataBase {
             String str = (String) message;
             JSONObject jsonObject = JSON.parseObject(str);
 
+            double co = jsonObject.getDouble("co");
+            double co2 = jsonObject.getDouble("co2");
+            double t = jsonObject.getDouble("t");
+            double h = jsonObject.getDouble("h");
+            double ch4 = jsonObject.getDouble("ch4");
+            double o2 = jsonObject.getDouble("o2");
 
+            String rt = jsonObject.getString("rT");
+            String createTime = jsonObject.getString("createTime");
+            String sequenceId = jsonObject.getString("sequenceId");
+            String stationIp = jsonObject.getString("stationIp");
+            String stationId = jsonObject.getString("stationId");
+            String terminalId = jsonObject.getString("terminalId");
+            String terminalIp = jsonObject.getString("terminalIp");
+
+            //封装插入数据库
             RtGasInfo rtGasInfo = new RtGasInfo();
-//            rtGasInfo.setCh4(upLoadGasDto.getCh4());
-//            rtGasInfo.setCo(upLoadGasDto.getCo());
-//            rtGasInfo.setCreateTime(new Date());
-//            rtGasInfo.setO2(upLoadGasDto.getO2());
-//            rtGasInfo.setSequenceId(upLoadGasDto.getSequenceId());
-//            rtGasInfo.setStationId(upLoadGasDto.getStationId());
-//            rtGasInfo.setStationIp(upLoadGasDto.getStationIp());
-//            rtGasInfo.setTerminalId(upLoadGasDto.getTerminalId());
-//            rtGasInfo.setTerminalIp(upLoadGasDto.getTerminalIp());
-//            rtGasInfo.setTerminalRealTime(DateConvert.convertStringToDate(upLoadGasDto.getCreateTime(),19));
-//            rtGasInfo.settTemperature(upLoadGasDto.getT());
-//            rtGasInfo.settHumidity(upLoadGasDto.getH());
+
+            rtGasInfo.settHumidity(h);
+            rtGasInfo.settTemperature(t);
+            rtGasInfo.setTerminalRealTime(DateConvert.convertStringToDate(rt, 19));
+            rtGasInfo.setTerminalIp(terminalIp);
+            rtGasInfo.setTerminalId(terminalId);
+            rtGasInfo.setStationIp(stationIp);
+            rtGasInfo.setStationId(stationId);
+            rtGasInfo.setO2(o2);
+            rtGasInfo.setCo(co);
+            rtGasInfo.settCo2(co2);
+            rtGasInfo.setCh4(ch4);
+            rtGasInfo.setInfoType(false);
+            rtGasInfo.setSequenceId(sequenceId);
+            rtGasInfo.setCreateTime(DateConvert.convertStringToDate(createTime, 19));
+
+//            rtGasInfo.setCh4(upLoadGasDto ''to.getH());
 
             rtGasInfoMapper.insert(rtGasInfo);
 
