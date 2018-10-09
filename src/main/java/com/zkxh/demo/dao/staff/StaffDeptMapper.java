@@ -97,4 +97,8 @@ public interface StaffDeptMapper {
     int updateByPrimaryKey(StaffDept record);
 
     List<StaffDept> selectStaffDepts();
+
+    List<StaffDept> selectStaffDeptsByParams(StaffDept staffDept);
+
+    Integer countGroupNumByDeptId(Integer deptId);
 }

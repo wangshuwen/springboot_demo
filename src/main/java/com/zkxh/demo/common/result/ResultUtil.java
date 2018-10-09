@@ -52,6 +52,20 @@ public class ResultUtil {
         String str = JSON.toJSONString(result);
         return str;
     }
+    /**
+     * 返回Success结果值 json to string
+     *
+     * @param resultEnum
+     * @return
+     */
+//    public static String jsonToStringSuccess(ResultEnum resultEnum) {
+//        Result result = new Result();
+//        result.setCode(resultEnum.getCode());
+//        result.setMsg(resultEnum.getMsg());
+//        result.setData(null);
+//        String str = JSON.toJSONString(result);
+//        return str;
+//    }
 
     /**
      * 返回Success结果值 json to string

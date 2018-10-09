@@ -2,6 +2,7 @@ package com.zkxh.demo.service.staff.dept;
 
 import com.zkxh.demo.vo.req.StaffDeptVoReq;
 import com.zkxh.demo.vo.resp.StaffDeptVoResp;
+import io.swagger.models.auth.In;
 
 import java.util.List;
 
@@ -15,11 +16,15 @@ import java.util.List;
 
 public interface StaffDeptService {
 
-    List<StaffDeptVoResp> getAllDept();
+    List<StaffDeptVoResp> getAllStaffDept();
 
     Integer addStaffDept(StaffDeptVoReq staddDeptVoReq);
 
     Integer updateStaffDept(StaffDeptVoReq staffDeptVoReq);
 
-    Integer deleteStaffDeptById(List<Integer> ids);
+    Integer deleteStaffDeptById(Integer[] ids);
+
+    List<StaffDeptVoResp> getAllStaffDeptByParams(StaffDeptVoReq staffDeptVoReq);
+
+    boolean checkDeptIsNotIncludeGroup(Integer deptId);
 }

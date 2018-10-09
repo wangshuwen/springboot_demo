@@ -36,7 +36,6 @@ public class DateConvert {
                 return yyyyMMddHHmmss.format(source);
         }
     }
-
     public static Date convertStringToDate(String s, int type) throws ParseException {
         switch (type) {
             case 10:
@@ -47,6 +46,16 @@ public class DateConvert {
                 return HHmmss.parse(s);
             default:
                 return yyyyMMddHHmmss.parse(s);
+        }
+    }
+
+    public static void main(String[] args) {
+        String time = "201-10-5 10:4:1";
+
+        try {
+            System.out.println(DateConvert.convertStringToDate(time, 19));
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -19,7 +19,11 @@ public interface StaffGroupService {
 
     Integer updateStaffGroup(StaffGroupReqVo staffGroupReqVo);
 
-    Integer deleteStaffGroupsByGroupId(List<Integer> ids);
+    Integer deleteStaffGroupsByGroupId(Integer[] ids);
 
     List<StaffGroupRespVo> getStaffGroupByDeptId(Integer staffDeptId);
+
+    List<StaffGroupRespVo> getAllStaffGroupInfo();
+
+    boolean checkGroupIsNotIncludeStaff(Integer deptId);
 }

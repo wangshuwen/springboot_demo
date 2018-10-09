@@ -113,7 +113,10 @@ public class CustomRealm extends AuthorizingRealm {
          * source 用户密码
          * salt 用户的账号，也可是任意已知数值
          */
-        Md5Hash md5Hash = new Md5Hash("123456", "jkuser");
+
+        String username = "";
+        String password = "";
+        Md5Hash md5Hash = new Md5Hash(password, username);
         md5Hash = new Md5Hash(md5Hash);
         System.out.println(md5Hash);
     }

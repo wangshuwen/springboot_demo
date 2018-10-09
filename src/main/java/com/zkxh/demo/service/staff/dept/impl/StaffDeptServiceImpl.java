@@ -1,5 +1,7 @@
 package com.zkxh.demo.service.staff.dept.impl;
 
+import com.zkxh.demo.common.enums.ResultEnum;
+import com.zkxh.demo.common.handle.RuntimeServiceException;
 import com.zkxh.demo.dao.staff.StaffDeptMapper;
 import com.zkxh.demo.model.staff.StaffDept;
 import com.zkxh.demo.model.staff.StaffDeptExample;
@@ -29,10 +31,11 @@ public class StaffDeptServiceImpl implements StaffDeptService {
     private StaffDeptMapper staffDeptMapper;
 
     @Override
-    public List<StaffDeptVoResp> getAllDept() {
+    public List<StaffDeptVoResp> getAllStaffDept() {
 
         List<StaffDept> list = staffDeptMapper.selectStaffDepts();
 
+        System.out.println("list.size : " + list.size());
         List<StaffDeptVoResp> staffDeptVoRespList = Collections.synchronizedList(new ArrayList<>());
 
         StaffDeptVoResp staffDeptVoResp = null;
@@ -41,8 +44,11 @@ public class StaffDeptServiceImpl implements StaffDeptService {
             staffDeptVoResp = new StaffDeptVoResp();
             staffDeptVoResp.setDeptId(staffDept.getDeptId());
             staffDeptVoResp.setDeptName(staffDept.getDeptName());
+            staffDeptVoResp.setStaffList(staffDept.getStaffList());
+            staffDeptVoResp.setStaffGroups(staffDept.getStaffGroupList());
             staffDeptVoRespList.add(staffDeptVoResp);
         }
+        System.out.println(staffDeptVoRespList.toString());
         return staffDeptVoRespList;
     }
 
@@ -65,17 +71,54 @@ public class StaffDeptServiceImpl implements StaffDeptService {
     }
 
     @Override
-    public Integer deleteStaffDeptById(List<Integer> ids) {
+    public Integer deleteStaffDeptById(Integer[] ids) {
         int len = 0;
 
         for (Integer id : ids) {
+            Integer res = staffDeptMapper.countGroupNumByDeptId(id);
+            if (res > 0)
+                throw new RuntimeServiceException(ResultEnum.DATA_IS_NOT_NULL);
             staffDeptMapper.deleteByPrimaryKey(id);
             len++;
         }
-        if (ids.size() == len) {
+        if (ids.length == len) {
             return len;
         } else {
             return 0;
         }
+    }
+
+    @Override
+    public List<StaffDeptVoResp> getAllStaffDeptByParams(StaffDeptVoReq staffDeptVoReq) {
+
+        StaffDept staffDept = new StaffDept();
+        staffDept.setDeptName(staffDeptVoReq.getDeptName());
+        staffDept.setDeptId(staffDeptVoReq.getDeptId());
+        List<StaffDept> list = staffDeptMapper.selectStaffDeptsByParams(staffDept);
+
+        System.out.println("list.size : " + list.size());
+        List<StaffDeptVoResp> staffDeptVoRespList = Collections.synchronizedList(new ArrayList<>());
+
+        StaffDeptVoResp staffDeptVoResp = null;
+
+        for (StaffDept dept : list) {
+            staffDeptVoResp = new StaffDeptVoResp();
+            staffDeptVoResp.setDeptId(dept.getDeptId());
+            staffDeptVoResp.setDeptName(dept.getDeptName());
+            staffDeptVoResp.setStaffList(dept.getStaffList());
+            staffDeptVoResp.setStaffGroups(dept.getStaffGroupList());
+            staffDeptVoRespList.add(staffDeptVoResp);
+        }
+        System.out.println(staffDeptVoRespList.toString());
+        return staffDeptVoRespList;
+    }
+
+    @Override
+    public boolean checkDeptIsNotIncludeGroup(Integer deptId) {
+        Integer res = staffDeptMapper.countGroupNumByDeptId(deptId);
+        if (res > 0) {
+            return true;
+        }
+        return false;
     }
 }

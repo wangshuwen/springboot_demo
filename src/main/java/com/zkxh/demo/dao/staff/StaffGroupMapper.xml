@@ -9,6 +9,21 @@
         <id column="group_id" jdbcType="INTEGER" property="groupId"/>
         <result column="group_name" jdbcType="VARCHAR" property="groupName"/>
         <result column="dept_id" jdbcType="INTEGER" property="deptId"/>
+
+        <association property="staffDept" javaType="com.zkxh.demo.model.staff.StaffDept" column="dept_id"
+                     select="com.zkxh.demo.dao.staff.StaffDeptMapper.selectDeptByDeptId" fetchType="lazy">
+            <id column="dept_id" jdbcType="INTEGER" property="deptId"/>
+            <result column="dept_name" jdbcType="VARCHAR" property="deptName"/>
+        </association>
+        <!--select=""-->
+        <collection property="staffList" column="group_id" javaType="java.util.ArrayList"
+                    select="com.zkxh.demo.dao.staff.StaffMapper.selectStaffsByGroupId"
+                    ofType="com.zkxh.demo.dto.staff.StaffDto" fetchType="lazy">
+            <id column="staff_id" jdbcType="INTEGER" property="staffId"/>
+            <result column="staff_number" jdbcType="VARCHAR" property="staffNumber"/>
+            <result column="staff_name" jdbcType="VARCHAR" property="staffName"/>
+            <!--<result column="dept_id" jdbcType="INTEGER" property="deptId" />-->
+        </collection>
     </resultMap>
     <sql id="Example_Where_Clause">
         <!--
@@ -240,4 +255,30 @@
         dept_id = #{deptId,jdbcType=INTEGER}
         where group_id = #{groupId,jdbcType=INTEGER}
     </update>
+
+    <select id="selectAllStaffGroups" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM staff_group
+        ORDER BY dept_id ASC
+    </select>
+
+    <select id="selectStaffGroupsByDeptId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM staff_group
+        WHERE dept_id = #{deptId}
+    </select>
+
+    <select id="selectStaffGroupsByDeptIdOfStaffDept" resultType="com.zkxh.demo.dto.staff.StaffGroupDto"
+            parameterType="java.lang.Integer">
+        SELECT group_id , group_name
+        FROM staff_group
+        WHERE dept_id = #{deptId}
+    </select>
+
+    <select id="countStaffNumByGroupId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        SELECT count(staff_id) as number FROM staff WHERE group_id = #{groupId}
+    </select>
+
 </mapper>

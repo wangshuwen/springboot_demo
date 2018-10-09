@@ -16,7 +16,7 @@ import java.io.IOException;
 public class PcmToWavConvert {
 
     public static void main(String[] args) throws IOException {
-        PcmToWavConvert.convert("D:\\resources\\file\\voice\\65539\\20180925100431655398.pcm", "C:\\Users\\wr\\Desktop\\65539.wav");
+        PcmToWavConvert.convert("D:\\resources\\file\\voice\\65539\\20181008180627655391.pcm", "C:\\Users\\wr\\Desktop\\65539.wav");
     }
 
     public static void convert(String source, String target) throws IOException {

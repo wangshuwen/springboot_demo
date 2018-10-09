@@ -1,11 +1,6 @@
 package com.zkxh.demo.shiro.dao;
 
-import org.apache.shiro.session.Session;
-import org.apache.shiro.session.mgt.eis.CachingSessionDAO;
-import org.crazycake.shiro.RedisSessionDAO;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.Serializable;
 
 /**
  * @ClassName MySessionDao
@@ -19,7 +14,7 @@ import java.io.Serializable;
 public class MySessionDao {
 
     //    @Autowired
-    private RedisSessionDAO redisSessionDAO;
+//    private RedisSessionDAO redisSessionDAO;
 
 //    @Override
 //    protected void doUpdate(Session session) {

@@ -1,5 +1,11 @@
 package com.zkxh.demo.vo.resp;
 
+import com.zkxh.demo.dto.staff.StaffDto;
+import com.zkxh.demo.model.staff.Staff;
+import io.swagger.annotations.ApiModel;
+
+import java.util.List;
+
 /**
  * @ClassName StaffGroupRespVo
  * @Description
@@ -8,15 +14,17 @@ package com.zkxh.demo.vo.resp;
  * @Vserion v0.0.1
  */
 
+@ApiModel(value = "StaffGroupRespVo")
 public class StaffGroupRespVo {
-
 
     private Integer groupId;
 
-
     private String groupName;
 
-    private Integer deptId;
+    private String deptName;
+
+    private List<StaffDto> staffList;
+
 
     public Integer getGroupId() {
         return groupId;
@@ -34,11 +42,19 @@ public class StaffGroupRespVo {
         this.groupName = groupName;
     }
 
-    public Integer getDeptId() {
-        return deptId;
+    public String getDeptName() {
+        return deptName;
     }
 
-    public void setDeptId(Integer deptId) {
-        this.deptId = deptId;
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public List<StaffDto> getStaffList() {
+        return staffList;
+    }
+
+    public void setStaffList(List<StaffDto> staffList) {
+        this.staffList = staffList;
     }
 }

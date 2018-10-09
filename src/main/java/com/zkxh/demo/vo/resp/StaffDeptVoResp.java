@@ -1,7 +1,11 @@
 package com.zkxh.demo.vo.resp;
 
+import com.zkxh.demo.model.staff.Staff;
+import com.zkxh.demo.model.staff.StaffGroup;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.util.List;
 
 /**
  * @ClassName StaffDeptVoResp
@@ -19,6 +23,10 @@ public class StaffDeptVoResp {
     @ApiModelProperty(name = "deptName", value = "部门名称 ")
     private String deptName;
 
+    private List<Staff> staffList;
+
+    private List<StaffGroup> staffGroups;
+
 
     public StaffDeptVoResp() {
     }
@@ -26,6 +34,22 @@ public class StaffDeptVoResp {
     public StaffDeptVoResp(Integer deptId, String deptName) {
         this.deptId = deptId;
         this.deptName = deptName;
+    }
+
+    public List<Staff> getStaffList() {
+        return staffList;
+    }
+
+    public void setStaffList(List<Staff> staffList) {
+        this.staffList = staffList;
+    }
+
+    public List<StaffGroup> getStaffGroups() {
+        return staffGroups;
+    }
+
+    public void setStaffGroups(List<StaffGroup> staffGroups) {
+        this.staffGroups = staffGroups;
     }
 
     public Integer getDeptId() {

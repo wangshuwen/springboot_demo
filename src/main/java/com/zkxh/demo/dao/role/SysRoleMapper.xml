@@ -15,7 +15,7 @@
                     ofType="com.zkxh.demo.model.sys_menu_role.SysMenuRole"
                     select="com.zkxh.demo.dao.sys_menu_role.SysMenuRoleMapper.selectByPrimaryKey"
                     fetchType="lazy">
-            <id column="munu_role_id" property="menuRoleId"/>
+            <id column="menu_role_id" property="menuRoleId"/>
             <result column="sys_role_id" property="sysRoleId"/>
             <result column="sys_menu_id" property="sysMenuId"/>
         </collection>

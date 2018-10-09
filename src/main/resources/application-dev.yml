@@ -108,3 +108,5 @@ redis:
     #  password:
     database: 1
     timeout: 5000
+netty:
+  port: 6666

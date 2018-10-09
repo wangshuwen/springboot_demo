@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
+//public class OthersController   {
 public class OthersController implements ErrorController {
 
 
@@ -45,7 +46,6 @@ public class OthersController implements ErrorController {
         return ResultUtil.jsonToStringError(ResultEnum.PAGE_NOT_FOUND);
     }
 
-    @Override
     public String getErrorPath() {
         return ERROR_PATH;
     }

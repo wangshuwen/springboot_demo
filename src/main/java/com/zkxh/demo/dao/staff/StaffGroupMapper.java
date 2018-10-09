@@ -1,5 +1,6 @@
 package com.zkxh.demo.dao.staff;
 
+import com.zkxh.demo.dto.staff.StaffGroupDto;
 import com.zkxh.demo.model.staff.StaffGroup;
 import com.zkxh.demo.model.staff.StaffGroupExample;
 
@@ -95,4 +96,13 @@ public interface StaffGroupMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(StaffGroup record);
+
+    List<StaffGroup> selectAllStaffGroups();
+
+    List<StaffGroup> selectStaffGroupsByDeptId(Integer deptId);
+
+    List<StaffGroupDto> selectStaffGroupsByDeptIdOfStaffDept(Integer deptId);
+
+
+    Integer countStaffNumByGroupId(Integer groupId);
 }

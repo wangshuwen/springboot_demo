@@ -124,6 +124,10 @@ dependencies {
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
 
+
+//netty
+    compile group: 'io.netty', name: 'netty-all', version: '4.1.29.Final'
+
 //swagger2 API文档整合
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'

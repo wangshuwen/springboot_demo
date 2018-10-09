@@ -1,8 +1,11 @@
 package com.zkxh.demo.dao.staff;
 
+import com.zkxh.demo.dto.staff.StaffDto;
 import com.zkxh.demo.model.staff.Staff;
 import com.zkxh.demo.model.staff.StaffExample;
 import java.util.List;
+
+import com.zkxh.demo.dto.staff.StaffInfoDto;
 import org.apache.ibatis.annotations.Param;
 
 public interface StaffMapper {
@@ -93,4 +96,10 @@ public interface StaffMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(Staff record);
+
+    List<StaffDto> selectStaffsByGroupId(Integer groupId);
+
+//    List<Staff> selectStaffsByDeptId(Integer deptId);
+
+    List<StaffInfoDto> selectStaffByParams(Staff staffVo);
 }

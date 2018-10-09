@@ -1,6 +1,5 @@
 package com.zkxh.demo.shiro.filter;
 
-import com.alibaba.fastjson.JSONObject;
 import com.zkxh.demo.common.enums.ResultEnum;
 import com.zkxh.demo.common.result.ResultUtil;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;

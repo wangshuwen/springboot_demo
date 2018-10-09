@@ -39,7 +39,7 @@ public class SerSocket implements Runnable {
     //日志
     Logger logger = LoggerFactory.getLogger(SerSocket.class);
 
-    private static final int SERVER_PORT = 8087;
+    private static final int SERVER_PORT = 6667;
     private static SerSocket serSocket;
 
     @Autowired

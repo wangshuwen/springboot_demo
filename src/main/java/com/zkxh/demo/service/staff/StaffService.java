@@ -1,7 +1,12 @@
 package com.zkxh.demo.service.staff;
 
+import com.zkxh.demo.model.staff.Staff;
 import com.zkxh.demo.vo.req.StaffReqVo;
 import com.zkxh.demo.vo.resp.StaffDeptVoResp;
+import com.zkxh.demo.vo.resp.StaffInfo;
+import io.swagger.models.auth.In;
+
+import java.util.List;
 
 /**
  * @ClassName StaffService
@@ -17,4 +22,9 @@ public interface StaffService {
     int addStaff(StaffReqVo staffReqVo);
 
 
+    int deleteStaddByIds(Integer[] ids);
+
+    int updateStaffInfo(StaffReqVo staffVo);
+
+    String getStaffInfoByStaff(StaffReqVo staffVo, Integer startPage, Integer pageSize);
 }

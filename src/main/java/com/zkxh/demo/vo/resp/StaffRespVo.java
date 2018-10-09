@@ -1,4 +1,4 @@
-package com.zkxh.demo.vo.req;
+package com.zkxh.demo.vo.resp;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -12,8 +12,8 @@ import java.util.Date;
  * @DATE 2018/9/25 10:37
  * @Vserion v0.0.1
  */
-@ApiModel(value = "StaffReqVo", description = "矿下员工基本信息对象")
-public class StaffReqVo {
+@ApiModel(value = "StaffRespVo", description = "矿下员工基本信息对象")
+public class StaffRespVo {
 
     @ApiModelProperty(name = "staffId", value = "员工ID", hidden = true)
     private Integer staffId;
@@ -65,11 +65,11 @@ public class StaffReqVo {
     @ApiModelProperty(name = "groupId", value = "所属组别", required = true)
     private Integer groupId;
 
+    private Integer deptId;
+
     private String groupName;
 
     private String deptName;
-
-    private Integer deptId;
 
     public Boolean getPerson() {
         return isPerson;
@@ -77,6 +77,14 @@ public class StaffReqVo {
 
     public void setPerson(Boolean person) {
         isPerson = person;
+    }
+
+    public Integer getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Integer deptId) {
+        this.deptId = deptId;
     }
 
     public String getGroupName() {
@@ -93,14 +101,6 @@ public class StaffReqVo {
 
     public void setDeptName(String deptName) {
         this.deptName = deptName;
-    }
-
-    public Integer getDeptId() {
-        return deptId;
-    }
-
-    public void setDeptId(Integer deptId) {
-        this.deptId = deptId;
     }
 
     public Integer getStaffId() {

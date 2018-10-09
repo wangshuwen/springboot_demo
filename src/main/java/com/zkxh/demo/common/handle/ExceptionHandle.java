@@ -84,6 +84,7 @@ public class ExceptionHandle extends BaseLog {
             return ResultUtil.error(ResultEnum.USER_NOT_EXIST);
         } else {
             logger.error("[system error] " + exception);
+            exception.printStackTrace();
             //  return ResultUtil.error(ResultEnum.UNKNOW_ERROR.getCode(),ResultEnum.UNKNOW_ERROR.getMsg());
             return ResultUtil.error(ResultEnum.UNKNOW_ERROR.getCode(), exception.toString());
         }
