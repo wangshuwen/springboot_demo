@@ -18,7 +18,7 @@ public class ConstantValue {
     public static final int MSG_HEADER_COMMAND_ID_NULL = 0x0013;  //  , "空"),
     public static final int MSG_HEADER_COMMAND_ID_REQUEST = 0x0015;   //  , "采集数据上报（设备到后台）"),
     public static final int MSG_HEADER_COMMAND_ID_RESPONSE = 0x0016;   //  , "应答"),
-    public static final int MSG_HEADER_COMMAND_ID_LOGIN = 0x001b;    //  , "web服务器登录命令"),
+    public static final int MSG_HEADER_COMMAND_ID_UPDATE_IP = 0x001b;    //  , "IP更新上报"),
     public static final int MSG_HEADER_COMMAND_ID_HEARTBEAT = 0x001c; //  , "心跳数据"),
 
 

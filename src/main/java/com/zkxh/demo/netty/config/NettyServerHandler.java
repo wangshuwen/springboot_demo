@@ -94,6 +94,9 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
                             case ConstantValue.MSG_BODY_NODE_NAME_HANDWARE_VERSION:
                                 log.info("硬件版本号");
                                 break;
+                            case ConstantValue.MSG_HEADER_COMMAND_ID_UPDATE_IP:
+                                log.info("更新IP");
+                                break;
                             default:
                                 log.error("未知命令包");
                                 break;
