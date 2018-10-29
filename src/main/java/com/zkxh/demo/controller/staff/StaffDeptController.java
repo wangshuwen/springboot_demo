@@ -33,12 +33,7 @@ public class StaffDeptController extends BaseController {
     @GetMapping("staff/dept/getDepts")
     public String getAllStaffDept() {
         List<StaffDeptVoResp> list = staffDeptService.getAllStaffDept();
-        if (list.size() > 0) {
-            System.out.println(list.toString());
-            return ResultUtil.jsonToStringSuccess(list);
-        } else {
-            return ResultUtil.jsonToStringError(ResultEnum.DATA_NOT_FOUND);
-        }
+        return list.size() > 0 ? ResultUtil.jsonToStringSuccess(list) : ResultUtil.jsonToStringError(ResultEnum.DATA_NOT_FOUND);
     }
 
     @ApiOperation(value = "对矿下员工的所有部门信息模糊查询", notes = "获取部门信息模糊查询")
@@ -56,36 +51,23 @@ public class StaffDeptController extends BaseController {
             staffDept.setDeptName(deptName);
         }
         List<StaffDeptVoResp> list = staffDeptService.getAllStaffDeptByParams(staffDept);
-        if (list.size() > 0) {
-            return ResultUtil.jsonToStringSuccess(list);
-        } else {
-            return ResultUtil.jsonToStringSuccess(ResultEnum.DEPT_NOT_FOUND);
-        }
+        return list.size() > 0 ? ResultUtil.jsonToStringSuccess(list) : ResultUtil.jsonToStringError(ResultEnum.DATA_NOT_FOUND);
     }
 
 
     @ApiOperation(value = "录入部门信息", notes = "新增矿下部门信息")
     @PostMapping("staff/dept/addDept")
-    public String addStaffDept(@RequestBody StaffDeptVoReq staddDeptVoReq) {
-        Integer res = staffDeptService.addStaffDept(staddDeptVoReq);
-        if (res == 1) {
-            return ResultUtil.jsonToStringSuccess();
-        } else {
-            return ResultUtil.jsonToStringError(ResultEnum.FAILED);
-        }
+    public String addStaffDept(@RequestBody StaffDeptVoReq staffDeptVoReq) {
+        Integer res = staffDeptService.addStaffDept(staffDeptVoReq);
+        return res == 1 ? ResultUtil.jsonToStringSuccess() : ResultUtil.jsonToStringError(ResultEnum.FAILED);
     }
 
     @ApiOperation(value = "更新部门信息", notes = "更新矿下部门信息")
     @PutMapping("staff/dept/updateDept")
     public String updateStaffDept(@RequestBody StaffDeptVoReq staffDeptVoReq) {
         Integer res = staffDeptService.updateStaffDept(staffDeptVoReq);
-        if (res == 1) {
-            return ResultUtil.jsonToStringSuccess();
-        } else {
-            return ResultUtil.jsonToStringError(ResultEnum.FAILED);
-        }
+        return res == 1 ? ResultUtil.jsonToStringSuccess() : ResultUtil.jsonToStringError(ResultEnum.FAILED);
     }
-
 
     @Transactional
     @ApiOperation(value = "删除部门信息", notes = "接口可以批量删除部门信息，也可单一删除，参数为List")

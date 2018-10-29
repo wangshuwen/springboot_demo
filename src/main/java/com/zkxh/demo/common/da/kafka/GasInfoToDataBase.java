@@ -39,7 +39,7 @@ public class GasInfoToDataBase {
      * 监听kafka.tut 的 topic
      *
      * @param record
-     * @param topic  topic
+     * @param topic
      */
     @KafkaListener(id = "GasInfoToDataBase", topics = "kafka.tut")
     public void listen(ConsumerRecord<?, ?> record, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) throws ParseException {
@@ -52,27 +52,33 @@ public class GasInfoToDataBase {
 
             String str = (String) message;
             JSONObject jsonObject = JSON.parseObject(str);
-
-            double co = jsonObject.getDouble("co");
-            double co2 = jsonObject.getDouble("co2");
-            double t = jsonObject.getDouble("t");
-            double h = jsonObject.getDouble("h");
-            double ch4 = jsonObject.getDouble("ch4");
-            double o2 = jsonObject.getDouble("o2");
+            JSONObject gasInfo = jsonObject.getJSONObject("gasInfo");
+            double co = gasInfo.getDouble("co");
+            Integer coFlag = gasInfo.getInteger("coFlag");
+            double co2 = gasInfo.getDouble("co2");
+            Integer co2Flag = gasInfo.getInteger("co2Flag");
+            double t = gasInfo.getDouble("t");
+            Integer tFlag = gasInfo.getInteger("tFlag");
+            double h = gasInfo.getDouble("h");
+            Integer hFlag = gasInfo.getInteger("hFlag");
+            double ch4 = gasInfo.getDouble("ch4");
+            Integer ch4Flag = gasInfo.getInteger("ch4Flag");
+            double o2 = gasInfo.getDouble("o2");
+            Integer o2Flag = gasInfo.getInteger("o2Flag");
 
             String rt = jsonObject.getString("rT");
             String createTime = jsonObject.getString("createTime");
-            String sequenceId = jsonObject.getString("sequenceId");
+            Integer sequenceId = jsonObject.getInteger("sequenceId");
             String stationIp = jsonObject.getString("stationIp");
-            String stationId = jsonObject.getString("stationId");
-            String terminalId = jsonObject.getString("terminalId");
+            Integer stationId = jsonObject.getInteger("stationId");
+            Integer terminalId = jsonObject.getInteger("terminalId");
             String terminalIp = jsonObject.getString("terminalIp");
 
             //封装插入数据库
             RtGasInfo rtGasInfo = new RtGasInfo();
 
-            rtGasInfo.settHumidity(h);
-            rtGasInfo.settTemperature(t);
+            rtGasInfo.setHumidity(h);
+            rtGasInfo.setTemperature(t);
             rtGasInfo.setTerminalRealTime(DateConvert.convertStringToDate(rt, 19));
             rtGasInfo.setTerminalIp(terminalIp);
             rtGasInfo.setTerminalId(terminalId);
@@ -80,11 +86,18 @@ public class GasInfoToDataBase {
             rtGasInfo.setStationId(stationId);
             rtGasInfo.setO2(o2);
             rtGasInfo.setCo(co);
-            rtGasInfo.settCo2(co2);
+            rtGasInfo.setCo2(co2);
             rtGasInfo.setCh4(ch4);
-            rtGasInfo.setInfoType(false);
+            rtGasInfo.setInfoType(true);
             rtGasInfo.setSequenceId(sequenceId);
             rtGasInfo.setCreateTime(DateConvert.convertStringToDate(createTime, 19));
+
+            rtGasInfo.setCh4Unit(ch4Flag);
+            rtGasInfo.setCoUnit(coFlag);
+            rtGasInfo.setHumidityUnit(hFlag);
+            rtGasInfo.setTemperatureUnit(tFlag);
+            rtGasInfo.setO2Unit(o2Flag);
+            rtGasInfo.setCo2Unit(co2Flag);
 
 //            rtGasInfo.setCh4(upLoadGasDto ''to.getH());
 

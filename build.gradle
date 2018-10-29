@@ -67,7 +67,7 @@ dependencies {
 //springBoot
     compile('org.springframework.boot:spring-boot-starter')
     compile('org.springframework.boot:spring-boot-starter-aop')
-
+//    compile('org.springframework.boot.spring-boot-starter-logging')
 
 //插件整合
     compile('org.springframework.boot:spring-boot-starter-data-elasticsearch')
@@ -88,8 +88,13 @@ dependencies {
     compile group: 'commons-configuration', name: 'commons-configuration', version: '1.10'
 
 
+
 //log
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-logging', version: '2.0.4.RELEASE'
+// https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+//   compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+// https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+//    testCompile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
 
 
 
@@ -133,7 +138,6 @@ dependencies {
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.8.1'
-
 //    provided group: 'javax', name: 'javaee-api', version: '8.0'
 
 

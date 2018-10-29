@@ -35,11 +35,7 @@ public class StaffGroupController extends BaseController {
     @ApiOperation(value = "添加员工组别", notes = "添加员工的工作组")
     public String addStaffGroup(@RequestBody StaffGroupReqVo staffGroupReqVo) {
         Integer res = staffGroupService.addStaffGroup(staffGroupReqVo);
-        if (res == 1) {
-            return ResultUtil.jsonToStringSuccess();
-        } else {
-            return ResultUtil.jsonToStringError(ResultEnum.FAILED);
-        }
+        return res == 1 ? ResultUtil.jsonToStringSuccess() : ResultUtil.jsonToStringError(ResultEnum.FAILED);
     }
 
 
@@ -47,29 +43,19 @@ public class StaffGroupController extends BaseController {
     @ApiOperation(value = "修改员工组别", notes = "修改员工的工作组信息")
     public String updateStaffGroup(@RequestBody StaffGroupReqVo staffGroupReqVo) {
         Integer res = staffGroupService.updateStaffGroup(staffGroupReqVo);
-        if (res == 1) {
-            return ResultUtil.jsonToStringSuccess();
-        } else {
-            return ResultUtil.jsonToStringError(ResultEnum.FAILED);
-        }
+        return res == 1 ? ResultUtil.jsonToStringSuccess() : ResultUtil.jsonToStringError(ResultEnum.FAILED);
     }
-
 
     @Transactional
     @DeleteMapping("staff/group/deleteGroups")
     @ApiOperation(value = "删除员工组别", notes = "删除员工的工作组信息，支持批量删除")
     public String deleteStaffGroup(@RequestParam Integer[] ids) {
         int len = ids.length;
-        if (len < 0)
+        if (len == 0)
             return ResultUtil.jsonToStringError(ResultEnum.REQUEST_DATA_IS_NULL);
         Integer res = staffGroupService.deleteStaffGroupsByGroupId(ids);
-        if (res == len) {
-            return ResultUtil.jsonToStringSuccess();
-        } else {
-            return ResultUtil.jsonToStringError(ResultEnum.FAILED);
-        }
+        return res == len ? ResultUtil.jsonToStringSuccess() : ResultUtil.jsonToStringError(ResultEnum.FAILED);
     }
-
 
     @GetMapping("staff/group/getGroupInfoByStaffDeptId")
     @ApiOperation(value = "通过员工所在的部门信息获取响应的所有的组别信息", notes = "通过的DeptId完成级联查询")
@@ -77,25 +63,15 @@ public class StaffGroupController extends BaseController {
     public String getStaffGroupByStaffDeptId(@RequestParam(name = "staffDeptId") Integer staffDeptId) {
         System.out.println(staffDeptId);
         List<StaffGroupRespVo> res = staffGroupService.getStaffGroupByDeptId(staffDeptId);
-        if (res.size() > 0) {
-            return ResultUtil.jsonToStringSuccess(res);
-        } else {
-            return ResultUtil.jsonToStringError(ResultEnum.DATA_NOT_FOUND);
-        }
+        return res.size() > 0 ? ResultUtil.jsonToStringSuccess(res) : ResultUtil.jsonToStringError(ResultEnum.DATA_NOT_FOUND);
     }
-
 
     @GetMapping("staff/group/getAllGroupInfo")
     @ApiOperation(value = "通过所有员工的组别信息", notes = "获取所有组别信息")
     @ApiImplicitParam(name = "staffDeptId", value = "部门ID")
     public String getAllGroupInfo() {
         List<StaffGroupRespVo> res = staffGroupService.getAllStaffGroupInfo();
-        if (res.size() > 0) {
-            return ResultUtil.jsonToStringSuccess(res);
-        } else {
-            return ResultUtil.jsonToStringError(ResultEnum.DATA_NOT_FOUND);
-        }
+        return res.size() > 0 ? ResultUtil.jsonToStringSuccess(res) : ResultUtil.jsonToStringError(ResultEnum.DATA_NOT_FOUND);
     }
-
 
 }

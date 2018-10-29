@@ -35,7 +35,6 @@ public class StaffDeptServiceImpl implements StaffDeptService {
 
         List<StaffDept> list = staffDeptMapper.selectStaffDepts();
 
-        System.out.println("list.size : " + list.size());
         List<StaffDeptVoResp> staffDeptVoRespList = Collections.synchronizedList(new ArrayList<>());
 
         StaffDeptVoResp staffDeptVoResp = null;
@@ -48,7 +47,6 @@ public class StaffDeptServiceImpl implements StaffDeptService {
             staffDeptVoResp.setStaffGroups(staffDept.getStaffGroupList());
             staffDeptVoRespList.add(staffDeptVoResp);
         }
-        System.out.println(staffDeptVoRespList.toString());
         return staffDeptVoRespList;
     }
 
@@ -96,7 +94,6 @@ public class StaffDeptServiceImpl implements StaffDeptService {
         staffDept.setDeptId(staffDeptVoReq.getDeptId());
         List<StaffDept> list = staffDeptMapper.selectStaffDeptsByParams(staffDept);
 
-        System.out.println("list.size : " + list.size());
         List<StaffDeptVoResp> staffDeptVoRespList = Collections.synchronizedList(new ArrayList<>());
 
         StaffDeptVoResp staffDeptVoResp = null;

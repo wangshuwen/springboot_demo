@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-//public class OthersController   {
 public class OthersController implements ErrorController {
 
 
@@ -26,7 +25,7 @@ public class OthersController implements ErrorController {
      *
      * @return
      */
-    @RequestMapping(value = "unauth", method = {RequestMethod.DELETE, RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "unauth")
     @ResponseBody
     public String unauth() {
         return ResultUtil.jsonToStringError(ResultEnum.IS_NOT_LOGIN);

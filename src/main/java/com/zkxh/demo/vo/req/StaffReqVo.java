@@ -15,6 +15,8 @@ import java.util.Date;
 @ApiModel(value = "StaffReqVo", description = "矿下员工基本信息对象")
 public class StaffReqVo {
 
+    private Integer terminalId;
+
     @ApiModelProperty(name = "staffId", value = "员工ID", hidden = true)
     private Integer staffId;
 
@@ -56,7 +58,7 @@ public class StaffReqVo {
 
 
     @ApiModelProperty(name = "isPerson", value = " 是否为人员（0 职工，1领导，2外来人，3物品）", required = true)
-    private Boolean isPerson;
+    private Integer isPerson;
 
     @ApiModelProperty(hidden = true, name = "createTime", value = "创建时间", required = true)
     private Date createTime;
@@ -71,12 +73,16 @@ public class StaffReqVo {
 
     private Integer deptId;
 
-    public Boolean getPerson() {
-        return isPerson;
+    public Integer getTerminalId() {
+        return terminalId;
     }
 
-    public void setPerson(Boolean person) {
-        isPerson = person;
+    public void setTerminalId(Integer terminalId) {
+        this.terminalId = terminalId;
+    }
+
+    public void setIsPerson(Integer isPerson) {
+        this.isPerson = isPerson;
     }
 
     public String getGroupName() {
@@ -225,14 +231,9 @@ public class StaffReqVo {
     }
 
 
-    public Boolean getIsPerson() {
+    public Integer getIsPerson() {
         return isPerson;
     }
-
-    public void setIsPerson(Boolean isPerson) {
-        this.isPerson = isPerson;
-    }
-
 
     public Date getCreateTime() {
         return createTime;
@@ -252,4 +253,6 @@ public class StaffReqVo {
     public void setGroupId(Integer groupId) {
         this.groupId = groupId;
     }
+
+
 }

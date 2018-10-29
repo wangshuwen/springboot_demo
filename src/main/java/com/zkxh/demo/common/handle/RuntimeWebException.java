@@ -42,8 +42,8 @@ public class RuntimeWebException extends RuntimeException {
      * @param resultEnum
      * @see ResultEnum
      */
-    public RuntimeWebException(ResultEnum resultEnum) {
-        super(resultEnum.getMsg());
+    public RuntimeWebException(ErrorCode resultEnum) {
+        super(resultEnum.getInfo());
         this.code = resultEnum.getCode();
     }
 

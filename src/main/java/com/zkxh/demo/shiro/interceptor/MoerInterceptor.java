@@ -1,6 +1,7 @@
 package com.zkxh.demo.shiro.interceptor;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,5 +29,10 @@ public class MoerInterceptor extends HandlerInterceptorAdapter {
         response.setHeader("Content-Type", "text/html;charset=UTF-8");
 
         return true;
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        super.postHandle(request, response, handler, modelAndView);
     }
 }

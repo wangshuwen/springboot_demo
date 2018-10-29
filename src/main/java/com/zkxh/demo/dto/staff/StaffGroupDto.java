@@ -10,23 +10,33 @@ package com.zkxh.demo.dto.staff;
 
 public class StaffGroupDto {
 
-    private Integer group_id;
+    private Integer groupId;
 
-    private String group_name;
+    private String groupName;
 
-    public Integer getGroup_id() {
-        return group_id;
+    private String deptName;
+
+    public String getDeptName() {
+        return deptName;
     }
 
-    public void setGroup_id(Integer group_id) {
-        this.group_id = group_id;
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
     }
 
-    public String getGroup_name() {
-        return group_name;
+    public Integer getGroupId() {
+        return groupId;
     }
 
-    public void setGroup_name(String group_name) {
-        this.group_name = group_name;
+    public void setGroupId(Integer groupId) {
+        this.groupId = groupId;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 }

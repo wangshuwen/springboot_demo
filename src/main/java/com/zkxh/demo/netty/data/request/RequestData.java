@@ -1,5 +1,6 @@
 package com.zkxh.demo.netty.data.request;
 
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -39,6 +40,13 @@ public class RequestData {
 
     private Date time;
 
+    private byte result;
+
+    private byte nodeCount;
+
+    private int ndName;
+
+    private int count;
 
     //主题信息
     private byte[] body;
@@ -49,7 +57,7 @@ public class RequestData {
     public RequestData() {
     }
 
-    public RequestData(int type, int terminalId, int stationId, int terminalIp1, int terminalIp2, int stationIp1, int stationIp2, int length, int cmd, int sequenceId, Date time, byte[] body) {
+    public RequestData(int type, int terminalId, int stationId, int terminalIp1, int terminalIp2, int stationIp1, int stationIp2, int length, int cmd, int sequenceId, Date time, byte result, byte nodeCount, int ndName, byte[] body) {
         this.type = type;
         this.terminalId = terminalId;
         this.stationId = stationId;
@@ -61,26 +69,13 @@ public class RequestData {
         this.cmd = cmd;
         this.sequenceId = sequenceId;
         this.time = time;
+        this.result = result;
+        this.nodeCount = nodeCount;
+        this.ndName = ndName;
         this.body = body;
         //  this.crc = crc;
         this.terminalIp = terminalIp1 + "." + terminalIp2;
         this.stationIp = stationIp1 + "." + stationIp2;
-    }
-
-    public String getTerminalIp() {
-        return terminalIp;
-    }
-
-    public void setTerminalIp(String terminalIp) {
-        this.terminalIp = terminalIp;
-    }
-
-    public String getStationIp() {
-        return stationIp;
-    }
-
-    public void setStationIp(String stationIp) {
-        this.stationIp = stationIp;
     }
 
     public int getType() {
@@ -105,10 +100,6 @@ public class RequestData {
 
     public void setStationId(int stationId) {
         this.stationId = stationId;
-    }
-
-    public void setSequenceId(int sequenceId) {
-        this.sequenceId = sequenceId;
     }
 
     public int getTerminalIp1() {
@@ -143,6 +134,22 @@ public class RequestData {
         this.stationIp2 = stationIp2;
     }
 
+    public String getTerminalIp() {
+        return terminalIp;
+    }
+
+    public void setTerminalIp(String terminalIp) {
+        this.terminalIp = terminalIp;
+    }
+
+    public String getStationIp() {
+        return stationIp;
+    }
+
+    public void setStationIp(String stationIp) {
+        this.stationIp = stationIp;
+    }
+
     public int getLength() {
         return length;
     }
@@ -159,9 +166,12 @@ public class RequestData {
         this.cmd = cmd;
     }
 
-
     public int getSequenceId() {
         return sequenceId;
+    }
+
+    public void setSequenceId(int sequenceId) {
+        this.sequenceId = sequenceId;
     }
 
     public Date getTime() {
@@ -172,6 +182,30 @@ public class RequestData {
         this.time = time;
     }
 
+    public byte getResult() {
+        return result;
+    }
+
+    public void setResult(byte result) {
+        this.result = result;
+    }
+
+    public byte getNodeCount() {
+        return nodeCount;
+    }
+
+    public void setNodeCount(byte nodeCount) {
+        this.nodeCount = nodeCount;
+    }
+
+    public int getNdName() {
+        return ndName;
+    }
+
+    public void setNdName(int ndName) {
+        this.ndName = ndName;
+    }
+
     public byte[] getBody() {
         return body;
     }
@@ -180,20 +214,34 @@ public class RequestData {
         this.body = body;
     }
 
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
 
     @Override
     public String toString() {
-        return "CustomMsg{" +
+        return "RequestData{" +
                 "type=" + type +
-                ", terminalId='" + terminalId + '\'' +
-                ", stationId='" + stationId + '\'' +
-                ", terminalIp=" + terminalIp +
-                ", stationIp=" + stationIp +
+                ", terminalId=" + terminalId +
+                ", stationId=" + stationId +
+                ", terminalIp1=" + terminalIp1 +
+                ", terminalIp2=" + terminalIp2 +
+                ", stationIp1=" + stationIp1 +
+                ", stationIp2=" + stationIp2 +
+                ", terminalIp='" + terminalIp + '\'' +
+                ", stationIp='" + stationIp + '\'' +
                 ", length=" + length +
                 ", cmd=" + cmd +
-                ", sequenceId='" + sequenceId + '\'' +
+                ", sequenceId=" + sequenceId +
                 ", time=" + time +
-                ", body='" + body + '\'' +
+                ", result=" + result +
+                ", nodeCount=" + nodeCount +
+                ", ndName=" + ndName +
+                ", body=" + Arrays.toString(body) +
                 '}';
     }
 }

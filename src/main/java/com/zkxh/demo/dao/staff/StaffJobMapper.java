@@ -2,9 +2,7 @@ package com.zkxh.demo.dao.staff;
 
 import com.zkxh.demo.model.staff.StaffJob;
 import com.zkxh.demo.model.staff.StaffJobExample;
-
 import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
 
 public interface StaffJobMapper {
@@ -95,4 +93,6 @@ public interface StaffJobMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(StaffJob record);
+
+    List<StaffJob> selectAllJobs();
 }

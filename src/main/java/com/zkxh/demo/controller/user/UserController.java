@@ -23,38 +23,38 @@ import java.util.*;
 @RestController
 public class UserController extends BaseController {
 
-    @Autowired
-    private KafkaSender<SysUser> kafkaSender;
-
-    @GetMapping("tt")
-    public String kafkaSend() throws InterruptedException {
-        //模拟发消息
-        for (int i = 0; i < 5; i++) {
-
-            SysUser user = new SysUser();
-            user.setSysHeadimg("" + i);
-            user.setCreateBy(1);
-            user.setSysLastLoginTime(new Date());
-
-            kafkaSender.send(user);
-            Thread.sleep(3000);
-
-        }
-        return ResultUtil.jsonToStringSuccess();
-    }
-
-    @GetMapping("pushVideoListToWeb")
-    public Map<String, Object> pushVideoListToWeb() {
-        Map<String, Object> result = new HashMap<String, Object>();
-
-        try {
-            WSServer.sendInfo("jspn:{a:a:a:a:A:a:a::A:A:A:}");
-            result.put("operationResult", true);
-        } catch (IOException e) {
-            result.put("operationResult", true);
-        }
-        return result;
-    }
+//    @Autowired
+//    private KafkaSender<SysUser> kafkaSender;
+//
+//    @GetMapping("tt")
+//    public String kafkaSend() throws InterruptedException {
+//        //模拟发消息
+//        for (int i = 0; i < 5; i++) {
+//
+//            SysUser user = new SysUser();
+//            user.setSysHeadimg("" + i);
+//            user.setCreateBy(1);
+//            user.setSysLastLoginTime(new Date());
+//
+//            kafkaSender.send(user);
+//            Thread.sleep(3000);
+//
+//        }
+//        return ResultUtil.jsonToStringSuccess();
+//    }
+//
+//    @GetMapping("pushVideoListToWeb")
+//    public Map<String, Object> pushVideoListToWeb() {
+//        Map<String, Object> result = new HashMap<String, Object>();
+//
+//        try {
+//            WSServer.sendInfo("jspn:{a:a:a:a:A:a:a::A:A:A:}");
+//            result.put("operationResult", true);
+//        } catch (IOException e) {
+//            result.put("operationResult", true);
+//        }
+//        return result;
+//    }
 
 }
 

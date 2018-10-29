@@ -1,5 +1,7 @@
 package com.zkxh.demo.vo.resp;
 
+import java.util.Date;
+
 /**
  * @ClassName GasWSRespVO
  * @Description
@@ -11,106 +13,77 @@ package com.zkxh.demo.vo.resp;
 public class GasWSRespVO {
 
     private double o2;
-    private double o2_type;
+    private Integer o2_type;
 
     private double ch4;
-    private double ch4_type;
+    private Integer ch4_type;
 
     private double co;
-    private double co_type;
+    private Integer co_type;
 
     private double co2;
-    private double co2_type;
+    private Integer co2_type;
 
     private double Temperature;
-    private double Temperature_type;
+    private Integer Temperature_type;
 
     private double Humidity;
-    private double Humidity_type;
+    private Integer Humidity_type;
 
     private String staffName;
 
-    private String sequenceId;
+    private Integer sequenceId;
 
     private String staffNumber;
 
-    private String rt;
-    private String createTime;
+    private Integer staffId;
+
+
+    private Date rt;
+    private Date createTime;
 
 
     //TODO 定位信息
 
 
-    public double getO2_type() {
-        return o2_type;
+    @Override
+    public String toString() {
+        return "GasWSRespVO{" +
+                "o2=" + o2 +
+                ", o2_type=" + o2_type +
+                ", ch4=" + ch4 +
+                ", ch4_type=" + ch4_type +
+                ", co=" + co +
+                ", co_type=" + co_type +
+                ", co2=" + co2 +
+                ", co2_type=" + co2_type +
+                ", Temperature=" + Temperature +
+                ", Temperature_type=" + Temperature_type +
+                ", Humidity=" + Humidity +
+                ", Humidity_type=" + Humidity_type +
+                ", staffName='" + staffName + '\'' +
+                ", sequenceId=" + sequenceId +
+                ", staffNumber='" + staffNumber + '\'' +
+                ", staffId=" + staffId +
+                ", rt=" + rt +
+                ", createTime=" + createTime +
+                '}';
     }
 
-    public void setO2_type(double o2_type) {
-        this.o2_type = o2_type;
-    }
-
-    public double getCh4_type() {
-        return ch4_type;
-    }
-
-    public void setCh4_type(double ch4_type) {
-        this.ch4_type = ch4_type;
-    }
-
-    public double getCo_type() {
-        return co_type;
-    }
-
-    public void setCo_type(double co_type) {
-        this.co_type = co_type;
-    }
-
-    public double getCo2_type() {
-        return co2_type;
-    }
-
-    public void setCo2_type(double co2_type) {
-        this.co2_type = co2_type;
-    }
-
-    public double getTemperature_type() {
-        return Temperature_type;
-    }
-
-    public void setTemperature_type(double temperature_type) {
-        Temperature_type = temperature_type;
-    }
-
-    public double getHumidity_type() {
-        return Humidity_type;
-    }
-
-    public void setHumidity_type(double humidity_type) {
-        Humidity_type = humidity_type;
-    }
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getRt() {
-        return rt;
-    }
-
-    public void setRt(String rt) {
-        this.rt = rt;
+    public double getO2() {
+        return o2;
     }
 
     public void setO2(double o2) {
         this.o2 = o2;
     }
 
-    public double getO2() {
-        return o2;
+    public Integer getO2_type() {
+        return o2_type;
+    }
+
+    public void setO2_type(Integer o2_type) {
+        this.o2_type = o2_type;
     }
 
     public double getCh4() {
@@ -121,12 +94,28 @@ public class GasWSRespVO {
         this.ch4 = ch4;
     }
 
+    public Integer getCh4_type() {
+        return ch4_type;
+    }
+
+    public void setCh4_type(Integer ch4_type) {
+        this.ch4_type = ch4_type;
+    }
+
     public double getCo() {
         return co;
     }
 
     public void setCo(double co) {
         this.co = co;
+    }
+
+    public Integer getCo_type() {
+        return co_type;
+    }
+
+    public void setCo_type(Integer co_type) {
+        this.co_type = co_type;
     }
 
     public double getCo2() {
@@ -137,12 +126,28 @@ public class GasWSRespVO {
         this.co2 = co2;
     }
 
+    public Integer getCo2_type() {
+        return co2_type;
+    }
+
+    public void setCo2_type(Integer co2_type) {
+        this.co2_type = co2_type;
+    }
+
     public double getTemperature() {
         return Temperature;
     }
 
     public void setTemperature(double temperature) {
         Temperature = temperature;
+    }
+
+    public Integer getTemperature_type() {
+        return Temperature_type;
+    }
+
+    public void setTemperature_type(Integer temperature_type) {
+        Temperature_type = temperature_type;
     }
 
     public double getHumidity() {
@@ -153,6 +158,14 @@ public class GasWSRespVO {
         Humidity = humidity;
     }
 
+    public Integer getHumidity_type() {
+        return Humidity_type;
+    }
+
+    public void setHumidity_type(Integer humidity_type) {
+        Humidity_type = humidity_type;
+    }
+
     public String getStaffName() {
         return staffName;
     }
@@ -161,11 +174,11 @@ public class GasWSRespVO {
         this.staffName = staffName;
     }
 
-    public String getSequenceId() {
+    public Integer getSequenceId() {
         return sequenceId;
     }
 
-    public void setSequenceId(String sequenceId) {
+    public void setSequenceId(Integer sequenceId) {
         this.sequenceId = sequenceId;
     }
 
@@ -175,5 +188,29 @@ public class GasWSRespVO {
 
     public void setStaffNumber(String staffNumber) {
         this.staffNumber = staffNumber;
+    }
+
+    public Integer getStaffId() {
+        return staffId;
+    }
+
+    public void setStaffId(Integer staffId) {
+        this.staffId = staffId;
+    }
+
+    public Date getRt() {
+        return rt;
+    }
+
+    public void setRt(Date rt) {
+        this.rt = rt;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

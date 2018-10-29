@@ -9,7 +9,9 @@ package com.zkxh.demo.netty.utils;
  */
 
 public class ConstantValue {
-    public static final String basePath = "d://voice/file/";
+
+    public static final String webBaseUrl = "http://192.168.2.180:9876/apis/";
+    public static final String basePath = "d:/voice/file/";
 
     //===============数据头===============
     public static final int MSG_HEADER_FREAME_HEAD = 0x6688;//, "帧头"),
@@ -18,8 +20,9 @@ public class ConstantValue {
     public static final int MSG_HEADER_COMMAND_ID_NULL = 0x0013;  //  , "空"),
     public static final int MSG_HEADER_COMMAND_ID_REQUEST = 0x0015;   //  , "采集数据上报（设备到后台）"),
     public static final int MSG_HEADER_COMMAND_ID_RESPONSE = 0x0016;   //  , "应答"),
-    public static final int MSG_HEADER_COMMAND_ID_UPDATE_IP = 0x001b;    //  , "IP更新上报"),
+
     public static final int MSG_HEADER_COMMAND_ID_HEARTBEAT = 0x001c; //  , "心跳数据"),
+    public static final int MSG_HEADER_COMMAND_ID_SEND_VOICE = 0x001d; //  , "心跳数据"),
 
 
     //===============数据体===============
@@ -32,6 +35,8 @@ public class ConstantValue {
     public static final int MSG_BODY_NODE_NAME_SENSOR_DATA = 0x2001;  //  , "传感器数据"),
     public static final int MSG_BODY_NODE_NAME_LOCATOR_DATA = 0x2002;   //  , "定位数据"),
     public static final int MSG_BODY_NODE_NAME_VOICE_DATA = 0x2003;   //  , "语音数据"),
+    public static final int MSG_BODY_NODE_NAME_UPDATE_IP = 0x2004;    //  , "IP更新上报"),
+    public static final int MSG_BODY_NODE_NAME_CHECK_ONLINE = 0x2005;    //  , "ping，查询是否在线"),
     public static final int MSG_BODY_NODE_NAME_HEARTBEAT = 0x3001;//  , "心跳"),
 
 

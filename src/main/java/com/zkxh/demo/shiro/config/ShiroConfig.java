@@ -66,6 +66,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/staff/**", "authc");
         //配置shiro默认登录界面地址，前后端分离中登录界面跳转应由前端路由控制，后台仅返回json数据
         shiroFilterFactoryBean.setLoginUrl("/unauth");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/403");
         // 登录成功后要跳转的链接
 //        shiroFilterFactoryBean.setSuccessUrl("/index");
         //未授权界面;

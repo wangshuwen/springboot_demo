@@ -57,7 +57,7 @@ public class MySignOutFilter extends LogoutFilter {
 
             //登出时从session获取的cookieId
             String cookieId = (String) subject.getSession().getId();
-            System.out.println(cookieId);
+            System.out.println("cookieId : " + cookieId);
             Cookie[] cookies = ((HttpServletRequest) request).getCookies();
             for (Cookie cookie : cookies) {
                 //"登出时从cookie获取得到的cookieId

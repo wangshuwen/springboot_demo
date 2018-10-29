@@ -105,4 +105,6 @@ public interface StaffGroupMapper {
 
 
     Integer countStaffNumByGroupId(Integer groupId);
+
+    StaffGroupDto selectGroupDtoByGroupId(Integer groupId);
 }

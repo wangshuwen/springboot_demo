@@ -615,483 +615,483 @@ public class RtGasInfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andTCo2IsNull() {
-            addCriterion("t_co2 is null");
+        public Criteria andCo2IsNull() {
+            addCriterion("co2 is null");
             return (Criteria) this;
         }
 
-        public Criteria andTCo2IsNotNull() {
-            addCriterion("t_co2 is not null");
+        public Criteria andCo2IsNotNull() {
+            addCriterion("co2 is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTCo2EqualTo(Double value) {
-            addCriterion("t_co2 =", value, "tCo2");
+        public Criteria andCo2EqualTo(Double value) {
+            addCriterion("co2 =", value, "co2");
             return (Criteria) this;
         }
 
-        public Criteria andTCo2NotEqualTo(Double value) {
-            addCriterion("t_co2 <>", value, "tCo2");
+        public Criteria andCo2NotEqualTo(Double value) {
+            addCriterion("co2 <>", value, "co2");
             return (Criteria) this;
         }
 
-        public Criteria andTCo2GreaterThan(Double value) {
-            addCriterion("t_co2 >", value, "tCo2");
+        public Criteria andCo2GreaterThan(Double value) {
+            addCriterion("co2 >", value, "co2");
             return (Criteria) this;
         }
 
-        public Criteria andTCo2GreaterThanOrEqualTo(Double value) {
-            addCriterion("t_co2 >=", value, "tCo2");
+        public Criteria andCo2GreaterThanOrEqualTo(Double value) {
+            addCriterion("co2 >=", value, "co2");
             return (Criteria) this;
         }
 
-        public Criteria andTCo2LessThan(Double value) {
-            addCriterion("t_co2 <", value, "tCo2");
+        public Criteria andCo2LessThan(Double value) {
+            addCriterion("co2 <", value, "co2");
             return (Criteria) this;
         }
 
-        public Criteria andTCo2LessThanOrEqualTo(Double value) {
-            addCriterion("t_co2 <=", value, "tCo2");
+        public Criteria andCo2LessThanOrEqualTo(Double value) {
+            addCriterion("co2 <=", value, "co2");
             return (Criteria) this;
         }
 
-        public Criteria andTCo2In(List<Double> values) {
-            addCriterion("t_co2 in", values, "tCo2");
+        public Criteria andCo2In(List<Double> values) {
+            addCriterion("co2 in", values, "co2");
             return (Criteria) this;
         }
 
-        public Criteria andTCo2NotIn(List<Double> values) {
-            addCriterion("t_co2 not in", values, "tCo2");
+        public Criteria andCo2NotIn(List<Double> values) {
+            addCriterion("co2 not in", values, "co2");
             return (Criteria) this;
         }
 
-        public Criteria andTCo2Between(Double value1, Double value2) {
-            addCriterion("t_co2 between", value1, value2, "tCo2");
+        public Criteria andCo2Between(Double value1, Double value2) {
+            addCriterion("co2 between", value1, value2, "co2");
             return (Criteria) this;
         }
 
-        public Criteria andTCo2NotBetween(Double value1, Double value2) {
-            addCriterion("t_co2 not between", value1, value2, "tCo2");
+        public Criteria andCo2NotBetween(Double value1, Double value2) {
+            addCriterion("co2 not between", value1, value2, "co2");
             return (Criteria) this;
         }
 
-        public Criteria andTCo2UnitIsNull() {
-            addCriterion("t_co2_unit is null");
+        public Criteria andCo2UnitIsNull() {
+            addCriterion("co2_unit is null");
             return (Criteria) this;
         }
 
-        public Criteria andTCo2UnitIsNotNull() {
-            addCriterion("t_co2_unit is not null");
+        public Criteria andCo2UnitIsNotNull() {
+            addCriterion("co2_unit is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTCo2UnitEqualTo(Integer value) {
-            addCriterion("t_co2_unit =", value, "tCo2Unit");
+        public Criteria andCo2UnitEqualTo(Integer value) {
+            addCriterion("co2_unit =", value, "co2Unit");
             return (Criteria) this;
         }
 
-        public Criteria andTCo2UnitNotEqualTo(Integer value) {
-            addCriterion("t_co2_unit <>", value, "tCo2Unit");
+        public Criteria andCo2UnitNotEqualTo(Integer value) {
+            addCriterion("co2_unit <>", value, "co2Unit");
             return (Criteria) this;
         }
 
-        public Criteria andTCo2UnitGreaterThan(Integer value) {
-            addCriterion("t_co2_unit >", value, "tCo2Unit");
+        public Criteria andCo2UnitGreaterThan(Integer value) {
+            addCriterion("co2_unit >", value, "co2Unit");
             return (Criteria) this;
         }
 
-        public Criteria andTCo2UnitGreaterThanOrEqualTo(Integer value) {
-            addCriterion("t_co2_unit >=", value, "tCo2Unit");
+        public Criteria andCo2UnitGreaterThanOrEqualTo(Integer value) {
+            addCriterion("co2_unit >=", value, "co2Unit");
             return (Criteria) this;
         }
 
-        public Criteria andTCo2UnitLessThan(Integer value) {
-            addCriterion("t_co2_unit <", value, "tCo2Unit");
+        public Criteria andCo2UnitLessThan(Integer value) {
+            addCriterion("co2_unit <", value, "co2Unit");
             return (Criteria) this;
         }
 
-        public Criteria andTCo2UnitLessThanOrEqualTo(Integer value) {
-            addCriterion("t_co2_unit <=", value, "tCo2Unit");
+        public Criteria andCo2UnitLessThanOrEqualTo(Integer value) {
+            addCriterion("co2_unit <=", value, "co2Unit");
             return (Criteria) this;
         }
 
-        public Criteria andTCo2UnitIn(List<Integer> values) {
-            addCriterion("t_co2_unit in", values, "tCo2Unit");
+        public Criteria andCo2UnitIn(List<Integer> values) {
+            addCriterion("co2_unit in", values, "co2Unit");
             return (Criteria) this;
         }
 
-        public Criteria andTCo2UnitNotIn(List<Integer> values) {
-            addCriterion("t_co2_unit not in", values, "tCo2Unit");
+        public Criteria andCo2UnitNotIn(List<Integer> values) {
+            addCriterion("co2_unit not in", values, "co2Unit");
             return (Criteria) this;
         }
 
-        public Criteria andTCo2UnitBetween(Integer value1, Integer value2) {
-            addCriterion("t_co2_unit between", value1, value2, "tCo2Unit");
+        public Criteria andCo2UnitBetween(Integer value1, Integer value2) {
+            addCriterion("co2_unit between", value1, value2, "co2Unit");
             return (Criteria) this;
         }
 
-        public Criteria andTCo2UnitNotBetween(Integer value1, Integer value2) {
-            addCriterion("t_co2_unit not between", value1, value2, "tCo2Unit");
+        public Criteria andCo2UnitNotBetween(Integer value1, Integer value2) {
+            addCriterion("co2_unit not between", value1, value2, "co2Unit");
             return (Criteria) this;
         }
 
-        public Criteria andTTemperatureIsNull() {
-            addCriterion("t_temperature is null");
+        public Criteria andTemperatureIsNull() {
+            addCriterion("temperature is null");
             return (Criteria) this;
         }
 
-        public Criteria andTTemperatureIsNotNull() {
-            addCriterion("t_temperature is not null");
+        public Criteria andTemperatureIsNotNull() {
+            addCriterion("temperature is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTTemperatureEqualTo(Double value) {
-            addCriterion("t_temperature =", value, "tTemperature");
+        public Criteria andTemperatureEqualTo(Double value) {
+            addCriterion("temperature =", value, "temperature");
             return (Criteria) this;
         }
 
-        public Criteria andTTemperatureNotEqualTo(Double value) {
-            addCriterion("t_temperature <>", value, "tTemperature");
+        public Criteria andTemperatureNotEqualTo(Double value) {
+            addCriterion("temperature <>", value, "temperature");
             return (Criteria) this;
         }
 
-        public Criteria andTTemperatureGreaterThan(Double value) {
-            addCriterion("t_temperature >", value, "tTemperature");
+        public Criteria andTemperatureGreaterThan(Double value) {
+            addCriterion("temperature >", value, "temperature");
             return (Criteria) this;
         }
 
-        public Criteria andTTemperatureGreaterThanOrEqualTo(Double value) {
-            addCriterion("t_temperature >=", value, "tTemperature");
+        public Criteria andTemperatureGreaterThanOrEqualTo(Double value) {
+            addCriterion("temperature >=", value, "temperature");
             return (Criteria) this;
         }
 
-        public Criteria andTTemperatureLessThan(Double value) {
-            addCriterion("t_temperature <", value, "tTemperature");
+        public Criteria andTemperatureLessThan(Double value) {
+            addCriterion("temperature <", value, "temperature");
             return (Criteria) this;
         }
 
-        public Criteria andTTemperatureLessThanOrEqualTo(Double value) {
-            addCriterion("t_temperature <=", value, "tTemperature");
+        public Criteria andTemperatureLessThanOrEqualTo(Double value) {
+            addCriterion("temperature <=", value, "temperature");
             return (Criteria) this;
         }
 
-        public Criteria andTTemperatureIn(List<Double> values) {
-            addCriterion("t_temperature in", values, "tTemperature");
+        public Criteria andTemperatureIn(List<Double> values) {
+            addCriterion("temperature in", values, "temperature");
             return (Criteria) this;
         }
 
-        public Criteria andTTemperatureNotIn(List<Double> values) {
-            addCriterion("t_temperature not in", values, "tTemperature");
+        public Criteria andTemperatureNotIn(List<Double> values) {
+            addCriterion("temperature not in", values, "temperature");
             return (Criteria) this;
         }
 
-        public Criteria andTTemperatureBetween(Double value1, Double value2) {
-            addCriterion("t_temperature between", value1, value2, "tTemperature");
+        public Criteria andTemperatureBetween(Double value1, Double value2) {
+            addCriterion("temperature between", value1, value2, "temperature");
             return (Criteria) this;
         }
 
-        public Criteria andTTemperatureNotBetween(Double value1, Double value2) {
-            addCriterion("t_temperature not between", value1, value2, "tTemperature");
+        public Criteria andTemperatureNotBetween(Double value1, Double value2) {
+            addCriterion("temperature not between", value1, value2, "temperature");
             return (Criteria) this;
         }
 
-        public Criteria andTTemperatureUnitIsNull() {
-            addCriterion("t_temperature_unit is null");
+        public Criteria andTemperatureUnitIsNull() {
+            addCriterion("temperature_unit is null");
             return (Criteria) this;
         }
 
-        public Criteria andTTemperatureUnitIsNotNull() {
-            addCriterion("t_temperature_unit is not null");
+        public Criteria andTemperatureUnitIsNotNull() {
+            addCriterion("temperature_unit is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTTemperatureUnitEqualTo(Integer value) {
-            addCriterion("t_temperature_unit =", value, "tTemperatureUnit");
+        public Criteria andTemperatureUnitEqualTo(Integer value) {
+            addCriterion("temperature_unit =", value, "temperatureUnit");
             return (Criteria) this;
         }
 
-        public Criteria andTTemperatureUnitNotEqualTo(Integer value) {
-            addCriterion("t_temperature_unit <>", value, "tTemperatureUnit");
+        public Criteria andTemperatureUnitNotEqualTo(Integer value) {
+            addCriterion("temperature_unit <>", value, "temperatureUnit");
             return (Criteria) this;
         }
 
-        public Criteria andTTemperatureUnitGreaterThan(Integer value) {
-            addCriterion("t_temperature_unit >", value, "tTemperatureUnit");
+        public Criteria andTemperatureUnitGreaterThan(Integer value) {
+            addCriterion("temperature_unit >", value, "temperatureUnit");
             return (Criteria) this;
         }
 
-        public Criteria andTTemperatureUnitGreaterThanOrEqualTo(Integer value) {
-            addCriterion("t_temperature_unit >=", value, "tTemperatureUnit");
+        public Criteria andTemperatureUnitGreaterThanOrEqualTo(Integer value) {
+            addCriterion("temperature_unit >=", value, "temperatureUnit");
             return (Criteria) this;
         }
 
-        public Criteria andTTemperatureUnitLessThan(Integer value) {
-            addCriterion("t_temperature_unit <", value, "tTemperatureUnit");
+        public Criteria andTemperatureUnitLessThan(Integer value) {
+            addCriterion("temperature_unit <", value, "temperatureUnit");
             return (Criteria) this;
         }
 
-        public Criteria andTTemperatureUnitLessThanOrEqualTo(Integer value) {
-            addCriterion("t_temperature_unit <=", value, "tTemperatureUnit");
+        public Criteria andTemperatureUnitLessThanOrEqualTo(Integer value) {
+            addCriterion("temperature_unit <=", value, "temperatureUnit");
             return (Criteria) this;
         }
 
-        public Criteria andTTemperatureUnitIn(List<Integer> values) {
-            addCriterion("t_temperature_unit in", values, "tTemperatureUnit");
+        public Criteria andTemperatureUnitIn(List<Integer> values) {
+            addCriterion("temperature_unit in", values, "temperatureUnit");
             return (Criteria) this;
         }
 
-        public Criteria andTTemperatureUnitNotIn(List<Integer> values) {
-            addCriterion("t_temperature_unit not in", values, "tTemperatureUnit");
+        public Criteria andTemperatureUnitNotIn(List<Integer> values) {
+            addCriterion("temperature_unit not in", values, "temperatureUnit");
             return (Criteria) this;
         }
 
-        public Criteria andTTemperatureUnitBetween(Integer value1, Integer value2) {
-            addCriterion("t_temperature_unit between", value1, value2, "tTemperatureUnit");
+        public Criteria andTemperatureUnitBetween(Integer value1, Integer value2) {
+            addCriterion("temperature_unit between", value1, value2, "temperatureUnit");
             return (Criteria) this;
         }
 
-        public Criteria andTTemperatureUnitNotBetween(Integer value1, Integer value2) {
-            addCriterion("t_temperature_unit not between", value1, value2, "tTemperatureUnit");
+        public Criteria andTemperatureUnitNotBetween(Integer value1, Integer value2) {
+            addCriterion("temperature_unit not between", value1, value2, "temperatureUnit");
             return (Criteria) this;
         }
 
-        public Criteria andTHumidityIsNull() {
-            addCriterion("t_humidity is null");
+        public Criteria andHumidityIsNull() {
+            addCriterion("humidity is null");
             return (Criteria) this;
         }
 
-        public Criteria andTHumidityIsNotNull() {
-            addCriterion("t_humidity is not null");
+        public Criteria andHumidityIsNotNull() {
+            addCriterion("humidity is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTHumidityEqualTo(Double value) {
-            addCriterion("t_humidity =", value, "tHumidity");
+        public Criteria andHumidityEqualTo(Double value) {
+            addCriterion("humidity =", value, "humidity");
             return (Criteria) this;
         }
 
-        public Criteria andTHumidityNotEqualTo(Double value) {
-            addCriterion("t_humidity <>", value, "tHumidity");
+        public Criteria andHumidityNotEqualTo(Double value) {
+            addCriterion("humidity <>", value, "humidity");
             return (Criteria) this;
         }
 
-        public Criteria andTHumidityGreaterThan(Double value) {
-            addCriterion("t_humidity >", value, "tHumidity");
+        public Criteria andHumidityGreaterThan(Double value) {
+            addCriterion("humidity >", value, "humidity");
             return (Criteria) this;
         }
 
-        public Criteria andTHumidityGreaterThanOrEqualTo(Double value) {
-            addCriterion("t_humidity >=", value, "tHumidity");
+        public Criteria andHumidityGreaterThanOrEqualTo(Double value) {
+            addCriterion("humidity >=", value, "humidity");
             return (Criteria) this;
         }
 
-        public Criteria andTHumidityLessThan(Double value) {
-            addCriterion("t_humidity <", value, "tHumidity");
+        public Criteria andHumidityLessThan(Double value) {
+            addCriterion("humidity <", value, "humidity");
             return (Criteria) this;
         }
 
-        public Criteria andTHumidityLessThanOrEqualTo(Double value) {
-            addCriterion("t_humidity <=", value, "tHumidity");
+        public Criteria andHumidityLessThanOrEqualTo(Double value) {
+            addCriterion("humidity <=", value, "humidity");
             return (Criteria) this;
         }
 
-        public Criteria andTHumidityIn(List<Double> values) {
-            addCriterion("t_humidity in", values, "tHumidity");
+        public Criteria andHumidityIn(List<Double> values) {
+            addCriterion("humidity in", values, "humidity");
             return (Criteria) this;
         }
 
-        public Criteria andTHumidityNotIn(List<Double> values) {
-            addCriterion("t_humidity not in", values, "tHumidity");
+        public Criteria andHumidityNotIn(List<Double> values) {
+            addCriterion("humidity not in", values, "humidity");
             return (Criteria) this;
         }
 
-        public Criteria andTHumidityBetween(Double value1, Double value2) {
-            addCriterion("t_humidity between", value1, value2, "tHumidity");
+        public Criteria andHumidityBetween(Double value1, Double value2) {
+            addCriterion("humidity between", value1, value2, "humidity");
             return (Criteria) this;
         }
 
-        public Criteria andTHumidityNotBetween(Double value1, Double value2) {
-            addCriterion("t_humidity not between", value1, value2, "tHumidity");
+        public Criteria andHumidityNotBetween(Double value1, Double value2) {
+            addCriterion("humidity not between", value1, value2, "humidity");
             return (Criteria) this;
         }
 
-        public Criteria andTHumidityUnitIsNull() {
-            addCriterion("t_humidity_unit is null");
+        public Criteria andHumidityUnitIsNull() {
+            addCriterion("humidity_unit is null");
             return (Criteria) this;
         }
 
-        public Criteria andTHumidityUnitIsNotNull() {
-            addCriterion("t_humidity_unit is not null");
+        public Criteria andHumidityUnitIsNotNull() {
+            addCriterion("humidity_unit is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTHumidityUnitEqualTo(Integer value) {
-            addCriterion("t_humidity_unit =", value, "tHumidityUnit");
+        public Criteria andHumidityUnitEqualTo(Integer value) {
+            addCriterion("humidity_unit =", value, "humidityUnit");
             return (Criteria) this;
         }
 
-        public Criteria andTHumidityUnitNotEqualTo(Integer value) {
-            addCriterion("t_humidity_unit <>", value, "tHumidityUnit");
+        public Criteria andHumidityUnitNotEqualTo(Integer value) {
+            addCriterion("humidity_unit <>", value, "humidityUnit");
             return (Criteria) this;
         }
 
-        public Criteria andTHumidityUnitGreaterThan(Integer value) {
-            addCriterion("t_humidity_unit >", value, "tHumidityUnit");
+        public Criteria andHumidityUnitGreaterThan(Integer value) {
+            addCriterion("humidity_unit >", value, "humidityUnit");
             return (Criteria) this;
         }
 
-        public Criteria andTHumidityUnitGreaterThanOrEqualTo(Integer value) {
-            addCriterion("t_humidity_unit >=", value, "tHumidityUnit");
+        public Criteria andHumidityUnitGreaterThanOrEqualTo(Integer value) {
+            addCriterion("humidity_unit >=", value, "humidityUnit");
             return (Criteria) this;
         }
 
-        public Criteria andTHumidityUnitLessThan(Integer value) {
-            addCriterion("t_humidity_unit <", value, "tHumidityUnit");
+        public Criteria andHumidityUnitLessThan(Integer value) {
+            addCriterion("humidity_unit <", value, "humidityUnit");
             return (Criteria) this;
         }
 
-        public Criteria andTHumidityUnitLessThanOrEqualTo(Integer value) {
-            addCriterion("t_humidity_unit <=", value, "tHumidityUnit");
+        public Criteria andHumidityUnitLessThanOrEqualTo(Integer value) {
+            addCriterion("humidity_unit <=", value, "humidityUnit");
             return (Criteria) this;
         }
 
-        public Criteria andTHumidityUnitIn(List<Integer> values) {
-            addCriterion("t_humidity_unit in", values, "tHumidityUnit");
+        public Criteria andHumidityUnitIn(List<Integer> values) {
+            addCriterion("humidity_unit in", values, "humidityUnit");
             return (Criteria) this;
         }
 
-        public Criteria andTHumidityUnitNotIn(List<Integer> values) {
-            addCriterion("t_humidity_unit not in", values, "tHumidityUnit");
+        public Criteria andHumidityUnitNotIn(List<Integer> values) {
+            addCriterion("humidity_unit not in", values, "humidityUnit");
             return (Criteria) this;
         }
 
-        public Criteria andTHumidityUnitBetween(Integer value1, Integer value2) {
-            addCriterion("t_humidity_unit between", value1, value2, "tHumidityUnit");
+        public Criteria andHumidityUnitBetween(Integer value1, Integer value2) {
+            addCriterion("humidity_unit between", value1, value2, "humidityUnit");
             return (Criteria) this;
         }
 
-        public Criteria andTHumidityUnitNotBetween(Integer value1, Integer value2) {
-            addCriterion("t_humidity_unit not between", value1, value2, "tHumidityUnit");
+        public Criteria andHumidityUnitNotBetween(Integer value1, Integer value2) {
+            addCriterion("humidity_unit not between", value1, value2, "humidityUnit");
             return (Criteria) this;
         }
 
-        public Criteria andTField3IsNull() {
-            addCriterion("t_field_3 is null");
+        public Criteria andField3IsNull() {
+            addCriterion("field_3 is null");
             return (Criteria) this;
         }
 
-        public Criteria andTField3IsNotNull() {
-            addCriterion("t_field_3 is not null");
+        public Criteria andField3IsNotNull() {
+            addCriterion("field_3 is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTField3EqualTo(Double value) {
-            addCriterion("t_field_3 =", value, "tField3");
+        public Criteria andField3EqualTo(Double value) {
+            addCriterion("field_3 =", value, "field3");
             return (Criteria) this;
         }
 
-        public Criteria andTField3NotEqualTo(Double value) {
-            addCriterion("t_field_3 <>", value, "tField3");
+        public Criteria andField3NotEqualTo(Double value) {
+            addCriterion("field_3 <>", value, "field3");
             return (Criteria) this;
         }
 
-        public Criteria andTField3GreaterThan(Double value) {
-            addCriterion("t_field_3 >", value, "tField3");
+        public Criteria andField3GreaterThan(Double value) {
+            addCriterion("field_3 >", value, "field3");
             return (Criteria) this;
         }
 
-        public Criteria andTField3GreaterThanOrEqualTo(Double value) {
-            addCriterion("t_field_3 >=", value, "tField3");
+        public Criteria andField3GreaterThanOrEqualTo(Double value) {
+            addCriterion("field_3 >=", value, "field3");
             return (Criteria) this;
         }
 
-        public Criteria andTField3LessThan(Double value) {
-            addCriterion("t_field_3 <", value, "tField3");
+        public Criteria andField3LessThan(Double value) {
+            addCriterion("field_3 <", value, "field3");
             return (Criteria) this;
         }
 
-        public Criteria andTField3LessThanOrEqualTo(Double value) {
-            addCriterion("t_field_3 <=", value, "tField3");
+        public Criteria andField3LessThanOrEqualTo(Double value) {
+            addCriterion("field_3 <=", value, "field3");
             return (Criteria) this;
         }
 
-        public Criteria andTField3In(List<Double> values) {
-            addCriterion("t_field_3 in", values, "tField3");
+        public Criteria andField3In(List<Double> values) {
+            addCriterion("field_3 in", values, "field3");
             return (Criteria) this;
         }
 
-        public Criteria andTField3NotIn(List<Double> values) {
-            addCriterion("t_field_3 not in", values, "tField3");
+        public Criteria andField3NotIn(List<Double> values) {
+            addCriterion("field_3 not in", values, "field3");
             return (Criteria) this;
         }
 
-        public Criteria andTField3Between(Double value1, Double value2) {
-            addCriterion("t_field_3 between", value1, value2, "tField3");
+        public Criteria andField3Between(Double value1, Double value2) {
+            addCriterion("field_3 between", value1, value2, "field3");
             return (Criteria) this;
         }
 
-        public Criteria andTField3NotBetween(Double value1, Double value2) {
-            addCriterion("t_field_3 not between", value1, value2, "tField3");
+        public Criteria andField3NotBetween(Double value1, Double value2) {
+            addCriterion("field_3 not between", value1, value2, "field3");
             return (Criteria) this;
         }
 
-        public Criteria andTField3UnitIsNull() {
-            addCriterion("t_field_3_unit is null");
+        public Criteria andField3UnitIsNull() {
+            addCriterion("field_3_unit is null");
             return (Criteria) this;
         }
 
-        public Criteria andTField3UnitIsNotNull() {
-            addCriterion("t_field_3_unit is not null");
+        public Criteria andField3UnitIsNotNull() {
+            addCriterion("field_3_unit is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTField3UnitEqualTo(Integer value) {
-            addCriterion("t_field_3_unit =", value, "tField3Unit");
+        public Criteria andField3UnitEqualTo(Integer value) {
+            addCriterion("field_3_unit =", value, "field3Unit");
             return (Criteria) this;
         }
 
-        public Criteria andTField3UnitNotEqualTo(Integer value) {
-            addCriterion("t_field_3_unit <>", value, "tField3Unit");
+        public Criteria andField3UnitNotEqualTo(Integer value) {
+            addCriterion("field_3_unit <>", value, "field3Unit");
             return (Criteria) this;
         }
 
-        public Criteria andTField3UnitGreaterThan(Integer value) {
-            addCriterion("t_field_3_unit >", value, "tField3Unit");
+        public Criteria andField3UnitGreaterThan(Integer value) {
+            addCriterion("field_3_unit >", value, "field3Unit");
             return (Criteria) this;
         }
 
-        public Criteria andTField3UnitGreaterThanOrEqualTo(Integer value) {
-            addCriterion("t_field_3_unit >=", value, "tField3Unit");
+        public Criteria andField3UnitGreaterThanOrEqualTo(Integer value) {
+            addCriterion("field_3_unit >=", value, "field3Unit");
             return (Criteria) this;
         }
 
-        public Criteria andTField3UnitLessThan(Integer value) {
-            addCriterion("t_field_3_unit <", value, "tField3Unit");
+        public Criteria andField3UnitLessThan(Integer value) {
+            addCriterion("field_3_unit <", value, "field3Unit");
             return (Criteria) this;
         }
 
-        public Criteria andTField3UnitLessThanOrEqualTo(Integer value) {
-            addCriterion("t_field_3_unit <=", value, "tField3Unit");
+        public Criteria andField3UnitLessThanOrEqualTo(Integer value) {
+            addCriterion("field_3_unit <=", value, "field3Unit");
             return (Criteria) this;
         }
 
-        public Criteria andTField3UnitIn(List<Integer> values) {
-            addCriterion("t_field_3_unit in", values, "tField3Unit");
+        public Criteria andField3UnitIn(List<Integer> values) {
+            addCriterion("field_3_unit in", values, "field3Unit");
             return (Criteria) this;
         }
 
-        public Criteria andTField3UnitNotIn(List<Integer> values) {
-            addCriterion("t_field_3_unit not in", values, "tField3Unit");
+        public Criteria andField3UnitNotIn(List<Integer> values) {
+            addCriterion("field_3_unit not in", values, "field3Unit");
             return (Criteria) this;
         }
 
-        public Criteria andTField3UnitBetween(Integer value1, Integer value2) {
-            addCriterion("t_field_3_unit between", value1, value2, "tField3Unit");
+        public Criteria andField3UnitBetween(Integer value1, Integer value2) {
+            addCriterion("field_3_unit between", value1, value2, "field3Unit");
             return (Criteria) this;
         }
 
-        public Criteria andTField3UnitNotBetween(Integer value1, Integer value2) {
-            addCriterion("t_field_3_unit not between", value1, value2, "tField3Unit");
+        public Criteria andField3UnitNotBetween(Integer value1, Integer value2) {
+            addCriterion("field_3_unit not between", value1, value2, "field3Unit");
             return (Criteria) this;
         }
 
@@ -1165,62 +1165,52 @@ public class RtGasInfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andTerminalIdEqualTo(String value) {
+        public Criteria andTerminalIdEqualTo(Integer value) {
             addCriterion("terminal_id =", value, "terminalId");
             return (Criteria) this;
         }
 
-        public Criteria andTerminalIdNotEqualTo(String value) {
+        public Criteria andTerminalIdNotEqualTo(Integer value) {
             addCriterion("terminal_id <>", value, "terminalId");
             return (Criteria) this;
         }
 
-        public Criteria andTerminalIdGreaterThan(String value) {
+        public Criteria andTerminalIdGreaterThan(Integer value) {
             addCriterion("terminal_id >", value, "terminalId");
             return (Criteria) this;
         }
 
-        public Criteria andTerminalIdGreaterThanOrEqualTo(String value) {
+        public Criteria andTerminalIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("terminal_id >=", value, "terminalId");
             return (Criteria) this;
         }
 
-        public Criteria andTerminalIdLessThan(String value) {
+        public Criteria andTerminalIdLessThan(Integer value) {
             addCriterion("terminal_id <", value, "terminalId");
             return (Criteria) this;
         }
 
-        public Criteria andTerminalIdLessThanOrEqualTo(String value) {
+        public Criteria andTerminalIdLessThanOrEqualTo(Integer value) {
             addCriterion("terminal_id <=", value, "terminalId");
             return (Criteria) this;
         }
 
-        public Criteria andTerminalIdLike(String value) {
-            addCriterion("terminal_id like", value, "terminalId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTerminalIdNotLike(String value) {
-            addCriterion("terminal_id not like", value, "terminalId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTerminalIdIn(List<String> values) {
+        public Criteria andTerminalIdIn(List<Integer> values) {
             addCriterion("terminal_id in", values, "terminalId");
             return (Criteria) this;
         }
 
-        public Criteria andTerminalIdNotIn(List<String> values) {
+        public Criteria andTerminalIdNotIn(List<Integer> values) {
             addCriterion("terminal_id not in", values, "terminalId");
             return (Criteria) this;
         }
 
-        public Criteria andTerminalIdBetween(String value1, String value2) {
+        public Criteria andTerminalIdBetween(Integer value1, Integer value2) {
             addCriterion("terminal_id between", value1, value2, "terminalId");
             return (Criteria) this;
         }
 
-        public Criteria andTerminalIdNotBetween(String value1, String value2) {
+        public Criteria andTerminalIdNotBetween(Integer value1, Integer value2) {
             addCriterion("terminal_id not between", value1, value2, "terminalId");
             return (Criteria) this;
         }
@@ -1235,62 +1225,52 @@ public class RtGasInfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andStationIdEqualTo(String value) {
+        public Criteria andStationIdEqualTo(Integer value) {
             addCriterion("station_id =", value, "stationId");
             return (Criteria) this;
         }
 
-        public Criteria andStationIdNotEqualTo(String value) {
+        public Criteria andStationIdNotEqualTo(Integer value) {
             addCriterion("station_id <>", value, "stationId");
             return (Criteria) this;
         }
 
-        public Criteria andStationIdGreaterThan(String value) {
+        public Criteria andStationIdGreaterThan(Integer value) {
             addCriterion("station_id >", value, "stationId");
             return (Criteria) this;
         }
 
-        public Criteria andStationIdGreaterThanOrEqualTo(String value) {
+        public Criteria andStationIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("station_id >=", value, "stationId");
             return (Criteria) this;
         }
 
-        public Criteria andStationIdLessThan(String value) {
+        public Criteria andStationIdLessThan(Integer value) {
             addCriterion("station_id <", value, "stationId");
             return (Criteria) this;
         }
 
-        public Criteria andStationIdLessThanOrEqualTo(String value) {
+        public Criteria andStationIdLessThanOrEqualTo(Integer value) {
             addCriterion("station_id <=", value, "stationId");
             return (Criteria) this;
         }
 
-        public Criteria andStationIdLike(String value) {
-            addCriterion("station_id like", value, "stationId");
-            return (Criteria) this;
-        }
-
-        public Criteria andStationIdNotLike(String value) {
-            addCriterion("station_id not like", value, "stationId");
-            return (Criteria) this;
-        }
-
-        public Criteria andStationIdIn(List<String> values) {
+        public Criteria andStationIdIn(List<Integer> values) {
             addCriterion("station_id in", values, "stationId");
             return (Criteria) this;
         }
 
-        public Criteria andStationIdNotIn(List<String> values) {
+        public Criteria andStationIdNotIn(List<Integer> values) {
             addCriterion("station_id not in", values, "stationId");
             return (Criteria) this;
         }
 
-        public Criteria andStationIdBetween(String value1, String value2) {
+        public Criteria andStationIdBetween(Integer value1, Integer value2) {
             addCriterion("station_id between", value1, value2, "stationId");
             return (Criteria) this;
         }
 
-        public Criteria andStationIdNotBetween(String value1, String value2) {
+        public Criteria andStationIdNotBetween(Integer value1, Integer value2) {
             addCriterion("station_id not between", value1, value2, "stationId");
             return (Criteria) this;
         }
@@ -1565,62 +1545,52 @@ public class RtGasInfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andSequenceIdEqualTo(String value) {
+        public Criteria andSequenceIdEqualTo(Integer value) {
             addCriterion("sequence_id =", value, "sequenceId");
             return (Criteria) this;
         }
 
-        public Criteria andSequenceIdNotEqualTo(String value) {
+        public Criteria andSequenceIdNotEqualTo(Integer value) {
             addCriterion("sequence_id <>", value, "sequenceId");
             return (Criteria) this;
         }
 
-        public Criteria andSequenceIdGreaterThan(String value) {
+        public Criteria andSequenceIdGreaterThan(Integer value) {
             addCriterion("sequence_id >", value, "sequenceId");
             return (Criteria) this;
         }
 
-        public Criteria andSequenceIdGreaterThanOrEqualTo(String value) {
+        public Criteria andSequenceIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("sequence_id >=", value, "sequenceId");
             return (Criteria) this;
         }
 
-        public Criteria andSequenceIdLessThan(String value) {
+        public Criteria andSequenceIdLessThan(Integer value) {
             addCriterion("sequence_id <", value, "sequenceId");
             return (Criteria) this;
         }
 
-        public Criteria andSequenceIdLessThanOrEqualTo(String value) {
+        public Criteria andSequenceIdLessThanOrEqualTo(Integer value) {
             addCriterion("sequence_id <=", value, "sequenceId");
             return (Criteria) this;
         }
 
-        public Criteria andSequenceIdLike(String value) {
-            addCriterion("sequence_id like", value, "sequenceId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSequenceIdNotLike(String value) {
-            addCriterion("sequence_id not like", value, "sequenceId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSequenceIdIn(List<String> values) {
+        public Criteria andSequenceIdIn(List<Integer> values) {
             addCriterion("sequence_id in", values, "sequenceId");
             return (Criteria) this;
         }
 
-        public Criteria andSequenceIdNotIn(List<String> values) {
+        public Criteria andSequenceIdNotIn(List<Integer> values) {
             addCriterion("sequence_id not in", values, "sequenceId");
             return (Criteria) this;
         }
 
-        public Criteria andSequenceIdBetween(String value1, String value2) {
+        public Criteria andSequenceIdBetween(Integer value1, Integer value2) {
             addCriterion("sequence_id between", value1, value2, "sequenceId");
             return (Criteria) this;
         }
 
-        public Criteria andSequenceIdNotBetween(String value1, String value2) {
+        public Criteria andSequenceIdNotBetween(Integer value1, Integer value2) {
             addCriterion("sequence_id not between", value1, value2, "sequenceId");
             return (Criteria) this;
         }

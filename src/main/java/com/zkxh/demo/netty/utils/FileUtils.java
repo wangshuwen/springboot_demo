@@ -32,4 +32,14 @@ public class FileUtils {
         }
         return flag;
     }
+
+    public static boolean removeFile(String src) {
+        File file = new File(src);
+        if (file.exists()) {
+            file.delete();
+            return true;
+        }
+        return false;
+
+    }
 }

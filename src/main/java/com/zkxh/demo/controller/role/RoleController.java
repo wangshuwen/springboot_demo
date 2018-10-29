@@ -34,7 +34,6 @@ public class RoleController {
     })
     @PostMapping("/role/add")
     public String addRole(String name, String desc) {
-
         return ResultUtil.jsonToStringSuccess();
     }
 
@@ -53,7 +52,6 @@ public class RoleController {
     })
     @PutMapping("/role/update/{id}")
     public String updateRole(String name, String desc, @PathVariable Integer id) {
-
         return ResultUtil.jsonToStringSuccess();
     }
 

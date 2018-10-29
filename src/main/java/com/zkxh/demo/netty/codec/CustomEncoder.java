@@ -26,6 +26,11 @@ public class CustomEncoder extends MessageToByteEncoder<ResponseData> {
 
         ResponsePkg response = new ResponsePkg();
 
-        byteBuf.writeBytes(response.dataResponse(resp.getCustomMsg(), resp.getCode()));
+//        System.out.println("aa" + resp.getCustomMsg().getBody().length);
+//        System.out.println("aa" + resp.getCustomMsg().getNdName());
+//        System.out.println("aa" + resp.getCustomMsg().getNodeCount());
+//        System.out.println(resp.getCustomMsg().toString());
+//        byteBuf.writeBytes(response.dataResponse(resp.getCustomMsg()));
+        byteBuf.writeBytes(response.dataResponseVoice(resp.getCustomMsg()));
     }
 }

@@ -255,4 +255,10 @@
         remark = #{remark,jdbcType=VARCHAR}
         where job_id = #{jobId,jdbcType=INTEGER}
     </update>
+
+    <select id="selectAllJobs" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM staff_job
+    </select>
 </mapper>

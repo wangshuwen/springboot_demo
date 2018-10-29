@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.zkxh.demo.common.enums.ResultEnum;
 import com.zkxh.demo.common.handle.RuntimeOtherException;
 import com.zkxh.demo.dto.UpLoadGasDto;
+import com.zkxh.demo.service.staff.StaffService;
 import com.zkxh.demo.vo.resp.GasWSRespVO;
 import com.zkxh.demo.websocket.WSServer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -18,9 +19,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @ClassName GasInfoToWS
@@ -32,8 +31,11 @@ import java.util.Optional;
 @Component
 public class GasInfoToWS {
 
-    // @Resource
-    //  WSServer wsServer;
+    @Resource
+    private StaffService staffService;
+    @Resource
+    WSServer wsServer;
+
     public static List<GasWSRespVO> list = new ArrayList<GasWSRespVO>();
 
     Logger logger = LoggerFactory.getLogger(GasInfoToWS.class);
@@ -54,46 +56,48 @@ public class GasInfoToWS {
             Object message = kafkaMessage.get();
             String str = (String) message;
             JSONObject jsonObject = JSON.parseObject(str);
+            JSONObject gasInfo = jsonObject.getJSONObject("gasInfo");
 
-            double co = jsonObject.getDouble("co");
-            int co_type = jsonObject.getInteger("co_type");
-            double co2 = jsonObject.getDouble("co2");
-            int co2_type = jsonObject.getInteger("co2_type");
-            double t = jsonObject.getDouble("t");
-            int t_type = jsonObject.getInteger("t_type");
-            double h = jsonObject.getDouble("h");
-            int h_type = jsonObject.getInteger("h_type");
-            double ch4 = jsonObject.getDouble("ch4");
-            int ch4_type = jsonObject.getInteger("ch4_type");
-            double o2 = jsonObject.getDouble("o2");
-            int o2_type = jsonObject.getInteger("o2_type");
+            double co = gasInfo.getDouble("co");
+            Integer coFlag = gasInfo.getInteger("coFlag");
+            double co2 = gasInfo.getDouble("co2");
+            Integer co2Flag = gasInfo.getInteger("co2Flag");
+            double t = gasInfo.getDouble("t");
+            Integer tFlag = gasInfo.getInteger("tFlag");
+            double h = gasInfo.getDouble("h");
+            Integer hFlag = gasInfo.getInteger("hFlag");
+            double ch4 = gasInfo.getDouble("ch4");
+            Integer ch4Flag = gasInfo.getInteger("ch4Flag");
+            double o2 = gasInfo.getDouble("o2");
+            Integer o2Flag = gasInfo.getInteger("o2Flag");
 
-            String rt = jsonObject.getString("rT");
-            String createTime = jsonObject.getString("createTime");
-            String sequenceId = jsonObject.getString("sequenceId");
+            Date rt = jsonObject.getDate("rT");
+            Date createTime = jsonObject.getDate("createTime");
+            Integer sequenceId = jsonObject.getInteger("sequenceId");
             String stationIp = jsonObject.getString("stationIp");
-            String stationId = jsonObject.getString("stationId");
-            String terminalId = jsonObject.getString("terminalId");
+            Integer stationId = jsonObject.getInteger("stationId");
+            Integer terminalId = jsonObject.getInteger("terminalId");
             String terminalIp = jsonObject.getString("terminalIp");
 
-
-            System.out.println(co + " co " + ch4 + "  t  " + t + " h " + h + "   co2 " + co2 + "  o2  " + o2);
-
+            GasWSRespVO staff = staffService.findStaffNameByTerminalId(terminalId);
+            //TODO 根据 terminalId 查找人名称
+            //            System.out.println(co + " co " + ch4 + "  t  " + t + " h " + h + "   co2 " + co2 + "  o2  " + o2);
             GasWSRespVO gasWSRespVO = new GasWSRespVO();
             gasWSRespVO.setO2(o2);
-            gasWSRespVO.setO2_type(o2_type);
+            gasWSRespVO.setO2_type(o2Flag);
             gasWSRespVO.setTemperature(t);
-            gasWSRespVO.setTemperature_type(t_type);
+            gasWSRespVO.setTemperature_type(tFlag);
             gasWSRespVO.setHumidity(h);
-            gasWSRespVO.setHumidity_type(h_type);
+            gasWSRespVO.setHumidity_type(hFlag);
             gasWSRespVO.setCo2(co2);
-            gasWSRespVO.setCo2_type(co2_type);
+            gasWSRespVO.setCo2_type(co2Flag);
             gasWSRespVO.setCh4(ch4);
-            gasWSRespVO.setCh4_type(ch4_type);
+            gasWSRespVO.setCh4_type(ch4Flag);
             gasWSRespVO.setSequenceId(sequenceId);
             gasWSRespVO.setCo(co);
-            gasWSRespVO.setCo_type(co_type);
-            gasWSRespVO.setStaffName("张三");
+            gasWSRespVO.setCo_type(coFlag);
+            gasWSRespVO.setStaffId(staff.getStaffId());
+            gasWSRespVO.setStaffName(staff.getStaffName());
             gasWSRespVO.setRt(rt);
             gasWSRespVO.setCreateTime(createTime);
 
@@ -105,12 +109,10 @@ public class GasInfoToWS {
             if (list.size() > 10) {
                 try {
 
-                    for (GasWSRespVO gasWSRespVO1 : list) {
-                        jsonArray.add(gasWSRespVO1);
+                    for (GasWSRespVO vo : list) {
+                        jsonArray.add(vo);
                     }
-
                     WSServer.sendInfo(jsonArray.toJSONString());
-                    logger.info("" + jsonArray.toJSONString());
                     list.clear();
                     jsonArray.clear();
                 } catch (IOException e) {
@@ -119,16 +121,15 @@ public class GasInfoToWS {
                 }
             }
 
-//            gasWSRespVO.setCh4(upLoadGasDto.getCh4());
-//            gasWSRespVO.setCo(upLoadGasDto.getCo());
-//            gasWSRespVO.setCo2(upLoadGasDto.getCo2());
-//            gasWSRespVO.setO2(upLoadGasDto.getO2());
-//            gasWSRespVO.setHumidity(upLoadGasDto.getH());
-//            gasWSRespVO.setTemperature(upLoadGasDto.getT());
-            //TODO 缺少字段 待完善
-            // wsServer.(gasWSRespVO);
-//            JSONObject json = JSONObject.parseObject();
 
+            //TODO 缺少字段 待完善
+//
+//            JSONObject json = JSONObject.parseObject(gasWSRespVO.toString());
+//            try {
+//                wsServer.sendMessage(json.toJSONString());
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
 
             logger.info("Receive： +++++++++++++++ Topic:" + topic);
             logger.info("Receive： +++++++++++++++ Record:" + record);

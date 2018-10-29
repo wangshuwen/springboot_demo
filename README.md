@@ -1,5 +1,10 @@
-<<<<<<< HEAD
-中科鑫合
-=======
- 中科鑫合矿用实时综合监控平台
->>>>>>> bf2db279d96812f7319182a35992110292806e1e
+<!DOCTYPE HTML>
+<html>
+<body>
+
+<audio src="/i/horse.ogg" controls="controls">
+Your browser does not support the audio element.
+</audio>
+
+</body>
+</html>

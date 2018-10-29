@@ -49,11 +49,7 @@ public class LoginController extends BaseController {
     @PostMapping("/login")
     public String userLogin(@RequestBody UserLoginVOReq user) {
         UserLoginVOResp resp = userService.userLogin(user);
-        if (resp != null) {
-            return ResultUtil.jsonToStringSuccess(resp);
-        } else {
-            return ResultUtil.jsonToStringError(ResultEnum.FAILED);
-        }
+        return resp != null ? ResultUtil.jsonToStringSuccess(resp) : ResultUtil.jsonToStringError(ResultEnum.FAILED);
     }
 
     /**

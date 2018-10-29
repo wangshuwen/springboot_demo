@@ -44,6 +44,13 @@ public class StringUtils {
         return null;
     }
 
+    /**
+     * @param [str]
+     * @return java.lang.Boolean
+     * @description 判断字符串是否为空，若为空返回true
+     * @date 13:36 2018/10/29
+     * @auther lifeng
+     **/
     public static Boolean checkNull(String str) {
         if (str == null) return true;
         if ("".equals(str.trim()) || str.trim().length() == 0) return true;

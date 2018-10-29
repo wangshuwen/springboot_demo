@@ -28,9 +28,9 @@ public class MySessionManager extends DefaultWebSessionManager {
 
     private static final String REFERENCED_SESSION_ID_SOURCE = "Stateless request";
 
-    public MySessionManager() {
-        super();
-    }
+//    public MySessionManager() {
+//        super();
+//    }
 
     @Override
     protected Serializable getSessionId(ServletRequest request, ServletResponse response) {

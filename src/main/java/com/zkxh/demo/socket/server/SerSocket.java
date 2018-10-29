@@ -383,32 +383,32 @@ public class SerSocket implements Runnable {
 
                             UpLoadGasDto upLoadGasDto = new UpLoadGasDto();
 
-                            upLoadGasDto.setTerminalId(terminalId);
-                            upLoadGasDto.setStationId(stationId);
-                            upLoadGasDto.setT(t);
-                            upLoadGasDto.setH(h);
-                            upLoadGasDto.setCo2(co2);
-                            upLoadGasDto.setCo(co);
-                            upLoadGasDto.setRT(rt.toString());
-                            upLoadGasDto.setCreateTime(DateConvert.convert(new Date(), 19));
-                            upLoadGasDto.setCh4(ch4);
-                            upLoadGasDto.setResult("success");
-                            upLoadGasDto.setTerminalIp(terminalIp.toString());
-                            upLoadGasDto.setStationIp(stationIp.toString());
-                            upLoadGasDto.setSequenceId(sqeuenceId);
-                            upLoadGasDto.setO2(o2);
-                            upLoadGasDto.setT_type((int) t_type);
-                            upLoadGasDto.setH_type((int) h_type);
-                            upLoadGasDto.setCo2_type((int) co2_type);
-                            upLoadGasDto.setCo_type((int) co_type);
-                            upLoadGasDto.setCh4_type((int) ch4_type);
-                            upLoadGasDto.setO2_type((int) o2_type);
+//                            upLoadGasDto.setTerminalId(terminalId);
+//                            upLoadGasDto.setStationId(stationId);
+//                            upLoadGasDto.setT(t);
+//                            upLoadGasDto.setH(h);
+//                            upLoadGasDto.setCo2(co2);
+//                            upLoadGasDto.setCo(co);
+//                            upLoadGasDto.setRT(rt.toString());
+//                            upLoadGasDto.setCreateTime(DateConvert.convert(new Date(), 19));
+//                            upLoadGasDto.setCh4(ch4);
+//                            upLoadGasDto.setResult("success");
+//                            upLoadGasDto.setTerminalIp(terminalIp.toString());
+//                            upLoadGasDto.setStationIp(stationIp.toString());
+//                            upLoadGasDto.setSequenceId(sqeuenceId);
+//                            upLoadGasDto.setO2(o2);
+//                            upLoadGasDto.setT_type((int) t_type);
+//                            upLoadGasDto.setH_type((int) h_type);
+//                            upLoadGasDto.setCo2_type((int) co2_type);
+//                            upLoadGasDto.setCo_type((int) co_type);
+//                            upLoadGasDto.setCh4_type((int) ch4_type);
+//                            upLoadGasDto.setO2_type((int) o2_type);
 
-                            try {
-                                serSocket.upLoadService.sendGasInfoToQueue(upLoadGasDto);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
+//                            try {
+////                                serSocket.upLoadService.sendGasInfoToQueue(upLoadGasDto);
+//                            } catch (ParseException e) {
+//                                e.printStackTrace();
+//                            }
 
                             //TODO
                             sendConfirmPkg(outStream, message_header_control, confirmStatus);

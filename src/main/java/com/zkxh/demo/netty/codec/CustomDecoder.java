@@ -54,9 +54,13 @@ public class CustomDecoder extends LengthFieldBasedFrameDecoder {
     private byte rt5;
     private byte rt6;
 
+    private byte result;
+
+    private byte nodeCount;
+
+    private int ndName;
 
     //主题信息
-    private byte[] body;
 
     private Integer crc;
 
@@ -125,9 +129,16 @@ public class CustomDecoder extends LengthFieldBasedFrameDecoder {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         time = simpleDateFormat.parse(rt.toString());
         logger.info("上传时间 : " + time);
+
+
+        result = in.readByte();
+        nodeCount = in.readByte();
+        ndName = (((in.readByte() & 0xff) << 8) + (in.readByte() & 0xff));
+
+
         int c = in.readableBytes();
         logger.info("剩余可读取长度：" + c);
-        int len = length - 26;
+        int len = length - 30;
         if (c < (len)) {
             //重置当前的readerindex为beginindex
 //            in.readerIndex(beginIndex);
@@ -143,12 +154,13 @@ public class CustomDecoder extends LengthFieldBasedFrameDecoder {
             System.out.printf("0x%02x ", req[i]);
         }
         System.out.println("\n==============");
-        body = req;
-        buf.release();
-        //body = new String(req, "UTF-8");
+        byte[] body = new byte[req.length];
 
+        System.arraycopy(req, 0, body, 0, req.length);
+        buf.release();
 //        crc = (((in.readByte() & 0xff) << 8) + (in.readByte() & 0xff));
-        RequestData customMsg = new RequestData(type, terminalId, stationId, terminalIp1, terminalIp2, stationIp1, stationIp2, length, cmd, sequenceId, time, body);
+        RequestData customMsg = new RequestData(type, terminalId, stationId, terminalIp1, terminalIp2, stationIp1, stationIp2, length, cmd, sequenceId, time, result, nodeCount, ndName, body);
+
         return customMsg;
     }
 

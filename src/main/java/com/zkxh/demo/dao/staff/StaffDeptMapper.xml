@@ -270,4 +270,8 @@
         FROM staff_dept
         WHERE dept_id = #{deptId}
     </select>
+
+    <select id="selectDeptByGroupId" parameterType="java.lang.Integer" resultType="com.zkxh.demo.dto.staff.DeptDto">
+        SELECT dept.dept_id,dept.dept_name FROM staff_dept dept , staff_group g  WHERE dept.dept_id = g.dept_id AND g.group_id = #{group_id}
+    </select>
 </mapper>

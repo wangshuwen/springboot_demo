@@ -1,5 +1,8 @@
 package com.zkxh.demo.netty.config;
 
+import com.zkxh.demo.common.da.kafka.KafkaSender;
+import com.zkxh.demo.common.util.convert.DateConvert;
+import com.zkxh.demo.dto.UpLoadGasDto;
 import com.zkxh.demo.netty.data.GasInfo;
 import com.zkxh.demo.netty.data.request.RequestData;
 import com.zkxh.demo.netty.data.response.ResponseData;
@@ -7,6 +10,7 @@ import com.zkxh.demo.netty.handle.ProcessVoice;
 import com.zkxh.demo.netty.request.ChannelMap;
 import com.zkxh.demo.netty.request.Client;
 import com.zkxh.demo.netty.utils.ConstantValue;
+import com.zkxh.demo.service.gas.UpLoadService;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandler.Sharable;
@@ -16,7 +20,10 @@ import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.net.InetSocketAddress;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -30,14 +37,30 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Vserion v0.0.1
  */
 @Sharable
+@Component
 public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 
+
+    private static NettyServerHandler nettyServerHandler;
+    @Resource
+    private UpLoadService upLoadService;
+
+
+//    @Resource
+//    private Client client;
+
+    @PostConstruct //通过@PostConstruct实现初始化bean之前进行的操作
+    public void init() {
+        nettyServerHandler = this;
+        nettyServerHandler.upLoadService = this.upLoadService;
+//        nettyServerHandler.client = this.client;
+    }
     /**
      * 日志
      */
     private Logger log = LoggerFactory.getLogger(getClass());
-
-    private static Map<String, String> mapOfSequenceId = new ConcurrentHashMap<>();
+    @Resource
+    KafkaSender kafkaSender;
 
     private ProcessVoice processVoice = new ProcessVoice();
 
@@ -52,7 +75,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
                 //TODO
                 int cmd = customMsg.getCmd();
                 byte[] body = customMsg.getBody();
-                int ndName = ((body[2] & 0xff) << 8) + (body[3] & 0xff);
+                int ndName = customMsg.getNdName();
                 switch (cmd) {
                     case ConstantValue.MSG_HEADER_COMMAND_ID_NULL:
                         if (ndName != ConstantValue.MSG_BODY_NODE_NAME_VOICE_DATA) {
@@ -60,65 +83,86 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
                             break;
                         }
                         log.info("处理语音数据");
+                        System.out.println(customMsg.toString());
                         String wavPath = processVoice.process(customMsg);
                         if (!("error").equals(wavPath)) {
                             log.info("接收并转码成功");
                             log.info("生成文件路径" + wavPath);
                         }
+                        //向终端响应信息
+                        customMsg.setCmd(ConstantValue.MSG_HEADER_COMMAND_ID_RESPONSE);
+                        customMsg.setLength(30);
+                        customMsg.setResult((byte) 0x55);
+                        customMsg.setNodeCount((byte) 0x00);
+                        customMsg.setNdName(ConstantValue.MSG_BODY_NODE_NAME_VOICE_DATA);
+                        resp.setCustomMsg(customMsg);
+                        Client.sendCmd(resp);
                         break;
                     case ConstantValue.MSG_HEADER_COMMAND_ID_REQUEST:
                         log.info("采集数据上报");
                         switch (ndName) {
                             case ConstantValue.MSG_BODY_NODE_NAME_SENSOR_DATA:
                                 log.info("气体信息");
-                                GasInfo gasInfo = new GasInfo();
-                                gasInfo.setCo(((body[5] & 0xff << 8) + (body[6] & 0xff) / 10.0));
-                                gasInfo.setCoFlag(body[7]);
-                                gasInfo.setCo2(((body[8] & 0xff << 8) + (body[9] & 0xff) / 10.0));
-                                gasInfo.setCo2Flag(body[10]);
-                                gasInfo.setO2(((body[11] & 0xff << 8) + (body[12] & 0xff) / 10.0));
-                                gasInfo.setO2Flag(body[13]);
-                                gasInfo.setCh4(((body[14] & 0xff << 8) + (body[15] & 0xff) / 10.0));
-                                gasInfo.setCh4Flag(body[16]);
-                                gasInfo.setT(((body[17] & 0xff << 8) + (body[18] & 0xff) / 10.0));
-                                gasInfo.settFlag(body[19]);
-                                gasInfo.setH(((body[20] & 0xff << 8) + (body[21] & 0xff) / 10.0));
-                                gasInfo.sethFlag(body[21]);
+                                //TODO 存入kafka队列问题
+                                nettyServerHandler.upLoadService.sendGasInfoToQueue(customMsg);
+                                customMsg.setLength(30);
+                                customMsg.setCmd(ConstantValue.MSG_HEADER_COMMAND_ID_RESPONSE);
+                                customMsg.setResult((byte) ConstantValue.MSG_BODY_RESULT_SUCCESS);
+                                customMsg.setNodeCount((byte) 0x00);
+                                resp.setCustomMsg(customMsg);
+                                resp.setCode((byte) 0x55);
+                                Client.sendCmd(resp);
+                                System.out.println("返回气体确认结束");
                                 break;
                             case ConstantValue.MSG_BODY_NODE_NAME_SELFCHECK_RESULT:
+                                nettyServerHandler.upLoadService.sendSelfCheckResult(customMsg);
                                 log.info("自检结果");
                                 break;
                             case ConstantValue.MSG_BODY_NODE_NAME_SOFTWARE_VERSION:
+                                nettyServerHandler.upLoadService.sendSoftWareVersion(customMsg);
                                 log.info("软件版本号");
                                 break;
                             case ConstantValue.MSG_BODY_NODE_NAME_HANDWARE_VERSION:
+                                nettyServerHandler.upLoadService.sendHandWareVersion(customMsg);
                                 log.info("硬件版本号");
                                 break;
-                            case ConstantValue.MSG_HEADER_COMMAND_ID_UPDATE_IP:
+                            case ConstantValue.MSG_BODY_NODE_NAME_UPDATE_IP:
+//                                kafkaSender.send(customMsg,"updateIp.tut");
+                                nettyServerHandler.upLoadService.sendUpLoadIp(customMsg);
                                 log.info("更新IP");
                                 break;
                             default:
                                 log.error("未知命令包");
                                 break;
                         }
-                        customMsg.setCmd(0x0016);
-                        resp.setCustomMsg(customMsg);
-                        resp.setCode((byte) 0x55);
-                        Client.sendCmd(resp);
+//                        customMsg.setCmd(ConstantValue.MSG_HEADER_COMMAND_ID_RESPONSE);
+//                        customMsg.setLength(30);
+//                        customMsg.setResult((byte) 0x55);
+//                        customMsg.setNodeCount((byte) 0x00);
+//                        resp.setCustomMsg(customMsg);
+//                        Client.sendCmd(resp);
                         break;
                     case ConstantValue.MSG_HEADER_COMMAND_ID_HEARTBEAT:
                         log.info("心跳数据");
+                        customMsg.setCmd(ConstantValue.MSG_HEADER_COMMAND_ID_RESPONSE);
+                        customMsg.setLength(30);
+                        customMsg.setResult((byte) 0x55);
+                        customMsg.setNodeCount((byte) 0x00);
                         resp.setCustomMsg(customMsg);
-                        resp.setCode((byte) 0x55);
                         Client.sendCmd(resp);
+                        System.out.println("返回心跳包确认结束");
                         break;
                     default:
                         log.error("未知命令");
                         break;
                 }
             } else {
+                //数据包头错误不接收
+                customMsg.setCmd(ConstantValue.MSG_HEADER_COMMAND_ID_RESPONSE);
+                customMsg.setLength(30);
+                customMsg.setResult((byte) ConstantValue.MSG_BODY_RESULT_ERROR);
+                customMsg.setNodeCount((byte) 0x00);
                 resp.setCustomMsg(customMsg);
-                resp.setCode((byte) ConstantValue.MSG_BODY_RESULT_ERROR);
                 Client.sendCmd(resp);
             }
             log.info("服务端接收来自客户端[ " + ctx.channel().remoteAddress() + "] 的消息为 " + customMsg.toString());
@@ -141,7 +185,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
-    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+    public void channelInactive(ChannelHandlerContext ctx) {
         InetSocketAddress insocket = (InetSocketAddress) ctx.channel().remoteAddress();
         String clientIP = insocket.getAddress().getHostAddress();
         int port = insocket.getPort();
@@ -160,31 +204,34 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+        InetSocketAddress insocket = (InetSocketAddress) ctx.channel().remoteAddress();
+        String clientIP = insocket.getAddress().getHostAddress();
+        int port = insocket.getPort();
         if (evt instanceof IdleStateEvent) {
             IdleStateEvent event = (IdleStateEvent) evt;
             if (event.state() == IdleState.READER_IDLE) {
                 //TODO 读超时
                 ctx.channel().close();
+                ChannelMap.removeChannelByName(clientIP);
             }
             if (event.state() == IdleState.WRITER_IDLE) {
                 //TODO 写超时
                 ctx.channel().close();
+                ChannelMap.removeChannelByName(clientIP);
             }
             if (event.state() == IdleState.ALL_IDLE) {
                 //清除超时会话
                 ChannelFuture writeAndFlush = ctx.writeAndFlush("client will be remove");
-                writeAndFlush.addListener(new ChannelFutureListener() {
-
-                    @Override
-                    public void operationComplete(ChannelFuture future) throws Exception {
-                        //TODO 通知web端显示并存储数据库
-                        //TODO 客户端掉线
-                        ctx.channel().close();
-                    }
+                writeAndFlush.addListener((ChannelFutureListener) future -> {
+                    //TODO 通知web端显示并存储数据库
+                    //TODO 客户端掉线
+                    ctx.channel().close();
+                    ChannelMap.removeChannelByName(clientIP);
                 });
             }
         } else {
             super.userEventTriggered(ctx, evt);
+            ChannelMap.removeChannelByName(clientIP);
         }
     }
 
@@ -193,6 +240,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         InetSocketAddress insocket = (InetSocketAddress) ctx.channel().remoteAddress();
         String clientIP = insocket.getAddress().getHostAddress();
         log.error("客户端[" + clientIP + "] 出现异常" + cause.getLocalizedMessage());
+        ChannelMap.removeChannelByName(clientIP);
         cause.printStackTrace();
     }
 

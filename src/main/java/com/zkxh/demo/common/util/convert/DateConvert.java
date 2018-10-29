@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * @ClassName DateConvert
+ * @ClassName DateConvert   时间格式化工具
  * @Description
  * @Auther lifeng
  * @DATE 2018/8/17 9:08
@@ -22,6 +22,13 @@ public class DateConvert {
     private static final int T_yyyyMMddHHmmss = 19;
     private static final int T_HHmmss = 8;
 
+    /**
+     * @param [source, type]
+     * @return java.lang.String
+     * @description 将时间转换为字符串格式
+     * @date 13:13 2018/10/29
+     * @auther lifeng
+     **/
     public static String convert(Date source, int type) {
         switch (type) {
             case 10:
@@ -36,6 +43,14 @@ public class DateConvert {
                 return yyyyMMddHHmmss.format(source);
         }
     }
+
+    /**
+     * @param [s, type]
+     * @return java.util.Date
+     * @description 将时间的字符串格式转化为时间
+     * @date 13:12 2018/10/29
+     * @auther lifeng
+     **/
     public static Date convertStringToDate(String s, int type) throws ParseException {
         switch (type) {
             case 10:
@@ -49,9 +64,63 @@ public class DateConvert {
         }
     }
 
+
+    /*
+     * 将时间转换为时间戳
+     */
+    public static String convertDateToStamp(String s, int type) throws ParseException {
+        switch (type) {
+            case 10:
+                return String.valueOf(yyyyMMdd.parse(s).getTime());
+            case 19:
+                return String.valueOf(yyyyMMddHHmmss.parse(s).getTime());
+            case 8:
+                return String.valueOf(HHmmss.parse(s).getTime());
+            default:
+                return String.valueOf(yyyyMMddHHmmss.parse(s).getTime());
+        }
+    }
+
+    /*
+     * 将时间戳转换为时间
+     */
+    public static Date convertStampToDate(String s, int type) throws ParseException {
+        switch (type) {
+            case 10:
+                return DateConvert.convertStringToDate(yyyyMMdd.format(new Date(new Long(s))), 10);
+            case 19:
+                return DateConvert.convertStringToDate(yyyyMMddHHmmss.format(new Date(new Long(s))), 19);
+            case 8:
+                return DateConvert.convertStringToDate(HHmmss.format(new Date(new Long(s))), 8);
+            default:
+                return DateConvert.convertStringToDate(yyyyMMddHHmmss.format(new Date(new Long(s))), 19);
+        }
+
+    }
+
+    public static String convertStampToDateString(String s, int type) {
+        switch (type) {
+            case 10:
+                return yyyyMMdd.format(new Date(new Long(s)));
+            case 19:
+                return yyyyMMddHHmmss.format(new Date(new Long(s)));
+            case 8:
+                return HHmmss.format(new Date(new Long(s)));
+            default:
+                return yyyyMMddHHmmss.format(new Date(new Long(s)));
+        }
+
+    }
+
+    /**
+     * @param [args]
+     * @return void
+     * @description 测试主函数
+     * @date 13:13 2018/10/29
+     * @auther lifeng
+     **/
     public static void main(String[] args) {
         String time = "201-10-5 10:4:1";
-
         try {
             System.out.println(DateConvert.convertStringToDate(time, 19));
         } catch (ParseException e) {

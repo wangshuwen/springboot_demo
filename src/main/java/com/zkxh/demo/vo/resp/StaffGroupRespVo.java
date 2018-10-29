@@ -23,6 +23,8 @@ public class StaffGroupRespVo {
 
     private String deptName;
 
+    private Integer deptId;
+
     private List<StaffDto> staffList;
 
 
@@ -48,6 +50,14 @@ public class StaffGroupRespVo {
 
     public void setDeptName(String deptName) {
         this.deptName = deptName;
+    }
+
+    public Integer getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Integer deptId) {
+        this.deptId = deptId;
     }
 
     public List<StaffDto> getStaffList() {

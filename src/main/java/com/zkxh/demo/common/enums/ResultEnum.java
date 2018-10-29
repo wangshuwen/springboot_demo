@@ -17,10 +17,15 @@ public enum ResultEnum {
     USER_NOT_EXIST(109, "用户不存在！"),
     PAGE_NOT_FOUND(404, "页面走丢了！"),
     WEBSOCKET_SEND_ERROR(110, "websocket error"),
-    DATA_NOT_FOUND(111, "DATA_NOT_FOUND!"),
+    DATA_NOT_FOUND(111, "暂无数据!"),
     DEPT_NOT_FOUND(112, "该部门不存在!"),
     REQUEST_DATA_IS_NULL(113, "请求数据为空!"),
     DATA_IS_NOT_NULL(114, "该层级下面存在数据不能删除!"),
+    SEND_VOICE_ERROR(115, "语音发送失败!"),
+    CHECK_ONLINE_FAILE(116, "检测发送语音失败!"),
+    ADD_STATION_FAILE(117, "检测发送语音失败!"),
+    UPDATE_INFO_ERROR(118, "更新基站信息失败!"),
+    DELETE_STATION_ERROR(119, "删除基站信息失败!"),
     ;
 
     private Integer code;

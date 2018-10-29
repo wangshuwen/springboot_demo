@@ -37,11 +37,13 @@ spring:
         max-idle: 500
         max-wait: 5000
         min-idle: 200
-  http:
+  #配置上传文件大小
+  servlet:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
       enabled: true
+  http:
     encoding:
       force: true
       charset: UTF-8
@@ -66,17 +68,19 @@ spring:
       max-active: 100
       min-idle: 10
       max-wait: 60000
-  #mvc设置
-  mvc:
-    favicon:
-      enabled: false
   #热部署配置
   devtools:
     restart:
       enabled: true
       additional-paths: src/main/java
+  #mvc设置
+  mvc:
+    favicon:
+      enabled: false
+    static-path-pattern: /**
   resources:
-    static-locations: classpath:resources/**
+    static-locations: file:D:\voice\file\
+
 #打印日志
 logging:
   level:
@@ -110,3 +114,9 @@ redis:
     timeout: 5000
 netty:
   port: 6666
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+  page-size-zero: true

@@ -3,9 +3,10 @@ package com.zkxh.demo.dao.rt_gas;
 import com.zkxh.demo.dto.gas.GasInfoAndStaffDto;
 import com.zkxh.demo.model.rt_gas.RtGasInfo;
 import com.zkxh.demo.model.rt_gas.RtGasInfoExample;
-
 import java.util.List;
+import java.util.Map;
 
+import com.zkxh.demo.vo.resp.GasWSRespVO;
 import org.apache.ibatis.annotations.Param;
 
 public interface RtGasInfoMapper {
@@ -98,4 +99,8 @@ public interface RtGasInfoMapper {
     int updateByPrimaryKey(RtGasInfo record);
 
     List<GasInfoAndStaffDto> selectGasInfoByStaffName();
+
+    Map<String, Object> selectGasInfoByTerminalLastTime(Integer terminalId);
+
+    List<Map<String, Object>> selectGasInfoLastTenRecords(int number);
 }

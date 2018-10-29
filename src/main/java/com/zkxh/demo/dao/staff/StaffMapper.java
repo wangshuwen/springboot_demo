@@ -4,6 +4,7 @@ import com.zkxh.demo.dto.staff.StaffDto;
 import com.zkxh.demo.model.staff.Staff;
 import com.zkxh.demo.model.staff.StaffExample;
 import java.util.List;
+import java.util.Map;
 
 import com.zkxh.demo.dto.staff.StaffInfoDto;
 import org.apache.ibatis.annotations.Param;
@@ -102,4 +103,8 @@ public interface StaffMapper {
 //    List<Staff> selectStaffsByDeptId(Integer deptId);
 
     List<StaffInfoDto> selectStaffByParams(Staff staffVo);
+
+    Map<String, Object> selectGroupAndDeptByStaffId(Integer staffId);
+
+    Map<String, Object> selectStaffInfoByTerminalId(Integer terminalId);
 }

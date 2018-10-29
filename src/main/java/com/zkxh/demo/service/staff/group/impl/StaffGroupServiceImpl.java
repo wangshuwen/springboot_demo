@@ -49,6 +49,7 @@ public class StaffGroupServiceImpl implements StaffGroupService {
 
         staffGroup.setDeptId(staffGroupReqVo.getDeptId());
         staffGroup.setGroupName(staffGroupReqVo.getGroupName());
+        staffGroup.setGroupId(staffGroupReqVo.getGroupId());
 
         return staffGroupMapper.updateByPrimaryKey(staffGroup);
     }
@@ -102,6 +103,7 @@ public class StaffGroupServiceImpl implements StaffGroupService {
             staffGroupRespVo.setGroupId(group.getGroupId());
             staffGroupRespVo.setGroupName(group.getGroupName());
             staffGroupRespVo.setDeptName(group.getStaffDept().getDeptName());
+            staffGroupRespVo.setDeptId(group.getStaffDept().getDeptId());
             staffGroupRespVo.setStaffList(group.getStaffList());
             list.add(staffGroupRespVo);
         }

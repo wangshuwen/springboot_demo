@@ -55,6 +55,35 @@ public class ResultUtil {
     /**
      * 返回Success结果值 json to string
      *
+     * @param object
+     * @return
+     */
+    public static String jsonToStringSuccess(String msg, Object data) {
+        Result result = new Result();
+        result.setCode(200);
+        result.setMsg(msg);
+        result.setData(data);
+        String str = JSON.toJSONString(result);
+        return str;
+    }
+
+    /**
+     * 返回Success结果值 json to string
+     *
+     * @param object
+     * @return
+     */
+//    public static String jsonToStringSuccess(String msg) {
+//        Result result = new Result();
+//        result.setCode(200);
+//        result.setMsg(msg);
+//        result.setData(null);
+//        String str = JSON.toJSONString(result);
+//        return str;
+//    }
+    /**
+     * 返回Success结果值 json to string
+     *
      * @param resultEnum
      * @return
      */

@@ -270,7 +270,11 @@
         WHERE dept_id = #{deptId}
     </select>
 
-    <select id="selectStaffGroupsByDeptIdOfStaffDept" resultType="com.zkxh.demo.dto.staff.StaffGroupDto"
+    <resultMap id="staffGroupsMap" type="com.zkxh.demo.dto.staff.StaffGroupDto">
+        <id property="groupId" column="group_id"/>
+        <result property="groupName" column="group_name"/>
+    </resultMap>
+    <select id="selectStaffGroupsByDeptIdOfStaffDept" resultMap="staffGroupsMap"
             parameterType="java.lang.Integer">
         SELECT group_id , group_name
         FROM staff_group
@@ -281,4 +285,14 @@
         SELECT count(staff_id) as number FROM staff WHERE group_id = #{groupId}
     </select>
 
+    <resultMap id="rrMap" type="com.zkxh.demo.dto.staff.StaffGroupDto">
+        <id property="groupId" column="group_id"/>
+        <result property="groupName" column="group_name"/>
+        <result property="deptName" column="dept_name"/>
+    </resultMap>
+    <select id="selectGroupDtoByGroupId" parameterType="java.lang.Integer" resultMap="rrMap">
+        SELECT a.group_id, a.group_name, b.dept_name
+        FROM staff_group a INNER JOIN staff_dept b ON a.dept_id = b.dept_id
+        WHERE a.group_id = #{groupId}
+    </select>
 </mapper>

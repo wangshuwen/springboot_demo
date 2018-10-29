@@ -37,7 +37,9 @@ public class GasController {
             @ApiImplicitParam(dataType = "java.lang.Integer", name = "startPage", value = "起始页", required = false)
     })
     @GetMapping("findRtGasInfoByStaffName")
-    public String getRtGasInfoByStaffName(@RequestParam(required = true) String staffName, @RequestParam(required = false, defaultValue = "8") Integer pageSize, @RequestParam(required = false, defaultValue = "1") Integer startPage) {
+    public String getRtGasInfoByStaffName(@RequestParam(required = true) String staffName,
+                                          @RequestParam(required = false, defaultValue = "8") Integer pageSize,
+                                          @RequestParam(required = false, defaultValue = "1") Integer startPage) {
 
         String result = gasInfoService.findGasInfoByStaffName(staffName, startPage, pageSize);
 

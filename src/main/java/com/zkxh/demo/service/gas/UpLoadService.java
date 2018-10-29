@@ -1,6 +1,8 @@
 package com.zkxh.demo.service.gas;
 
 import com.zkxh.demo.dto.UpLoadGasDto;
+import com.zkxh.demo.model.chat.ChatMsg;
+import com.zkxh.demo.netty.data.request.RequestData;
 
 import java.text.ParseException;
 
@@ -14,5 +16,16 @@ import java.text.ParseException;
 
 public interface UpLoadService {
 
-    public void sendGasInfoToQueue(UpLoadGasDto upLoadGasDto) throws ParseException;
+    //    void sendGasInfoToQueue(UpLoadGasDto upLoadGasDto) throws ParseException;
+    void sendGasInfoToQueue(RequestData requestData) throws ParseException;
+
+    void sendSelfCheckResult(RequestData customMsg);
+
+    void sendUpLoadIp(RequestData customMsg);
+
+    void sendHandWareVersion(RequestData customMsg);
+
+    void sendSoftWareVersion(RequestData customMsg);
+
+    void sendVoice(ChatMsg chatMsg);
 }

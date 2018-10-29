@@ -1,5 +1,4 @@
 package com.zkxh.demo.websocket;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -40,11 +39,13 @@ public class WSServer {
         webSocketSet.add(this);     //加入set中
         addOnlineCount();           //在线数加1
         log.info("有新连接加入！当前在线人数为" + getOnlineCount());
-        try {
-            sendMessage("connect successful");
-        } catch (IOException e) {
-            log.error("websocket IOException");
-        }
+//        try {
+
+//            JSONArray jsonArray = JSON.parseArray(ResultUtil.jsonToStringSuccess("WebSocket连接成功"));
+//            sendMessage(jsonArray.toJSONString());
+//        } catch (IOException e) {
+//            log.error("websocket IOException");
+//        }
     }
     //	//连接打开时执行
     //	@OnOpen

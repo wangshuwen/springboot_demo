@@ -1,18 +1,19 @@
 package com.zkxh.demo.service.gas.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.zkxh.demo.common.base.log.BaseLog;
+import com.zkxh.demo.common.da.kafka.KafkaSender;
+import com.zkxh.demo.common.util.convert.DateConvert;
 import com.zkxh.demo.dao.rt_gas.RtGasInfoMapper;
 import com.zkxh.demo.dto.UpLoadGasDto;
+import com.zkxh.demo.model.chat.ChatMsg;
+import com.zkxh.demo.netty.data.GasInfo;
+import com.zkxh.demo.netty.data.request.RequestData;
 import com.zkxh.demo.service.gas.UpLoadService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
-import org.springframework.util.concurrent.ListenableFuture;
-import org.springframework.util.concurrent.ListenableFutureCallback;
 
+import javax.annotation.Resource;
 import java.text.ParseException;
+import java.util.Date;
 
 /**
  * @ClassName UpLoadServiceImpl
@@ -26,32 +27,80 @@ import java.text.ParseException;
 public class UpLoadServiceImpl extends BaseLog implements UpLoadService {
 
 
-    @Autowired
+    @Resource
     RtGasInfoMapper rtGasInfoMapper;
 
-    @Autowired
-    KafkaTemplate<String, Object> kafkaTemplate;
+    //@Autowired
+    //KafkaTemplate<String, Object> kafkaTemplate;
 
-    public void sendGasInfoToQueue(UpLoadGasDto upLoadGasDto) throws ParseException {
+    @Resource
+    KafkaSender kafkaSender;
 
-        String jsonObj = JSON.toJSONString(upLoadGasDto);
-        logger.info("------------ message = {}", jsonObj);
-        //发送消息
-        //ListenableFuture<SendResult<String, Object>> future = kafkaTemplate.send("kafka.tut", upLoadGasDto);
-        ListenableFuture<SendResult<String, Object>> future = kafkaTemplate.send("kafka.tut", jsonObj);
 
-        future.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
-            @Override
-            public void onFailure(Throwable throwable) {
-                logger.info("消息发送失败：" + throwable.getMessage());
-            }
+    @Override
+    public void sendGasInfoToQueue(RequestData requestData) throws ParseException {
 
-            @Override
-            public void onSuccess(SendResult<String, Object> stringObjectSendResult) {
-                //TODO 业务处理
-                logger.info("消息发送成功");
-                logger.info("消息发送内容：" + stringObjectSendResult.toString());
-            }
-        });
+
+        byte[] body = requestData.getBody();
+
+        GasInfo gasInfo = new GasInfo();
+        gasInfo.setCo(((long) (((body[0] & 0xff) << 8) + (body[1] & 0xff)) / 10.0));
+        gasInfo.setCoFlag(body[2]);
+        gasInfo.setCo2(((long) (((body[3] & 0xff) << 8) + (body[4] & 0xff)) / 10.0));
+        gasInfo.setCo2Flag(body[5]);
+        gasInfo.setO2(((long) (((body[6] & 0xff) << 8) + (body[7] & 0xff)) / 10.0));
+        gasInfo.setO2Flag(body[8]);
+        gasInfo.setCh4(((long) (((body[9] & 0xff) << 8) + (body[10] & 0xff)) / 10.0));
+        gasInfo.setCh4Flag(body[11]);
+        gasInfo.setT(((long) (((body[12] & 0xff) << 8) + (body[13] & 0xff)) / 10.0));
+        gasInfo.settFlag(body[14]);
+        gasInfo.setH(((long) (((body[15] & 0xff) << 8) + (body[16] & 0xff)) / 10.0));
+        gasInfo.sethFlag(body[17]);
+
+        UpLoadGasDto upLoadGasDto = new UpLoadGasDto();
+
+        upLoadGasDto.setSequenceId(requestData.getSequenceId());
+
+        upLoadGasDto.setRT(DateConvert.convert(requestData.getTime(), 19));
+
+        upLoadGasDto.setTerminalIp(requestData.getTerminalIp());
+
+        upLoadGasDto.setCreateTime(DateConvert.convert(new Date(), 19));
+
+        upLoadGasDto.setStationId(requestData.getStationId());
+
+        upLoadGasDto.setStationIp(requestData.getStationIp());
+
+        upLoadGasDto.setTerminalId(requestData.getTerminalId());
+
+        upLoadGasDto.setGasInfo(gasInfo);
+
+        kafkaSender.send(upLoadGasDto, "kafka.tut");
+    }
+
+
+    @Override
+    public void sendSelfCheckResult(RequestData customMsg) {
+
+    }
+
+    @Override
+    public void sendUpLoadIp(RequestData customMsg) {
+        kafkaSender.send(customMsg, "updateIp.tut");
+    }
+
+    @Override
+    public void sendHandWareVersion(RequestData customMsg) {
+
+    }
+
+    @Override
+    public void sendSoftWareVersion(RequestData customMsg) {
+
+    }
+
+    @Override
+    public void sendVoice(ChatMsg chatMsg) {
+        kafkaSender.send(chatMsg, "voice.tut");
     }
 }

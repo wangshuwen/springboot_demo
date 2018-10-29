@@ -33,4 +33,12 @@ public class ResponseData {
     public void setCode(byte code) {
         this.code = code;
     }
+
+    @Override
+    public String toString() {
+        return "ResponseData{" +
+                "customMsg=" + customMsg +
+                ", code=" + code +
+                '}';
+    }
 }

@@ -31,12 +31,18 @@ public class HttpAspect {
     @Autowired
     private ExceptionHandle exceptionHandle;
 
+    private long startTimeMillis = 0; // 开始时间
+    private long endTimeMillis = 0; // 结束时间
+
     @Pointcut("execution(public * com.zkxh.demo.controller.*.*.*(..))")
     public void log() {
 
     }
 
-    @Before("log()")
+    @Before(value = "(@annotation(org.springframework.web.bind.annotation.GetMapping)) || " +
+            "(@annotation(org.springframework.web.bind.annotation.PostMapping)) || " +
+            "(@annotation(org.springframework.web.bind.annotation.PutMapping)) || " +
+            "(@annotation(org.springframework.web.bind.annotation.DeleteMapping))")
     public void doBefore(JoinPoint joinPoint) {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
@@ -53,7 +59,10 @@ public class HttpAspect {
         LOGGER.info("args={}", joinPoint.getArgs());
     }
 
-//    @Around("log()")
+//    @Around(value = "(@annotation(org.springframework.web.bind.annotation.GetMapping)) || " +
+//            "(@annotation(org.springframework.web.bind.annotation.PostMapping)) || " +
+//            "(@annotation(org.springframework.web.bind.annotation.PutMapping)) || " +
+//            "(@annotation(org.springframework.web.bind.annotation.DeleteMapping))")
 //    public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 //        Result result = null;
 //        try {
@@ -69,7 +78,10 @@ public class HttpAspect {
 //
 //    }
 
-    @AfterReturning(pointcut = "log()", returning = "object")//打印输出结果
+    @AfterReturning(value = "(@annotation(org.springframework.web.bind.annotation.GetMapping)) || " +
+            "(@annotation(org.springframework.web.bind.annotation.PostMapping)) || " +
+            "(@annotation(org.springframework.web.bind.annotation.PutMapping)) || " +
+            "(@annotation(org.springframework.web.bind.annotation.DeleteMapping))", returning = "object")
     public void doAfterReturing(Object object) {
         LOGGER.info("response={}", object.toString());
     }

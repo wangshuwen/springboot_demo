@@ -18,6 +18,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
+import javax.annotation.Resource;
+
 /**
  * 消息生产者
  *
@@ -29,7 +31,7 @@ public class KafkaSender<T> {
 
     private Logger logger = LoggerFactory.getLogger(KafkaSender.class);
 
-    @Autowired
+    @Resource
     private KafkaTemplate<String, Object> kafkaTemplate;
 
     /**
@@ -37,12 +39,12 @@ public class KafkaSender<T> {
      *
      * @param obj 消息对象
      */
-    public void send(T obj) {
+    public void send(T obj, String topic) {
         String jsonObj = JSON.toJSONString(obj);
         logger.info("------------ message = {}", jsonObj);
 
         //发送消息
-        ListenableFuture<SendResult<String, Object>> future = kafkaTemplate.send("kafka.tut", jsonObj);
+        ListenableFuture<SendResult<String, Object>> future = kafkaTemplate.send(topic, jsonObj);
         future.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
             @Override
             public void onFailure(Throwable throwable) {

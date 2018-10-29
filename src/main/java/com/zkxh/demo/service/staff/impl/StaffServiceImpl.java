@@ -4,16 +4,16 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zkxh.demo.common.result.ResultUtil;
 import com.zkxh.demo.dao.staff.StaffMapper;
+import com.zkxh.demo.dao.terminal.StaffTerminalMapper;
 import com.zkxh.demo.dto.staff.StaffInfoDto;
 import com.zkxh.demo.model.staff.Staff;
 import com.zkxh.demo.service.staff.StaffService;
 import com.zkxh.demo.vo.req.StaffReqVo;
-import com.zkxh.demo.vo.resp.StaffInfo;
+import com.zkxh.demo.vo.resp.GasWSRespVO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @ClassName StaffServiceImpl
@@ -28,6 +28,9 @@ public class StaffServiceImpl implements StaffService {
 
     @Resource
     private StaffMapper staffMapper;
+
+    @Resource
+    private StaffTerminalMapper staffTerminalMapper;
 
     @Override
     public int addStaff(StaffReqVo staffReqVo) {
@@ -50,12 +53,12 @@ public class StaffServiceImpl implements StaffService {
         staff.setStaffTypeId(staffReqVo.getStaffTypeId());
         staff.setStaffSex(staffReqVo.getStaffSex());
 
-        return staffMapper.insert(staff);
+        return staffMapper.insertSelective(staff);
     }
 
 
     @Override
-    public int deleteStaddByIds(Integer[] ids) {
+    public int deleteStaffByIds(Integer[] ids) {
         int count = 0;
         for (Integer id : ids) {
             staffMapper.deleteByPrimaryKey(id);
@@ -76,7 +79,7 @@ public class StaffServiceImpl implements StaffService {
         staff.setStaffTypeId(staffVo.getStaffTypeId());
 
         //TODO  更新员工信息
-        int res = staffMapper.updateByPrimaryKey(staff);
+        int res = staffMapper.updateByPrimaryKeySelective(staff);
 
         return res;
     }
@@ -91,14 +94,40 @@ public class StaffServiceImpl implements StaffService {
             staff.setStaffName(staffVo.getStaffName());
         }
         PageHelper.startPage(startPage, pageSize);
-
         List<StaffInfoDto> staffInfoDtos = staffMapper.selectStaffByParams(staff);
-        PageInfo<StaffInfoDto> pageInfo = new PageInfo<>();
-//        List<Staff> staffList = staffMapper.selectStaffByParams(staff);
-//        PageInfo<StaffInfo> pageInfo = new PageInfo<StaffInfo>();
-//        List<StaffInfo> list = new ArrayList();
-//        list.add(pageInfo);
+        PageInfo<StaffInfoDto> pageInfo = new PageInfo<>(staffInfoDtos);
 
         return ResultUtil.jsonToStringSuccess(pageInfo);
     }
+
+    @Override
+    public GasWSRespVO findStaffNameByTerminalId(Integer terminalId) {
+
+        List<Map<String, Object>> resultMap = staffTerminalMapper.selectStaffNameByTerminalId(terminalId);
+
+        GasWSRespVO gasWSRespVO = new GasWSRespVO();
+        if (resultMap.size() > 0) {
+            Integer staffId = (Integer) resultMap.get(0).get("staff_id");
+            String staffName = (String) resultMap.get(0).get("staff_name");
+            gasWSRespVO.setStaffName(staffName);
+            gasWSRespVO.setStaffId(staffId);
+            return gasWSRespVO;
+        } else {
+            gasWSRespVO.setStaffName("未知人员");
+            gasWSRespVO.setStaffId(0);
+            return gasWSRespVO;
+        }
+    }
+
+    @Override
+    public Map<String, Object> findStaffGroupAndDeptByStaffId(Integer staffId) {
+        return staffMapper.selectGroupAndDeptByStaffId(staffId);
+    }
+
+    @Override
+    public Map<String, Object> findStaffIdByTerminalId(Integer terminalId) {
+        return staffMapper.selectStaffInfoByTerminalId(terminalId);
+    }
+
+
 }

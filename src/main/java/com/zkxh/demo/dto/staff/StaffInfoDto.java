@@ -3,6 +3,7 @@ package com.zkxh.demo.dto.staff;
 import com.zkxh.demo.model.staff.StaffDept;
 import com.zkxh.demo.model.staff.StaffGroup;
 import com.zkxh.demo.model.staff.StaffJob;
+import io.netty.handler.codec.http.DefaultFullHttpResponse;
 
 /**
  * @ClassName StaffInfoDto
@@ -14,12 +15,8 @@ import com.zkxh.demo.model.staff.StaffJob;
 
 public class StaffInfoDto {
 
-    private StaffJob staffJob;
 
-    private StaffDept staffDept;
-
-    private StaffGroup staffGroup;
-
+    private StaffGroupDto staffGroupDto;
 
     private Integer staffId;
 
@@ -29,13 +26,9 @@ public class StaffInfoDto {
 
     private String staffPhone;
 
-    private String groupName;
-
     private Integer groupId;
 
     private String deptName;
-
-    private Integer deptId;
 
     private Integer isPerson;
 
@@ -43,6 +36,13 @@ public class StaffInfoDto {
 
     private String jobName;
 
+    public StaffGroupDto getStaffGroupDto() {
+        return staffGroupDto;
+    }
+
+    public void setStaffGroupDto(StaffGroupDto staffGroupDto) {
+        this.staffGroupDto = staffGroupDto;
+    }
 
     public String getJobName() {
         return jobName;
@@ -88,13 +88,6 @@ public class StaffInfoDto {
         this.staffPhone = staffPhone;
     }
 
-    public String getGroupName() {
-        return groupName;
-    }
-
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
-    }
 
     public Integer getGroupId() {
         return groupId;
@@ -112,13 +105,6 @@ public class StaffInfoDto {
         this.deptName = deptName;
     }
 
-    public Integer getDeptId() {
-        return deptId;
-    }
-
-    public void setDeptId(Integer deptId) {
-        this.deptId = deptId;
-    }
 
     public Integer getIsPerson() {
         return isPerson;
