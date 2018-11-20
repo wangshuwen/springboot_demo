@@ -289,9 +289,10 @@
         <id property="groupId" column="group_id"/>
         <result property="groupName" column="group_name"/>
         <result property="deptName" column="dept_name"/>
+        <result property="deptId" column="dept_id"/>
     </resultMap>
     <select id="selectGroupDtoByGroupId" parameterType="java.lang.Integer" resultMap="rrMap">
-        SELECT a.group_id, a.group_name, b.dept_name
+        SELECT a.group_id, a.group_name, b.dept_name,a.dept_id
         FROM staff_group a INNER JOIN staff_dept b ON a.dept_id = b.dept_id
         WHERE a.group_id = #{groupId}
     </select>

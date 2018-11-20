@@ -1,6 +1,7 @@
 package com.zkxh.demo.service.terminal;
 
 
+import com.github.pagehelper.Page;
 import com.zkxh.demo.model.terminal.StaffTerminal;
 
 import java.util.List;
@@ -20,9 +21,17 @@ public interface TerminalService {
 
     boolean unBind(Integer staffTerminalId);
 
-    boolean unBindAndBinding(Integer staffId, Integer staffTerminalId);
+    boolean binding(Integer staffId, Integer staffTerminalId);
 
     int addTerminal(StaffTerminal staffTerminal);
 
     Integer findTerminalInfoByStaffId(Integer staffId);
+
+    Page findTerminalInfoByParams(Integer startPage, Integer pageSize, Integer terminalId);
+
+    int deleteTerminalByTerminalId(Integer[] ids);
+
+    int updateTerminalByTerminalId(StaffTerminal staffTerminal);
+
+    boolean checkTerminalExist(Integer terminalId);
 }

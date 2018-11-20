@@ -243,10 +243,10 @@
         <include refid="Base_Column_List"/>
         FROM staff_dept
         <where>
-            <if test="deptId != null">
+            <if test="deptId != null and deptId neq'' ">
                 dept_id LIKE CONCAT( '%',#{deptId} , '%' )
             </if>
-            <if test="deptName != null">
+            <if test="deptName != null and deptName neq '' ">
                 AND dept_name LIKE CONCAT( '%',#{deptName} , '%' )
             </if>
         </where>

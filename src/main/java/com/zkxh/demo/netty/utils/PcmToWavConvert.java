@@ -15,7 +15,7 @@ import java.io.IOException;
 public class PcmToWavConvert {
 
     public static void main(String[] args) throws IOException {
-        PcmToWavConvert.convert("D:\\resources\\file\\voice\\65539\\20180925100431655398.pcm", "C:\\Users\\wr\\Desktop\\65539.wav");
+        PcmToWavConvert.convert("D:\\hello.pcm", "C:\\Users\\wr\\Desktop\\hello.wav");
     }
 
     public static void convert(String source, String target) throws IOException {
@@ -45,9 +45,9 @@ public class PcmToWavConvert {
         header.Channels = 1;
         header.FormatTag = 0x0001;
         header.SamplesPerSec = 8000;
-        header.BlockAlign = (short) (header.Channels * header.BitsPerSample / 8);
+        header.BlockAlign = (short) (header.Channels * header.BitsPerSample / 8); //2*16/8
         //  header.AvgBytesPerSec = 512000;
-        header.AvgBytesPerSec = header.BlockAlign * header.SamplesPerSec;
+        header.AvgBytesPerSec = header.BlockAlign * header.SamplesPerSec;   //4*8000
         header.DataHdrLeth = PCMSize;
 
         byte[] h = header.getHeader();

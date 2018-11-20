@@ -580,10 +580,33 @@
     <!--SELECT * FROM staff JOIN WHERE staff.staff_name-->
     <!--&amp;amp;amp;lt;/select&amp;amp;amp;gt;-->
 
-    <select id="selectGasInfoByStaffName">
-        SELECT * FROM staff a ,staff_terminal b ,terminal c ,terminal_update_ip d WHERE a.staff_id = b.staff_id AND b.terminal_id = c.terminal_id AND c.terminal_id = d.terminal_num
-        AND a.staff_name CONNECT (CONNECT ('%',#{staffName}),'%')
-
+    <select id="selectGasInfoByStaffName" parameterType="java.lang.String"
+            resultType="com.zkxh.demo.vo.resp.GasWSRespVO">
+        SELECT
+	    a.staff_id as staffId,
+	staff_name as staffName,
+	d.co as co,
+	co2 as co2,
+	co2_unit as co2_type,
+	d.ch4 as ch4_type,
+	ch4_unit as ch4_type,
+	humidity as Humidity,
+	humidity_unit as Humidity_type,
+	temperature as Temperature,
+	temperature_unit as Temperature_type,
+	sequence_id as sequenceId,
+	staff_number as staffNumber,
+	terminal_real_time as rt,
+	d.create_time as createTime
+        FROM
+	staff a,
+	staff_terminal c,
+	rt_gas_info d
+WHERE
+	a.staff_id = c.staff_id
+	AND d.terminal_id = c.terminal_id
+ 	AND a.staff_name LIKE CONCAT ( '%', #{staffName}, '%' )
+	ORDER BY terminal_real_time DESC
     </select>
 
     <select id="selectGasInfoByTerminalLastTime" resultType="java.util.Map" parameterType="java.lang.Integer">
@@ -596,9 +619,14 @@
     </select>
 
     <select id="selectGasInfoLastTenRecords" resultType="java.util.HashMap">
-        SELECT
-        <include refid="Base_Column_List"/>
-        FROM rt_gas_info
+        SELECT b.staff_name as staff_name,b.staff_number as staff_number,
+        a.rt_gas_info_id,  a.co,  a.co_unit,  a.ch4,  a.ch4_unit,  a.o2,  a.o2_unit,  a.co2,  a.co2_unit,  a.temperature,
+         a.temperature_unit,  a.humidity,  a.humidity_unit,  a.field_3,  a.field_3_unit,  a.create_time,  a.terminal_id,
+         a.station_id,  a.terminal_ip,  a.station_ip,  a.terminal_real_time,  a.info_type,  a.sequence_id,
+         a.position_id
+        FROM rt_gas_info a ,staff b, staff_terminal c
+        WHERE c.staff_id = b.staff_id
+        AND a.terminal_id = c.terminal_id
         ORDER BY create_time DESC LIMIT #{number}
     </select>
 </mapper>

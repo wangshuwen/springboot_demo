@@ -15,22 +15,28 @@ import io.netty.handler.codec.MessageToByteEncoder;
  * @Vserion v0.0.1
  */
 
-public class CustomEncoder extends MessageToByteEncoder<ResponseData> {
+public class CustomEncoder extends MessageToByteEncoder<byte[]> {
+//
+//    @Override
+//    protected void encode(ChannelHandlerContext channelHandlerContext, ResponseData resp, ByteBuf byteBuf) throws Exception {
+//
+//        if (resp == null) {
+//            throw new Exception("回传消息为空");
+//        }
+//
+//        ResponsePkg response = new ResponsePkg();
+//
+////        System.out.println("aa" + resp.getCustomMsg().getBody().length);
+////        System.out.println("aa" + resp.getCustomMsg().getNdName());
+////        System.out.println("aa" + resp.getCustomMsg().getNodeCount());
+////        System.out.println(resp.getCustomMsg().toString());
+////        byteBuf.writeBytes(response.dataResponse(resp.getCustomMsg()));
+////        byteBuf.writeBytes(response.dataResponseVoice(resp.getCustomMsg()));
+//    }
+
 
     @Override
-    protected void encode(ChannelHandlerContext channelHandlerContext, ResponseData resp, ByteBuf byteBuf) throws Exception {
-
-        if (resp == null) {
-            throw new Exception("回传消息为空");
-        }
-
-        ResponsePkg response = new ResponsePkg();
-
-//        System.out.println("aa" + resp.getCustomMsg().getBody().length);
-//        System.out.println("aa" + resp.getCustomMsg().getNdName());
-//        System.out.println("aa" + resp.getCustomMsg().getNodeCount());
-//        System.out.println(resp.getCustomMsg().toString());
-//        byteBuf.writeBytes(response.dataResponse(resp.getCustomMsg()));
-        byteBuf.writeBytes(response.dataResponseVoice(resp.getCustomMsg()));
+    protected void encode(ChannelHandlerContext ctx, byte[] msg, ByteBuf out) throws Exception {
+        out.writeBytes(msg);
     }
 }

@@ -1,6 +1,8 @@
 package com.zkxh.demo.service.staff.group;
 
+import com.github.pagehelper.Page;
 import com.zkxh.demo.vo.req.StaffGroupReqVo;
+import com.zkxh.demo.vo.req.StaffInfoVO;
 import com.zkxh.demo.vo.resp.StaffGroupRespVo;
 
 import java.util.List;
@@ -21,9 +23,11 @@ public interface StaffGroupService {
 
     Integer deleteStaffGroupsByGroupId(Integer[] ids);
 
-    List<StaffGroupRespVo> getStaffGroupByDeptId(Integer staffDeptId);
+    Page getStaffGroupByDeptId(Integer startPage, Integer pageSize, Integer staffDeptId);
 
-    List<StaffGroupRespVo> getAllStaffGroupInfo();
+    Page getAllStaffGroupInfo(Integer startPage, Integer pageSize);
 
     boolean checkGroupIsNotIncludeStaff(Integer deptId);
+
+    Page getStaffInfoByGroupId(Integer groupId, Integer startPage, Integer pageSize);
 }

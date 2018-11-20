@@ -1,6 +1,5 @@
 package com.zkxh.demo.service.gas;
 
-import com.zkxh.demo.dto.UpLoadGasDto;
 import com.zkxh.demo.model.chat.ChatMsg;
 import com.zkxh.demo.netty.data.request.RequestData;
 

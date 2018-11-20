@@ -11,13 +11,17 @@ import com.zkxh.demo.common.util.convert.DateConvert;
 import com.zkxh.demo.common.util.string.StringUtils;
 import com.zkxh.demo.model.base_station.BaseStation;
 import com.zkxh.demo.service.base_station.BaseStationService;
+import com.zkxh.demo.vo.resp.BaseStationPositionVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @ClassName BaseStationController
@@ -37,7 +41,15 @@ public class BaseStationController extends BaseController {
     @ApiOperation(value = "录入基站信息", notes = "默认为未工作状态")
     public String addBaseStation(@RequestBody BaseStation station) {
         station.setCreateTime(new Date());
-        int result = baseStationService.addBaseStation(station);
+        Integer baseStationNum = station.getBaseStationNum();
+        boolean flag = false;
+        if (baseStationNum != null) {
+            flag = baseStationService.checkStationExists(baseStationNum);
+        }
+        int result = 0;
+        if (flag == false) {
+            result = baseStationService.addBaseStation(station);
+        }
         return result == 1 ? ResultUtil.jsonToStringSuccess() : ResultUtil.jsonToStringError(ResultEnum.ADD_STATION_FAILE);
     }
 
@@ -49,7 +61,6 @@ public class BaseStationController extends BaseController {
             , @RequestParam(name = "pageSize", required = false, defaultValue = "10") Integer pageSize) {
 
         PageInfo<BaseStation> pageInfo = null;
-        logger.info("" + end);
         if (!StringUtils.checkNull(begin) && !StringUtils.checkNull(end)) {
             pageInfo = baseStationService.findBaseStationInfo(DateConvert.convertStampToDateString(begin, 10), DateConvert.convertStampToDateString(end, 10), startPage, pageSize);
         }
@@ -67,7 +78,7 @@ public class BaseStationController extends BaseController {
 
     @PutMapping("station/update")
     @ApiOperation(value = "更新基站信息", notes = "通过基站的ID ，更新基站的基本新")
-    public String updateStationInfo(@RequestParam BaseStation station) {
+    public String updateStationInfo(@RequestBody BaseStation station) {
         station.setUpdateTime(new Date());
         return baseStationService.updateStationInfo(station) == 1 ? ResultUtil.jsonToStringSuccess() : ResultUtil.jsonToStringError(ResultEnum.UPDATE_INFO_ERROR);
     }
@@ -86,5 +97,19 @@ public class BaseStationController extends BaseController {
         return baseStationService.deleteStationByIds(ids) == len ? ResultUtil.jsonToStringSuccess() : ResultUtil.jsonToStringError(ResultEnum.DELETE_STATION_ERROR);
     }
 
+    @GetMapping("station/findInUsedStation")
+    @ApiOperation(value = "获取已被使用的基站信息", notes = "用户地图展示")
+    public String getInUsedBaseStation() {
+        List<BaseStationPositionVO> list = baseStationService.findBaseStationPositionInfo();
+        return list.size() > 0 ? ResultUtil.jsonToStringSuccess(list) : ResultUtil.jsonToStringError(ResultEnum.DATA_NOT_FOUND);
+    }
+
+
+    @GetMapping("station/findNotUsedStation")
+    @ApiOperation(value = "获取未被使用的基站信息", notes = "用于用户向地图插入地图展示")
+    public String getNotUsedBaseStation() {
+        List<BaseStationPositionVO> list = baseStationService.findBaseStationPositionInfoNotUsed();
+        return list.size() > 0 ? ResultUtil.jsonToStringSuccess(list) : ResultUtil.jsonToStringError(ResultEnum.DATA_NOT_FOUND);
+    }
 
 }

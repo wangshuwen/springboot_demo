@@ -63,7 +63,8 @@ public class ShiroConfig {
 //        filterChainDefinitionMap.put("/swagger-ui.html#/**", "anon");
 
         //需要用户认证后才能访问
-        filterChainDefinitionMap.put("/staff/**", "authc");
+//        filterChainDefinitionMap.put("/staff/**", "authc");
+//        filterChainDefinitionMap.put("/station/**", "authc");
         //配置shiro默认登录界面地址，前后端分离中登录界面跳转应由前端路由控制，后台仅返回json数据
         shiroFilterFactoryBean.setLoginUrl("/unauth");
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");

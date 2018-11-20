@@ -1,5 +1,7 @@
 package com.zkxh.demo.service.staff.dept.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.zkxh.demo.common.enums.ResultEnum;
 import com.zkxh.demo.common.handle.RuntimeServiceException;
 import com.zkxh.demo.dao.staff.StaffDeptMapper;
@@ -31,7 +33,9 @@ public class StaffDeptServiceImpl implements StaffDeptService {
     private StaffDeptMapper staffDeptMapper;
 
     @Override
-    public List<StaffDeptVoResp> getAllStaffDept() {
+    public Page getAllStaffDept(Integer startPage, Integer pageSize) {
+
+        Page page = PageHelper.startPage(startPage, pageSize);
 
         List<StaffDept> list = staffDeptMapper.selectStaffDepts();
 
@@ -47,7 +51,7 @@ public class StaffDeptServiceImpl implements StaffDeptService {
             staffDeptVoResp.setStaffGroups(staffDept.getStaffGroupList());
             staffDeptVoRespList.add(staffDeptVoResp);
         }
-        return staffDeptVoRespList;
+        return page;
     }
 
     @Override
@@ -87,11 +91,13 @@ public class StaffDeptServiceImpl implements StaffDeptService {
     }
 
     @Override
-    public List<StaffDeptVoResp> getAllStaffDeptByParams(StaffDeptVoReq staffDeptVoReq) {
+    public Page getAllStaffDeptByParams(Integer startPage, Integer pageSize, StaffDeptVoReq staffDeptVoReq) {
 
         StaffDept staffDept = new StaffDept();
         staffDept.setDeptName(staffDeptVoReq.getDeptName());
         staffDept.setDeptId(staffDeptVoReq.getDeptId());
+
+        Page page = PageHelper.startPage(startPage, pageSize);
         List<StaffDept> list = staffDeptMapper.selectStaffDeptsByParams(staffDept);
 
         List<StaffDeptVoResp> staffDeptVoRespList = Collections.synchronizedList(new ArrayList<>());
@@ -107,7 +113,7 @@ public class StaffDeptServiceImpl implements StaffDeptService {
             staffDeptVoRespList.add(staffDeptVoResp);
         }
         System.out.println(staffDeptVoRespList.toString());
-        return staffDeptVoRespList;
+        return page;
     }
 
     @Override

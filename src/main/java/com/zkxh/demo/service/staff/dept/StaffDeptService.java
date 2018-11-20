@@ -1,5 +1,6 @@
 package com.zkxh.demo.service.staff.dept;
 
+import com.github.pagehelper.Page;
 import com.zkxh.demo.vo.req.StaffDeptVoReq;
 import com.zkxh.demo.vo.resp.StaffDeptVoResp;
 import io.swagger.models.auth.In;
@@ -16,7 +17,7 @@ import java.util.List;
 
 public interface StaffDeptService {
 
-    List<StaffDeptVoResp> getAllStaffDept();
+    Page getAllStaffDept(Integer startPage, Integer pageSize);
 
     Integer addStaffDept(StaffDeptVoReq staddDeptVoReq);
 
@@ -24,7 +25,7 @@ public interface StaffDeptService {
 
     Integer deleteStaffDeptById(Integer[] ids);
 
-    List<StaffDeptVoResp> getAllStaffDeptByParams(StaffDeptVoReq staffDeptVoReq);
+    Page getAllStaffDeptByParams(Integer startPage, Integer pageSize, StaffDeptVoReq staffDeptVoReq);
 
     boolean checkDeptIsNotIncludeGroup(Integer deptId);
 }

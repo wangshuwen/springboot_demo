@@ -24,7 +24,7 @@ import java.util.Date;
  */
 
 @Service
-public class UpLoadServiceImpl extends BaseLog implements UpLoadService {
+public class UpLoadServiceImpl implements UpLoadService {
 
 
     @Resource

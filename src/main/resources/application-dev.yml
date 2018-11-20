@@ -114,9 +114,11 @@ redis:
     timeout: 5000
 netty:
   port: 6666
+  rtc: 9000
 pagehelper:
-  helper-dialect: mysql
+  helper-dialect: com.github.pagehelper.dialect.helper.MySqlDialect
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
-  page-size-zero: true
+#  dialect:
+#  page-size-zero: true

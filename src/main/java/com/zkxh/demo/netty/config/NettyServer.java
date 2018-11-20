@@ -56,6 +56,7 @@ public class NettyServer {
                 @Override
                 protected void initChannel(SocketChannel socketChannel) throws Exception {
                     ChannelPipeline pipe = socketChannel.pipeline();
+                    //TODO 设置
 //                    pipe.addLast(new IdleStateHandler(10, 10, 20, TimeUnit.SECONDS));
                     pipe.addLast(new CustomDecoder(544, 14, 2, -22, 0, true));
                     pipe.addLast(new CustomEncoder());

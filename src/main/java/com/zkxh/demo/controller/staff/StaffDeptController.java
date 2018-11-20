@@ -1,5 +1,7 @@
 package com.zkxh.demo.controller.staff;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import com.zkxh.demo.common.base.controller.impl.BaseController;
 import com.zkxh.demo.common.enums.ResultEnum;
 import com.zkxh.demo.common.result.ResultUtil;
@@ -31,9 +33,11 @@ public class StaffDeptController extends BaseController {
 
     @ApiOperation(value = "获取矿下员工的所有部门信息", notes = "获取部门信息，便于整合")
     @GetMapping("staff/dept/getDepts")
-    public String getAllStaffDept() {
-        List<StaffDeptVoResp> list = staffDeptService.getAllStaffDept();
-        return list.size() > 0 ? ResultUtil.jsonToStringSuccess(list) : ResultUtil.jsonToStringError(ResultEnum.DATA_NOT_FOUND);
+    public String getAllStaffDept(@RequestParam(name = "limit", required = false, defaultValue = "8") Integer pageSize,
+                                  @RequestParam(name = "page", required = false, defaultValue = "1") Integer startPage) {
+        Page list = staffDeptService.getAllStaffDept(startPage, pageSize);
+        PageInfo pageInfo = new PageInfo(list);
+        return list.size() > 0 ? ResultUtil.jsonToStringSuccess(pageInfo) : ResultUtil.jsonToStringError(ResultEnum.DATA_NOT_FOUND);
     }
 
     @ApiOperation(value = "对矿下员工的所有部门信息模糊查询", notes = "获取部门信息模糊查询")
@@ -42,7 +46,10 @@ public class StaffDeptController extends BaseController {
             @ApiImplicitParam(dataType = "java.lang.String", name = "deptName", value = "部门名称", required = false)
     })
     @GetMapping("staff/dept/getDeptsByParams")
-    public String getAllStaffDeptByParams(@RequestParam(name = "deptId", required = false) Integer deptId, @RequestParam(name = "deptName", required = false) String deptName) {
+    public String getAllStaffDeptByParams(@RequestParam(name = "limit", defaultValue = "8", required = false) Integer pageSize,
+                                          @RequestParam(name = "page", defaultValue = "1", required = false) Integer startPage,
+                                          @RequestParam(name = "deptId", required = false) Integer deptId,
+                                          @RequestParam(name = "deptName", required = false) String deptName) {
         StaffDeptVoReq staffDept = new StaffDeptVoReq();
         if (deptId != null) {
             staffDept.setDeptId(deptId);
@@ -50,8 +57,10 @@ public class StaffDeptController extends BaseController {
         if (deptName != null) {
             staffDept.setDeptName(deptName);
         }
-        List<StaffDeptVoResp> list = staffDeptService.getAllStaffDeptByParams(staffDept);
-        return list.size() > 0 ? ResultUtil.jsonToStringSuccess(list) : ResultUtil.jsonToStringError(ResultEnum.DATA_NOT_FOUND);
+        Page list = staffDeptService.getAllStaffDeptByParams(startPage, pageSize, staffDept);
+
+        PageInfo pageInfo = new PageInfo(list);
+        return list.size() > 0 ? ResultUtil.jsonToStringSuccess(pageInfo) : ResultUtil.jsonToStringError(ResultEnum.DATA_NOT_FOUND);
     }
 
 

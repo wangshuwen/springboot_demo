@@ -29,4 +29,17 @@ public class Client {
         return 0;
     }
 
+    public static int sendCmd(byte[] bytes) {
+
+
+//        ChannelMap.getChannelNum();
+//        System.out.println( ChannelMap.getChannelNum());
+        Channel channel = ChannelMap.getChannelByName("192.168.1.101");
+        channel.writeAndFlush(bytes);
+
+//        channel.write(responseData);
+//        channel.flush();
+        return 0;
+    }
+
 }

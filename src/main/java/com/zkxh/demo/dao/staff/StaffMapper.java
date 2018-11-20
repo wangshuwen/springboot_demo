@@ -100,8 +100,6 @@ public interface StaffMapper {
 
     List<StaffDto> selectStaffsByGroupId(Integer groupId);
 
-//    List<Staff> selectStaffsByDeptId(Integer deptId);
-
     List<StaffInfoDto> selectStaffByParams(Staff staffVo);
 
     Map<String, Object> selectGroupAndDeptByStaffId(Integer staffId);

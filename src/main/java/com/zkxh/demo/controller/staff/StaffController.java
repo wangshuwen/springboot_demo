@@ -6,6 +6,7 @@ import com.zkxh.demo.model.staff.Staff;
 import com.zkxh.demo.model.staff.StaffDept;
 import com.zkxh.demo.service.staff.StaffService;
 import com.zkxh.demo.service.staff.dept.StaffDeptService;
+import com.zkxh.demo.vo.req.StaffInfoVO;
 import com.zkxh.demo.vo.req.StaffInsert;
 import com.zkxh.demo.vo.req.StaffReqVo;
 import io.swagger.annotations.Api;
@@ -35,23 +36,9 @@ public class StaffController {
 
     @PostMapping("staff/addStaff")
     @ApiOperation(value = "矿下员工信息录入", notes = "对员工信息（必要信息录入）通过页面输入信息")
-    public String addStaffInfo(StaffInsert staffInsert) {
+    public String addStaffInfo(@RequestBody StaffInfoVO staffInfoVO) {
 
-        StaffReqVo staffReqVo = new StaffReqVo();
-
-//        System.out.println(staffInsert.toString());
-
-        staffReqVo.setStaffNumber(staffInsert.getStaffNumber());
-        staffReqVo.setStaffJobId(staffInsert.getStaffJobId());
-        staffReqVo.setStaffSex(staffInsert.isStaffSex());
-        staffReqVo.setStaffBirthday(staffInsert.getStaffBirthday());
-        staffReqVo.setStaffPhone(staffInsert.getStaffPhone());
-        staffReqVo.setStaffName(staffInsert.getStaffName());
-        staffReqVo.setGroupId(staffInsert.getGroupId());
-        staffReqVo.setTerminalId(staffInsert.getTerminalId());
-        staffReqVo.setIsPerson(staffInsert.getIsPerson());
-        staffReqVo.setCreateTime(new Date());
-        int res = staffService.addStaff(staffReqVo);
+        int res = staffService.addStaff(staffInfoVO);
 
         return res == 1 ? ResultUtil.jsonToStringSuccess() : ResultUtil.jsonToStringError(ResultEnum.FAILED);
 
@@ -59,7 +46,7 @@ public class StaffController {
 
     @PostMapping("staff/addStaffs")
     @ApiOperation(value = "解析Excel表格实现批量矿下员工信息录入", notes = "批量导入员工信息")
-    public String addStaffInfo(@RequestBody MultipartFile staffInfoFile) {
+    public String addStaffsInfo(@RequestBody MultipartFile staffInfoFile) {
         //TODO 解析Excel表格
         return ResultUtil.jsonToStringSuccess();
     }
@@ -75,33 +62,22 @@ public class StaffController {
 
     @PutMapping("staff/updateStaff")
     @ApiOperation(value = "更新员工的基础信息", notes = "通过员工的ID更新信息")
-    public String updateStaffInfo(@RequestParam StaffInsert staffInsert) {
-        StaffReqVo staffReqVo = new StaffReqVo();
+    public String updateStaffInfo(@RequestBody StaffInfoVO staffInfoVO) {
 
-        staffReqVo.setStaffPhone(staffInsert.getStaffPhone());
-        staffReqVo.setStaffName(staffInsert.getStaffName());
-        staffReqVo.setGroupId(staffInsert.getGroupId());
-        staffReqVo.setTerminalId(staffInsert.getTerminalId());
-        staffReqVo.setIsPerson(staffInsert.getIsPerson());
-        int res = staffService.updateStaffInfo(staffReqVo);
+        int res = staffService.updateStaffInfo(staffInfoVO);
         return res == 1 ? ResultUtil.jsonToStringSuccess() : ResultUtil.jsonToStringError(ResultEnum.FAILED);
     }
 
     @GetMapping("staff/getStaffByPage")
     @ApiOperation(value = "获取员工基础信息", notes = "获取员工的信息，模糊查询")
-    public String getAllStaffInfoByPage(@RequestParam(required = false, defaultValue = "3") Integer pageSize, @RequestParam(required = false, defaultValue = "1", name = "startPage") Integer startPage, @RequestParam(name = "staffId", required = false) Integer staffId, @RequestParam(name = "staffName", required = false) String staffName) {
-
-
+    public String getAllStaffInfoByPage(@RequestParam(required = false, defaultValue = "8", name = "limit") Integer pageSize
+            , @RequestParam(required = false, defaultValue = "1", name = "page") Integer startPage
+            , @RequestParam(name = "staffName", required = false) String staffName) {
         StaffReqVo staffReqVo = new StaffReqVo();
         if (staffName != null) {
             staffReqVo.setStaffName(staffName);
         }
-        if (staffId != null) {
-            staffReqVo.setStaffId(staffId);
-        }
-
         String staffList = staffService.getStaffInfoByStaff(staffReqVo, startPage, pageSize);
-
         return staffList;
     }
 

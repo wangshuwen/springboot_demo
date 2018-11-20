@@ -1,5 +1,6 @@
 package com.zkxh.demo.service.gas;
 
+import com.github.pagehelper.Page;
 import com.zkxh.demo.vo.resp.GasSearchRespVO;
 import com.zkxh.demo.vo.resp.GasWSRespVO;
 
@@ -23,8 +24,10 @@ public interface GasInfoService {
      * @date 17:36 2018/10/26
      * @auther lifeng
      **/
-    String findGasInfoByStaffName(String staffName, Integer startPage, Integer pageSize);
+//    String findGasInfoByStaffName(String staffName, Integer startPage, Integer pageSize);
 
+
+    Page findGasInfoByStaffName(String staffName, Integer startPage, Integer pageSize);
     /**
      * @param [terminalId] 终端Id
      * @return com.zkxh.demo.vo.resp.GasWSRespVO
@@ -33,4 +36,6 @@ public interface GasInfoService {
      * @auther lifeng
      **/
     GasWSRespVO findGasInfoByStaffIdAndTerminalId(Integer terminalId) throws ParseException;
+
+    List<GasWSRespVO> findGasInfoLastTenRecords(int number);
 }

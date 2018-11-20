@@ -179,6 +179,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         String clientIP = insocket.getAddress().getHostAddress();
         int port = insocket.getPort();
         log.info("客户端[" + clientIP + ":" + port + "] 连接成功");
+        System.out.println(clientIP);
         ChannelMap.addChannel(clientIP, ctx.channel());
         log.info("客户端[" + clientIP + ":" + port + "] 加入session");
         log.info("当前连接基站数量" + ChannelMap.getChannelNum());

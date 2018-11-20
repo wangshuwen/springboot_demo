@@ -25,7 +25,7 @@ public enum ResultEnum {
     CHECK_ONLINE_FAILE(116, "检测发送语音失败!"),
     ADD_STATION_FAILE(117, "检测发送语音失败!"),
     UPDATE_INFO_ERROR(118, "更新基站信息失败!"),
-    DELETE_STATION_ERROR(119, "删除基站信息失败!"),
+    DELETE_STATION_ERROR(119, "删除基站失败!"),
     ;
 
     private Integer code;

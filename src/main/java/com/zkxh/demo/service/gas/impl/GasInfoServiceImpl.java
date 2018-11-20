@@ -1,5 +1,6 @@
 package com.zkxh.demo.service.gas.impl;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zkxh.demo.common.result.ResultUtil;
@@ -34,17 +35,12 @@ public class GasInfoServiceImpl implements GasInfoService {
     private StaffService staffService;
 
     @Override
-    public String findGasInfoByStaffName(String staffName, Integer startPage, Integer pageSize) {
+    public Page findGasInfoByStaffName(String staffName, Integer startPage, Integer pageSize) {
 
-        PageHelper.startPage(startPage, pageSize);
+        Page page = PageHelper.startPage(startPage, pageSize);
 
-        //TODO 添加 sql语句， resultMap
-//        RtGasInfoExample rtGasInfoExample = new RtGasInfoExample();
-        List<GasInfoAndStaffDto> list = rtGasInfoMapper.selectGasInfoByStaffName();
-        //TODO 创建VO类
-        PageInfo<GasInfoAndStaffDto> pageInfo = new PageInfo<>(list);
-
-        return ResultUtil.jsonToStringSuccess(pageInfo);
+        List<GasWSRespVO> lists = rtGasInfoMapper.selectGasInfoByStaffName(staffName);
+        return page;
     }
 
     @Override
@@ -72,6 +68,7 @@ public class GasInfoServiceImpl implements GasInfoService {
         gasWSRespVO.setTemperature_type((Integer) map.get("temperature_unit"));
         return gasWSRespVO;
     }
+
 
     /**
      * @param [number] 需要获取的气体数量
@@ -105,10 +102,10 @@ public class GasInfoServiceImpl implements GasInfoService {
 //                    staff_email, staff_address, staff_phone, staff_job_id, staff_native_place, staff_type_id,
 //                    is_person, staff.create_time, group_id
 
-            gasWSRespVO.setStaffName((String) result.get("staff_name"));
+            gasWSRespVO.setStaffName((String) item.get("staff_name"));
             gasWSRespVO.setSequenceId((Integer) item.get("sequence_id"));
             gasWSRespVO.setCreateTime((Date) item.get("create_time"));
-            gasWSRespVO.setStaffNumber((String) result.get("staff_number"));
+//            gasWSRespVO.setStaffNumber((String) result.get("staff_number"));
             list.add(gasWSRespVO);
         }
         return list;

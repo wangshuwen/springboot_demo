@@ -1,13 +1,15 @@
 package com.zkxh.demo.controller.gas;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
+import com.zkxh.demo.common.enums.ResultEnum;
 import com.zkxh.demo.common.result.ResultUtil;
 import com.zkxh.demo.service.gas.GasInfoService;
-import com.zkxh.demo.vo.resp.GasSearchRespVO;
+import com.zkxh.demo.vo.resp.GasWSRespVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -38,12 +40,22 @@ public class GasController {
     })
     @GetMapping("findRtGasInfoByStaffName")
     public String getRtGasInfoByStaffName(@RequestParam(required = true) String staffName,
-                                          @RequestParam(required = false, defaultValue = "8") Integer pageSize,
-                                          @RequestParam(required = false, defaultValue = "1") Integer startPage) {
+                                          @RequestParam(required = false, defaultValue = "8", name = "limit") Integer pageSize,
+                                          @RequestParam(required = false, defaultValue = "1", name = "page") Integer startPage) {
+        Page page = gasInfoService.findGasInfoByStaffName(staffName, startPage, pageSize);
+        PageInfo pageInfo = new PageInfo(page);
+        return ResultUtil.jsonToStringSuccess(pageInfo);
+    }
 
-        String result = gasInfoService.findGasInfoByStaffName(staffName, startPage, pageSize);
 
-        return ResultUtil.jsonToStringSuccess(result);
+    @ApiOperation(value = "获取最近的气体信息", notes = "解决数据开始空白问题")
+    @GetMapping("getRecentlyGasInfo/{num}")
+    public String getRecentlyGasInfo(@PathVariable(name = "num", required = false) Integer number) {
+        if (null != number && 0 != number) {
+            List<GasWSRespVO> list = gasInfoService.findGasInfoLastTenRecords(number);
+            return ResultUtil.jsonToStringSuccess(list);
+        }
+        return ResultUtil.jsonToStringError(ResultEnum.DATA_NOT_FOUND);
     }
 
 }

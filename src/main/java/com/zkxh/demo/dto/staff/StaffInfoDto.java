@@ -5,6 +5,8 @@ import com.zkxh.demo.model.staff.StaffGroup;
 import com.zkxh.demo.model.staff.StaffJob;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 
+import java.util.Date;
+
 /**
  * @ClassName StaffInfoDto
  * @Description
@@ -15,8 +17,21 @@ import io.netty.handler.codec.http.DefaultFullHttpResponse;
 
 public class StaffInfoDto {
 
-
     private StaffGroupDto staffGroupDto;
+
+//    private StaffJob staffJob;
+
+    private Integer groupId;
+
+    private String groupName;
+
+    private Integer deptId;
+
+    private String deptName;
+
+    private Date createTime;
+
+    private String staffIdCard;
 
     private Integer staffId;
 
@@ -26,15 +41,65 @@ public class StaffInfoDto {
 
     private String staffPhone;
 
-    private Integer groupId;
-
-    private String deptName;
+    private Integer staffSex;
 
     private Integer isPerson;
 
     private Integer terminalId;
 
+    private Integer jobId;
+
     private String jobName;
+
+    private Date staffBirthday;
+
+    public Integer getJobId() {
+        return jobId;
+    }
+
+    public void setJobId(Integer jobId) {
+        this.jobId = jobId;
+    }
+
+    public Integer getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Integer deptId) {
+        this.deptId = deptId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getStaffIdCard() {
+        return staffIdCard;
+    }
+
+    public void setStaffIdCard(String staffIdCard) {
+        this.staffIdCard = staffIdCard;
+    }
+
+    public Integer getStaffSex() {
+        return staffSex;
+    }
+
+    public void setStaffSex(Integer staffSex) {
+        this.staffSex = staffSex;
+    }
+
+    public Date getStaffBirthday() {
+        return staffBirthday;
+    }
+
+    public void setStaffBirthday(Date staffBirthday) {
+        this.staffBirthday = staffBirthday;
+    }
 
     public StaffGroupDto getStaffGroupDto() {
         return staffGroupDto;
@@ -120,5 +185,13 @@ public class StaffInfoDto {
 
     public void setTerminalId(Integer terminalId) {
         this.terminalId = terminalId;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 }

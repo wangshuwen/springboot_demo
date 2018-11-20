@@ -16,6 +16,16 @@ public class StaffGroupDto {
 
     private String deptName;
 
+    private Integer deptId;
+
+    public Integer getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Integer deptId) {
+        this.deptId = deptId;
+    }
+
     public String getDeptName() {
         return deptName;
     }

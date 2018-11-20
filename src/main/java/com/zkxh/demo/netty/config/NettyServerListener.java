@@ -23,6 +23,9 @@ public class NettyServerListener implements ServletContextListener {
     @Autowired
     private NettyServer nettyServer;
 
+    @Autowired
+    private NettyRTCServer nettyRTCServer;
+
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         Thread thread = new Thread(new NettyServerThread());
@@ -36,7 +39,7 @@ public class NettyServerListener implements ServletContextListener {
     }
 
     /**
-     * netty服务启动线程 . <br>
+     * netty服务启动线程
      *
      * @author lifeng
      */
@@ -44,7 +47,9 @@ public class NettyServerListener implements ServletContextListener {
 
         @Override
         public void run() {
+
             nettyServer.run();
+            nettyRTCServer.run();
         }
     }
 

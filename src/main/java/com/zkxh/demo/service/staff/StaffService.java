@@ -1,6 +1,7 @@
 package com.zkxh.demo.service.staff;
 
 import com.zkxh.demo.model.staff.Staff;
+import com.zkxh.demo.vo.req.StaffInfoVO;
 import com.zkxh.demo.vo.req.StaffReqVo;
 import com.zkxh.demo.vo.resp.GasWSRespVO;
 import com.zkxh.demo.vo.resp.StaffDeptVoResp;
@@ -21,11 +22,11 @@ import java.util.Map;
 public interface StaffService {
 
 
-    int addStaff(StaffReqVo staffReqVo);
+    int addStaff(StaffInfoVO staffInfoVO);
 
     int deleteStaffByIds(Integer[] ids);
 
-    int updateStaffInfo(StaffReqVo staffVo);
+    int updateStaffInfo(StaffInfoVO staffInfoVO);
 
     String getStaffInfoByStaff(StaffReqVo staffVo, Integer startPage, Integer pageSize);
 
@@ -35,7 +36,4 @@ public interface StaffService {
 
     Map<String, Object> findStaffIdByTerminalId(Integer terminalId);
 
-//    Map<String, Object> findStaffAndTerminalInfoByTerminalId(Integer terminalId);
-
-    //Map<String, Object> findStaffInfoByTerminal(Integer terminalId);
 }

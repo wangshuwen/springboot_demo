@@ -98,7 +98,7 @@ public interface RtGasInfoMapper {
      */
     int updateByPrimaryKey(RtGasInfo record);
 
-    List<GasInfoAndStaffDto> selectGasInfoByStaffName();
+    List<GasWSRespVO> selectGasInfoByStaffName(String staffName);
 
     Map<String, Object> selectGasInfoByTerminalLastTime(Integer terminalId);
 

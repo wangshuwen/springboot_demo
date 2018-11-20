@@ -5,11 +5,11 @@ import com.github.pagehelper.PageInfo;
 import com.zkxh.demo.dao.base_station.BaseStationMapper;
 import com.zkxh.demo.model.base_station.BaseStation;
 import com.zkxh.demo.service.base_station.BaseStationService;
+import com.zkxh.demo.vo.resp.BaseStationPositionVO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @ClassName BaseStationServiceImpl
@@ -75,9 +75,56 @@ public class BaseStationServiceImpl implements BaseStationService {
     public int deleteStationByIds(Integer[] ids) {
         int count = 0;
         for (Integer item : ids) {
-            baseStationMapper.deleteByPrimaryKey(item);
-            count++;
+            if (baseStationMapper.deleteByPrimaryKey(item) == 1)
+                count++;
         }
         return count;
+    }
+
+    @Override
+    public List<BaseStationPositionVO> findBaseStationPositionInfo() {
+        List<Map<String, Object>> maps = baseStationMapper.selectBaseStationPositionInfo();
+
+        BaseStationPositionVO baseStationPositionVO = null;
+        List<BaseStationPositionVO> list = Collections.synchronizedList(new ArrayList<>());
+        for (Map<String, Object> item : maps) {
+            baseStationPositionVO = new BaseStationPositionVO();
+
+            baseStationPositionVO.setBaseStationId((Integer) item.get("base_station_id"));
+            baseStationPositionVO.setBaseStationNum((Integer) item.get("base_station_num"));
+            baseStationPositionVO.setPositionX((double) item.get("position_x"));
+            baseStationPositionVO.setPositionY((double) item.get("position_y"));
+            baseStationPositionVO.setPositionZ((double) item.get("position_z"));
+
+            list.add(baseStationPositionVO);
+        }
+        return list;
+    }
+
+
+    @Override
+    public List<BaseStationPositionVO> findBaseStationPositionInfoNotUsed() {
+
+        List<Map<String, Object>> maps = baseStationMapper.selectBaseStationPositionInfoNotUsed();
+
+        BaseStationPositionVO baseStationPositionVO = null;
+        List<BaseStationPositionVO> list = Collections.synchronizedList(new ArrayList<>());
+        for (Map<String, Object> item : maps) {
+            baseStationPositionVO = new BaseStationPositionVO();
+
+            baseStationPositionVO.setBaseStationId((Integer) item.get("base_station_id"));
+            baseStationPositionVO.setBaseStationNum((Integer) item.get("base_station_num"));
+//            baseStationPositionVO.setPositionX((double) item.get("position_x"));
+//            baseStationPositionVO.setPositionY((double) item.get("position_y"));
+//            baseStationPositionVO.setPositionZ((double) item.get("position_z"));
+
+            list.add(baseStationPositionVO);
+        }
+        return list;
+    }
+
+    @Override
+    public boolean checkStationExists(Integer baseStationNum) {
+        return baseStationMapper.selectCountStationByBaseStationNum(baseStationNum);
     }
 }
