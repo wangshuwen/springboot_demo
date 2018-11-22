@@ -114,6 +114,7 @@ redis:
     timeout: 5000
 netty:
   port: 6666
+  port1: 7777
   rtc: 9000
 pagehelper:
   helper-dialect: com.github.pagehelper.dialect.helper.MySqlDialect

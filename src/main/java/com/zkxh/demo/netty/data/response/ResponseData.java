@@ -3,6 +3,8 @@ package com.zkxh.demo.netty.data.response;
 
 import com.zkxh.demo.netty.data.request.RequestData;
 
+import java.io.Serializable;
+
 /**
  * @ClassName Resp
  * @Description
@@ -11,7 +13,7 @@ import com.zkxh.demo.netty.data.request.RequestData;
  * @Vserion v0.0.1
  */
 
-public class ResponseData {
+public class ResponseData implements Serializable {
 
     private RequestData customMsg; //请求内容
 

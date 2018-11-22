@@ -1,19 +1,19 @@
-package com.zkxh.demo.netty.request;
+package com.zkxh.demo.netty.station;
 
+import com.zkxh.demo.netty.terminal.ChannelMap;
 import io.netty.channel.Channel;
 
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * @ClassName ChannelMap
+ * @ClassName StationChannelMap
  * @Description
  * @Auther lifeng
- * @DATE 2018/9/28 16:31
+ * @DATE 2018/11/22 11:13
  * @Vserion v0.0.1
  */
 
-public class ChannelMap {
-
+public class StationChannelMap {
 
     public static int channelNum = 0;
 
@@ -31,14 +31,6 @@ public class ChannelMap {
 
 
     private static ConcurrentHashMap<String, Channel> channelHashMap = null;
-
-//    public ChannelMap() {
-//        channelHashMap = new ConcurrentHashMap<>();
-//    }
-
-//    public static ConcurrentHashMap<String, Channel> getChannelHashMap() {
-//        return channelHashMap;
-//    }
 
     public static Channel getChannelByName(String name) {
         return channelHashMap.get(name);
@@ -61,5 +53,4 @@ public class ChannelMap {
             return 1;
         }
     }
-
 }

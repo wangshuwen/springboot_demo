@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * @ClassName CustomDecoder
+ * @ClassName CustomDecoder     终端  编码器
  * @Description
  * @Auther lifeng
  * @DATE 2018/9/25 19:21

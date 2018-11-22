@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zkxh.demo.common.enums.ResultEnum;
 import com.zkxh.demo.common.handle.RuntimeOtherException;
-import com.zkxh.demo.dto.UpLoadGasDto;
 import com.zkxh.demo.service.staff.StaffService;
 import com.zkxh.demo.vo.resp.GasWSRespVO;
 import com.zkxh.demo.websocket.WSServer;
@@ -19,17 +18,20 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 /**
- * @ClassName GasInfoToWS
+ * @ClassName GasWarnInfoToWS
  * @Description
  * @Auther lifeng
- * @DATE 2018/9/12 14:26
+ * @DATE 2018/11/22 16:16
  * @Vserion v0.0.1
  */
 @Component
-public class GasInfoToWS {
+public class GasWarnInfoToWS {
 
     @Resource
     private StaffService staffService;
@@ -46,7 +48,7 @@ public class GasInfoToWS {
      * @param record
      * @param topic  topic
      */
-    @KafkaListener(id = "GasInfoToWeb", topics = "kafka.tut")
+    @KafkaListener(id = "GasWarnInfoToWeb", topics = "warn_kafka.tut")
     public void listen(ConsumerRecord<?, ?> record, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) {
         //判断是否NULL
         Optional<?> kafkaMessage = Optional.ofNullable(record.value());

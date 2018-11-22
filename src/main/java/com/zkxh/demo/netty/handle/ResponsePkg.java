@@ -25,7 +25,7 @@ public class ResponsePkg {
      * @date 16:09 2018/9/28
      * @auther lifeng
      **/
-    public byte[] dataResponse(RequestData msg) {
+    public byte[] dataResponseVoice(RequestData msg) {
 
         int len = msg.getLength();
         byte[] resp = new byte[len];
@@ -99,7 +99,7 @@ public class ResponsePkg {
      * @date 16:09 2018/9/28
      * @auther lifeng
      **/
-    public byte[] dataResponseVoice(RequestData msg) {
+    public byte[] dataResponse(RequestData msg) {
 
 //        int len = msg.getLength();  //返回终端 TODO 语音下发  ，， 返回加部门和分组
         //返回封装 返回心跳结果

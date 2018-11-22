@@ -1,5 +1,6 @@
 package com.zkxh.demo.netty.data.request;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -12,7 +13,7 @@ import java.util.Date;
  */
 
 
-public class RequestData {
+public class RequestData implements Serializable {
 
     //类型  系统编号 0xAB 表示A系统，0xBC 表示B系统
     private int type;

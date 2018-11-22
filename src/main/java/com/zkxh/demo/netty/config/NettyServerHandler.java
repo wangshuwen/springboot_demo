@@ -1,13 +1,10 @@
 package com.zkxh.demo.netty.config;
 
 import com.zkxh.demo.common.da.kafka.KafkaSender;
-import com.zkxh.demo.common.util.convert.DateConvert;
-import com.zkxh.demo.dto.UpLoadGasDto;
-import com.zkxh.demo.netty.data.GasInfo;
 import com.zkxh.demo.netty.data.request.RequestData;
 import com.zkxh.demo.netty.data.response.ResponseData;
 import com.zkxh.demo.netty.handle.ProcessVoice;
-import com.zkxh.demo.netty.request.ChannelMap;
+import com.zkxh.demo.netty.terminal.ChannelMap;
 import com.zkxh.demo.netty.request.Client;
 import com.zkxh.demo.netty.utils.ConstantValue;
 import com.zkxh.demo.service.gas.UpLoadService;
@@ -25,12 +22,10 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.net.InetSocketAddress;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
- * @ClassName NettyServerHandler
+ * @ClassName NettyServerHandler    终端 数据   业务处理类
  * @Description
  * @Auther lifeng
  * @DATE 2018/9/17 16:43
@@ -40,30 +35,37 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 
+    /**
+     * 日志
+     */
+    private Logger log = LoggerFactory.getLogger(getClass());
 
     private static NettyServerHandler nettyServerHandler;
+
+    //注入上传数据服务
     @Resource
     private UpLoadService upLoadService;
-
-
-//    @Resource
-//    private Client client;
 
     @PostConstruct //通过@PostConstruct实现初始化bean之前进行的操作
     public void init() {
         nettyServerHandler = this;
         nettyServerHandler.upLoadService = this.upLoadService;
-//        nettyServerHandler.client = this.client;
     }
-    /**
-     * 日志
-     */
-    private Logger log = LoggerFactory.getLogger(getClass());
+
+    //注入Kafka
     @Resource
     KafkaSender kafkaSender;
 
+    //注入处理声音
     private ProcessVoice processVoice = new ProcessVoice();
 
+    /**
+     * @param [ctx, msg]
+     * @return void
+     * @description 数据处理方法  执行主要业务
+     * @date 2018/9/17 16:20
+     * @auther lifeng
+     **/
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
@@ -135,12 +137,6 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
                                 log.error("未知命令包");
                                 break;
                         }
-//                        customMsg.setCmd(ConstantValue.MSG_HEADER_COMMAND_ID_RESPONSE);
-//                        customMsg.setLength(30);
-//                        customMsg.setResult((byte) 0x55);
-//                        customMsg.setNodeCount((byte) 0x00);
-//                        resp.setCustomMsg(customMsg);
-//                        Client.sendCmd(resp);
                         break;
                     case ConstantValue.MSG_HEADER_COMMAND_ID_HEARTBEAT:
                         log.info("心跳数据");
@@ -165,7 +161,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
                 resp.setCustomMsg(customMsg);
                 Client.sendCmd(resp);
             }
-            log.info("服务端接收来自客户端[ " + ctx.channel().remoteAddress() + "] 的消息为 " + customMsg.toString());
+            log.info("终端的服务端接收来自终端[ " + ctx.channel().remoteAddress() + "] 的消息为 " + customMsg.toString());
         } else {
             log.error("异常数据包{}" + msg.toString());
         }
@@ -176,13 +172,13 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         InetSocketAddress insocket = (InetSocketAddress) ctx.channel().remoteAddress();
+//        insocket.hashCode()
         String clientIP = insocket.getAddress().getHostAddress();
         int port = insocket.getPort();
-        log.info("客户端[" + clientIP + ":" + port + "] 连接成功");
-        System.out.println(clientIP);
+        log.info("终端[" + clientIP + ":" + port + "] 连接成功");
         ChannelMap.addChannel(clientIP, ctx.channel());
-        log.info("客户端[" + clientIP + ":" + port + "] 加入session");
-        log.info("当前连接基站数量" + ChannelMap.getChannelNum());
+        log.info("终端[" + clientIP + ":" + port + "] 加入session");
+        log.info("当前连接终端数量" + ChannelMap.getChannelNum());
     }
 
     @Override
@@ -190,9 +186,10 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         InetSocketAddress insocket = (InetSocketAddress) ctx.channel().remoteAddress();
         String clientIP = insocket.getAddress().getHostAddress();
         int port = insocket.getPort();
-        log.info("客户端[" + clientIP + ":" + port + "] 已断开连接");
+        log.info("终端[" + clientIP + ":" + port + "] 已断开连接");
         ChannelMap.removeChannelByName(clientIP);
-        log.info("客户端[" + clientIP + "] 被移出session");
+        log.info("终端[" + clientIP + "] 被移出session");
+        System.out.println(ChannelMap.getChannelNum());
     }
 
     @Override
@@ -200,7 +197,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         InetSocketAddress insocket = (InetSocketAddress) ctx.channel().remoteAddress();
         String clientIP = insocket.getAddress().getHostAddress();
         int port = insocket.getPort();
-        log.info("读取客户端[" + clientIP + ":" + port + "] 数据完成");
+        log.info("读取终端[" + clientIP + ":" + port + "] 数据完成");
     }
 
     @Override
@@ -225,7 +222,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
                 ChannelFuture writeAndFlush = ctx.writeAndFlush("client will be remove");
                 writeAndFlush.addListener((ChannelFutureListener) future -> {
                     //TODO 通知web端显示并存储数据库
-                    //TODO 客户端掉线
+                    //TODO 终端掉线
                     ctx.channel().close();
                     ChannelMap.removeChannelByName(clientIP);
                 });
@@ -240,7 +237,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         InetSocketAddress insocket = (InetSocketAddress) ctx.channel().remoteAddress();
         String clientIP = insocket.getAddress().getHostAddress();
-        log.error("客户端[" + clientIP + "] 出现异常" + cause.getLocalizedMessage());
+        log.error("终端[" + clientIP + "] 出现异常" + cause.getLocalizedMessage());
         ChannelMap.removeChannelByName(clientIP);
         cause.printStackTrace();
     }

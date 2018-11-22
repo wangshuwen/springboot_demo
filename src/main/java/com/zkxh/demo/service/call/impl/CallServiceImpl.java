@@ -82,6 +82,7 @@ public class CallServiceImpl implements CallService {
         requestData.setTerminalId(terminalId);
         requestData.setTerminalIp1(terminalIp1);
         requestData.setTerminalIp2(terminalIp2);
+        //TODO 流水号
         requestData.setSequenceId(1);
 
         requestData.setResult((byte) ConstantValue.MSG_BODY_RESULT_SUCCESS);

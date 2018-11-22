@@ -1,4 +1,5 @@
 package com.zkxh.demo.websocket;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -9,23 +10,23 @@ import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
- * @ClassName WSServer
+ * @ClassName WSServerGasWarn
  * @Description
  * @Auther lifeng
- * @DATE 2018/8/31 14:31
+ * @DATE 2018/11/22 16:29
  * @Vserion v0.0.1
  */
 
-@ServerEndpoint(value = "/websocket")
+@ServerEndpoint(value = "/webSocketGasWarnInfo")
 @Component
-public class WSServer {
+public class WSServerGasWarn {
 
-    private static final Logger log = LoggerFactory.getLogger(WSServer.class);
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     //静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
     private static int onlineCount = 0;
     //concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。
-    private static CopyOnWriteArraySet<WSServer> webSocketSet = new CopyOnWriteArraySet<WSServer>();
+    private static CopyOnWriteArraySet<WSServerGasWarn> webSocketSet = new CopyOnWriteArraySet<WSServerGasWarn>();
 
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
@@ -40,6 +41,7 @@ public class WSServer {
         addOnlineCount();           //在线数加1
         log.info("有新连接加入！当前在线人数为" + getOnlineCount());
     }
+
     /**
      * 连接关闭调用的方法
      */
@@ -60,7 +62,7 @@ public class WSServer {
         log.info("来自客户端的消息:" + message);
 
         //群发消息
-        for (WSServer item : webSocketSet) {
+        for (WSServerGasWarn item : webSocketSet) {
             try {
                 item.sendMessage(message);
             } catch (IOException e) {
@@ -89,8 +91,8 @@ public class WSServer {
      * 群发自定义消息
      */
     public static void sendInfo(String message) throws IOException {
-        log.info(message);
-        for (WSServer item : webSocketSet) {
+//        log.info(message);
+        for (WSServerGasWarn item : webSocketSet) {
             try {
                 item.sendMessage(message);
             } catch (IOException e) {
@@ -104,11 +106,10 @@ public class WSServer {
     }
 
     public static synchronized void addOnlineCount() {
-        WSServer.onlineCount++;
+        WSServerGasWarn.onlineCount++;
     }
 
     public static synchronized void subOnlineCount() {
-        WSServer.onlineCount--;
+        WSServerGasWarn.onlineCount--;
     }
-
 }

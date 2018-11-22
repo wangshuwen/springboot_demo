@@ -40,7 +40,7 @@ import java.util.Optional;
 @Component
 public class VoiceInfoProcess {
 
-    private static final Logger logger = LoggerFactory.getLogger(VoiceInfoProcess.class);
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Resource
     WSVoiceServer wsVoiceServer;

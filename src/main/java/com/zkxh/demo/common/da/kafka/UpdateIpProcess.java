@@ -26,7 +26,7 @@ import java.util.Optional;
 @Component
 public class UpdateIpProcess {
 
-    Logger logger = LoggerFactory.getLogger(UpdateIpProcess.class);
+    Logger logger = LoggerFactory.getLogger(getClass());
 
     @Resource
     KafkaSender kafkaSender;
