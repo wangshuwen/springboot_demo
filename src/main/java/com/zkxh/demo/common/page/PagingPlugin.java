@@ -1,5 +1,6 @@
 package com.zkxh.demo.common.page;
 
+import com.zkxh.demo.common.base.log.BaseLog;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
@@ -9,6 +10,8 @@ import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.ibatis.scripting.defaults.DefaultParameterHandler;
 import org.apache.ibatis.session.Configuration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
@@ -20,9 +23,9 @@ import java.util.*;
 
 /**
  * @ClassName PagingPlugin
- * @Description 分页插件拦截器
+ * @Description 分页插件
  * @Auther lifeng
- * @DATE 2018/8/16 18:44
+ * @DATE 2018/11/23 16:48
  * @Vserion v0.0.1
  */
 
@@ -32,6 +35,7 @@ import java.util.*;
                 args = {Connection.class})})
 public class PagingPlugin implements Interceptor {
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     public static final String[] TABLE_NAME_STR = {"ADDRESS",
             "ADDRESS_GROUP",
             "AFFAIR",
@@ -225,11 +229,12 @@ public class PagingPlugin implements Interceptor {
     private static final String DB_TYPE_DMSQL = "dmsql";
 
     /**
-     * 创建auther:   lifeng
-     * date:   2018-8-16 下午11:08:23
-     * 类介绍  :   插件实现方法
-     * 构造参数:
-     */
+     * @description 分页插件实现方法
+     * @date 16:43 2018/11/23
+     * @param [invocation]
+     * @auther lifeng
+     * @return java.lang.Object
+     **/
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
         StatementHandler stmtHandler = (StatementHandler) getUnProxyObject(invocation.getTarget());
@@ -250,7 +255,7 @@ public class PagingPlugin implements Interceptor {
 
         //不是select语句.
         if (!this.checkSelect(sql)) {
-//                L.d("you sql is not select ,pleasecheck");
+            logger.debug("you sql is not select ,pleasecheck");
             if (DB_TYPE_DMSQL.equals(dbType)) {
                 return this.preDmSQL(invocation, metaStatementHandler, boundSql);
             }
@@ -270,7 +275,7 @@ public class PagingPlugin implements Interceptor {
         //获取配置中是否启用分页功能.
         Boolean useFlag = pageParams.getUseFlag() == null ? this.defaultUseFlag : pageParams.getUseFlag();
         if (!useFlag) {  //不使用分页插件.
-            //   L.d("useFlag" + useFlag);
+            logger.debug("useFlag" + useFlag);
             if (DB_TYPE_DMSQL.equals(dbType)) {
                 return this.preDmSQL(invocation, metaStatementHandler, boundSql);
             }
@@ -299,15 +304,12 @@ public class PagingPlugin implements Interceptor {
 
 
     /**
-     * 创建auther:   lifeng
-     * date:   2018-8-16 下午11:09:54
-     * desc:   分离出分页参数
-     * :   @param parameterObject
-     * :   @return
-     * :   @throws Exception
-     *
-     * @return PageParams
-     */
+     * @description 分离出分页参数
+     * @date 16:43 2018/11/23
+     * @param [parameterObject]
+     * @auther lifeng
+     * @return com.zkxh.demo.common.page.PageParams
+     **/
     public PageParams getPageParamsForParamObj(Object parameterObject) throws Exception {
         PageParams pageParams = null;
         if (parameterObject == null) {
@@ -344,14 +346,12 @@ public class PagingPlugin implements Interceptor {
 
 
     /**
-     * 创建auther:   lifeng
-     * date:   2018-8-16 下午11:10:05
-     * desc:   判断是否select语句.
-     * :   @param sql
-     * :   @return
-     *
+     * @description 判断是否select语句.
+     * @date 16:43 2018/11/23
+     * @param [sql]
+     * @auther lifeng
      * @return boolean
-     */
+     **/
     private boolean checkSelect(String sql) {
         String trimSql = sql.trim();
         int idx = trimSql.toLowerCase().indexOf("select");
@@ -359,16 +359,12 @@ public class PagingPlugin implements Interceptor {
     }
 
     /**
-     * 创建auther:   lifeng
-     * date:   2018-8-16 下午11:10:27
-     * desc:    检查当前页码的有效性.
-     * :   @param checkFlag
-     * :   @param pageNum
-     * :   @param pageTotal
-     * :   @throws Throwable
-     *
+     * @description 检查当前页码的有效性.
+     * @date 16:43 2018/11/23
+     * @param [checkFlag, pageNum, pageTotal]
+     * @auther lifeng
      * @return void
-     */
+     **/
     private void checkPage(Boolean checkFlag, Integer pageNum, Integer pageTotal) throws Throwable {
         if (checkFlag) {
             //检查页码page是否合法.
@@ -380,20 +376,12 @@ public class PagingPlugin implements Interceptor {
 
 
     /**
-     * 创建auther:   lifeng
-     * date:   2018-8-16 下午11:10:37
-     * desc:   预编译改写后的SQL，并设置分页参数
-     * :   @param invocation
-     * :   @param metaStatementHandler
-     * :   @param boundSql
-     * :   @param pageNum
-     * :   @param pageSize
-     * :   @param dbType
-     * :   @return
-     * :   @throws Exception
-     *
-     * @return Object
-     */
+     * @description 预编译改写后的SQL，并设置分页参数
+     * @date 16:44 2018/11/23
+     * @param [invocation, metaStatementHandler, boundSql, pageNum, pageSize, dbType]
+     * @auther lifeng
+     * @return java.lang.Object
+     **/
     private Object preparedSQL(Invocation invocation, MetaObject metaStatementHandler, BoundSql boundSql, int pageNum, int pageSize, String dbType) throws Exception {
         //获取当前需要执行的SQL
 
@@ -414,11 +402,11 @@ public class PagingPlugin implements Interceptor {
         currSql = currSql.replaceAll("`", "");
         currSql = currSql.replaceAll("USER ", "USER_ ");
         for (String a : TABLE_NAME_STR) {
-            currSql = currSql.replaceAll(" " + a + " ", " Decetion." + a + " ");
-            currSql = currSql.replaceAll("," + a + " ", ",Decetion." + a + " ");
-            currSql = currSql.replaceAll(" " + a + ".", " Decetion." + a + ".");
+            currSql = currSql.replaceAll(" " + a + " ", " XOA1004." + a + " ");
+            currSql = currSql.replaceAll("," + a + " ", ",XOA1004." + a + " ");
+            currSql = currSql.replaceAll(" " + a + ".", " XOA1004." + a + ".");
         }
-        //L.s("renderSql:", currSql);
+        logger.debug("renderSql:", currSql);
         return currSql;
     }
 
@@ -444,20 +432,14 @@ public class PagingPlugin implements Interceptor {
 
 
     /**
-     * 创建auther:   lifeng
-     * date:   2018-8-16 下午11:10:50
-     * desc:   获取总条数.
-     * :   @param ivt
-     * :   @param metaStatementHandler
-     * :   @param boundSql
-     * :   @param cleanOrderBy
-     * :   @param dbType
-     * :   @return
-     * :   @throws Throwable
-     *
+     * @description 获取总条数.
+     * @date 16:44 2018/11/23
+     * @param [ivt, metaStatementHandler, boundSql, cleanOrderBy, dbType]
+     * @auther lifeng
      * @return int
-     */
+     **/
     private int getTotal(Invocation ivt, MetaObject metaStatementHandler, BoundSql boundSql, Boolean cleanOrderBy, String dbType) throws Throwable {
+
 
 
         //获取当前的mappedStatement
@@ -510,14 +492,12 @@ public class PagingPlugin implements Interceptor {
     }
 
     /**
-     * 创建auther:   lifeng
-     * date:   2018-8-16 下午11:11:01
-     * desc:   从代理对象中分离出真实对象.
-     * :   @param target
-     * :   @return
-     *
-     * @return Object
-     */
+     * @description 从代理对象中分离出真实对象.
+     * @date 16:44 2018/11/23
+     * @param [target]
+     * @auther lifeng
+     * @return java.lang.Object
+     **/
     private Object getUnProxyObject(Object target) {
         MetaObject metaStatementHandler = SystemMetaObject.forObject(target);
         // 分离代理对象链(由于目标类可能被多个拦截器拦截，从而形成多次代理，通过循环可以分离出最原始的的目标类)
@@ -532,11 +512,12 @@ public class PagingPlugin implements Interceptor {
     }
 
     /**
-     * 生成代理对象
-     * :  @param statementHandler 原始对象
-     *
-     * @return 代理对象
-     */
+     * @description 生成代理对象
+     * @date 16:44 2018/11/23
+     * @param [statementHandler]
+     * @auther lifeng
+     * @return java.lang.Object
+     **/
     @Override
     public Object plugin(Object statementHandler) {
         return Plugin.wrap(statementHandler, this);
@@ -562,17 +543,13 @@ public class PagingPlugin implements Interceptor {
     }
 
     /**
-     * 创建auther:   lifeng
-     * date:   2018-8-16 下午11:11:54
-     * desc:   计算总数的SQL,这里需要根据数据库的类型改写SQL，目前支持MySQL和Oracle
-     * :   @param currSql 当前执行的SQL
-     * :   @param dbType
-     * :   @return 改写后的SQL
-     * :   @throws NotSupportedException
-     *
-     * @return String
-     */
-    private String getTotalSQL(String currSql, String dbType) throws Exception {
+     * @description 计算总数的SQL, 这里需要根据数据库的类型改写SQL，目前支持MySQL和Oracle
+     * @date 16:45 2018/11/23
+     * @param [currSql, dbType]
+     * @auther lifeng
+     * @return java.lang.String
+     **/
+    private String getTotalSQL(String currSql, String dbType) throws NotSupportedException {
 
         if (DB_TYPE_MYSQL.equals(dbType)) {
             return "select count(*) as total from (" + currSql + ") $_paging";
@@ -582,23 +559,18 @@ public class PagingPlugin implements Interceptor {
             currSql = this.preDmStrSql(currSql);
             return ("select count(*) as total from (" + currSql + ")").toUpperCase();
         } else {
-            throw new Exception("当前插件未支持此类型数据库");
-//                throw new NotSupportedException("当前插件未支持此类型数据库");
+            throw new NotSupportedException("当前插件未支持此类型数据库");
         }
     }
 
     /**
-     * 创建auther:   lifeng
-     * date:   2018-8-16 下午11:12:19
-     * desc:    需要使用其他数据库需要改写 ,分页获取参数的SQL,这里需要根据数据库的类型改写SQL，目前支持MySQL和Oracle
-     * :   @param currSql 当前执行的SQL
-     * :   @param dbType
-     * :   @return 改写后的SQL
-     * :   @throws NotSupportedException
-     *
-     * @return String
-     */
-    private String getPageDataSQL(String currSql, String dbType) throws Exception {
+     * @description 需要使用其他数据库需要改写 ,分页获取参数的SQL,这里需要根据数据库的类型改写SQL，目前支持MySQL和Oracle
+     * @date 16:45 2018/11/23
+     * @param [currSql, dbType]
+     * @auther lifeng
+     * @return java.lang.String
+     **/
+    private String getPageDataSQL(String currSql, String dbType) throws NotSupportedException {
         //System.out.println("getPageDataSQL:"+dbType);
         if (DB_TYPE_MYSQL.equals(dbType)) {
           /*  currSql = currSql.toUpperCase();
@@ -614,22 +586,17 @@ public class PagingPlugin implements Interceptor {
             currSql = preDmStrSql(currSql);
             return (" select * from (select cur_sql_result.*, rownum rn from (" + currSql + ") cur_sql_result  where rownum <= ?) where rn > ?").toUpperCase();
         } else {
-            throw new Exception("当前插件未支持此类型数据库");
+            throw new NotSupportedException("当前插件未支持此类型数据库");
         }
     }
 
     /**
-     * 创建auther:   lifeng
-     * date:   2018-8-16 下午11:12:55
-     * desc:   需要使用其他数据库需要改写 ,使用PreparedStatement预编译两个分页参数，如果数据库的规则不一样，需要改写设置的参数规则。目前支持MySQL和Oracle
-     * :   @param ps
-     * :   @param pageNum
-     * :   @param pageSize
-     * :   @param dbType
-     * :   @throws Exception
-     *
+     * @description 需要使用其他数据库需要改写 ,使用PreparedStatement预编译两个分页参数，如果数据库的规则不一样，需要改写设置的参数规则。目前支持MySQL和Oracle
+     * @date 16:49 2018/11/23
+     * @param [ps, pageNum, pageSize, dbType]
+     * @auther lifeng
      * @return void
-     */
+     **/
     private void preparePageDataParams(PreparedStatement ps, int pageNum, int pageSize, String dbType) throws Exception {
         //prepared()方法编译SQL，由于MyBatis上下文没有我们分页参数的信息，所以这里需要设置这两个参数.
         //获取需要设置的参数个数，由于我们的参数是最后的两个，所以很容易得到其位置
@@ -646,7 +613,7 @@ public class PagingPlugin implements Interceptor {
             ps.setInt(idx - 1, pageNum * pageSize);//结束行
             ps.setInt(idx, (pageNum - 1) * pageSize); //开始行
         } else {
-            throw new Exception("当前插件未支持此类型数据库");
+            throw new NotSupportedException("当前插件未支持此类型数据库");
         }
 
     }
@@ -685,12 +652,12 @@ public class PagingPlugin implements Interceptor {
 //    }
 
     /**
-     * 创建auther:   lifeng
-     * date:   2018-8-12 下午14:10:10
-     * desc:   数据库连接类型
-     *
-     * @return String 数据库类型
-     */
+     * @description 数据库连接类型
+     * @date 16:48 2018/11/23
+     * @param []
+     * @auther lifeng
+     * @return java.lang.String
+     **/
     public String returnSqlType() {
         String retrunSql = "";
 //	   com.microsoft.sqlserver.jdbc.SQLServerDriver
@@ -707,5 +674,5 @@ public class PagingPlugin implements Interceptor {
         return retrunSql;
     }
 
-}
 
+}
