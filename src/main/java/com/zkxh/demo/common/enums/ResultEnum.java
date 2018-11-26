@@ -26,6 +26,9 @@ public enum ResultEnum {
     ADD_STATION_FAILE(117, "检测发送语音失败!"),
     UPDATE_INFO_ERROR(118, "更新基站信息失败!"),
     DELETE_STATION_ERROR(119, "删除基站失败!"),
+    ADD_ZONE_ERROR(120, "添加大区域失败!"),
+    UPDATE_ZONE_ERROR(121, "更新大区失败!"),
+    DELETE_ZONE_ERROR(122, "删除大区失败!"),
     ;
 
     private Integer code;

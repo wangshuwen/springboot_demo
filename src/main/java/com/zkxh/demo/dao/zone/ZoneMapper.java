@@ -3,6 +3,8 @@ package com.zkxh.demo.dao.zone;
 import com.zkxh.demo.model.zone.Zone;
 import com.zkxh.demo.model.zone.ZoneExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface ZoneMapper {
@@ -93,4 +95,6 @@ public interface ZoneMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(Zone record);
+
+    List<Map<String, Object>> selectZoneByParentId(int parentId);
 }

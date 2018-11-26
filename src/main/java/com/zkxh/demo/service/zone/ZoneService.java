@@ -1,5 +1,10 @@
 package com.zkxh.demo.service.zone;
 
+import com.zkxh.demo.dto.zone.ZoneDto;
+import com.zkxh.demo.model.zone.Zone;
+
+import java.util.List;
+
 /**
  * @ClassName ZoneService
  * @Description
@@ -10,4 +15,13 @@ package com.zkxh.demo.service.zone;
 
 public interface ZoneService {
 
+    void findAllLargeAreas();
+
+    int addZone(List<Zone> zone);
+
+    int updateZone(Zone zone);
+
+    int deleteZone(Integer[] ids);
+
+    void findAllZoneByParam();
 }

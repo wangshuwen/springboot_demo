@@ -2,8 +2,6 @@ package com.zkxh.demo.dao.base_station;
 
 import com.zkxh.demo.model.base_station.BaseStation;
 import com.zkxh.demo.model.base_station.BaseStationExample;
-
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -97,6 +95,7 @@ public interface BaseStationMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(BaseStation record);
+
 
     List<BaseStation> selectBaseStationInfoByTime(@Param("begin") String begin, @Param("end") String end);
 
