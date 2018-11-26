@@ -1404,6 +1404,66 @@ public class BaseStationExample {
             addCriterion("subnet_mask not between", value1, value2, "subnetMask");
             return (Criteria) this;
         }
+
+        public Criteria andZoneIdIsNull() {
+            addCriterion("zone_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andZoneIdIsNotNull() {
+            addCriterion("zone_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andZoneIdEqualTo(Integer value) {
+            addCriterion("zone_id =", value, "zoneId");
+            return (Criteria) this;
+        }
+
+        public Criteria andZoneIdNotEqualTo(Integer value) {
+            addCriterion("zone_id <>", value, "zoneId");
+            return (Criteria) this;
+        }
+
+        public Criteria andZoneIdGreaterThan(Integer value) {
+            addCriterion("zone_id >", value, "zoneId");
+            return (Criteria) this;
+        }
+
+        public Criteria andZoneIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("zone_id >=", value, "zoneId");
+            return (Criteria) this;
+        }
+
+        public Criteria andZoneIdLessThan(Integer value) {
+            addCriterion("zone_id <", value, "zoneId");
+            return (Criteria) this;
+        }
+
+        public Criteria andZoneIdLessThanOrEqualTo(Integer value) {
+            addCriterion("zone_id <=", value, "zoneId");
+            return (Criteria) this;
+        }
+
+        public Criteria andZoneIdIn(List<Integer> values) {
+            addCriterion("zone_id in", values, "zoneId");
+            return (Criteria) this;
+        }
+
+        public Criteria andZoneIdNotIn(List<Integer> values) {
+            addCriterion("zone_id not in", values, "zoneId");
+            return (Criteria) this;
+        }
+
+        public Criteria andZoneIdBetween(Integer value1, Integer value2) {
+            addCriterion("zone_id between", value1, value2, "zoneId");
+            return (Criteria) this;
+        }
+
+        public Criteria andZoneIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("zone_id not between", value1, value2, "zoneId");
+            return (Criteria) this;
+        }
     }
 
     /**
