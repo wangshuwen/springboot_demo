@@ -67,4 +67,9 @@ public class ZoneServiceImpl implements ZoneService {
     public int deleteZone(Integer[] ids) {
         return 0;
     }
+
+    @Override
+    public void findAllZoneByParam() {
+
+    }
 }

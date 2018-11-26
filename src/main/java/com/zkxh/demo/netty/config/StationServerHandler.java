@@ -1,7 +1,12 @@
 package com.zkxh.demo.netty.config;
 
 import com.zkxh.demo.common.da.kafka.KafkaSender;
+import com.zkxh.demo.netty.data.request.RequestData;
+import com.zkxh.demo.netty.data.response.ResponseData;
+import com.zkxh.demo.netty.handle.ProcessVoice;
+import com.zkxh.demo.netty.request.Client;
 import com.zkxh.demo.netty.station.StationChannelMap;
+import com.zkxh.demo.netty.utils.ConstantValue;
 import com.zkxh.demo.service.gas.UpLoadService;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -20,11 +25,10 @@ import java.net.InetSocketAddress;
 
 
 /**
- * @ClassName StationServerHandler    基站 数据   业务处理类
- * @Description
- * @Auther lifeng
- * @DATE 2018/11/21 17:31
- * @Vserion v0.0.1
+ * @Author:        wangshuwen
+ * @Description:    基站 数据   业务处理类
+ * @CreateDate:     2018/11/23 12:55
+ * @Version:        1.0
  */
 @Sharable
 @Component
@@ -53,16 +57,104 @@ public class StationServerHandler extends ChannelInboundHandlerAdapter {
     @Resource
     KafkaSender kafkaSender;
 
+    //注入处理声音
+    private ProcessVoice processVoice = new ProcessVoice();
 
-    /**
-     * @param [ctx, msg]
-     * @return void
-     * @description 数据处理方法  执行主要业务
-     * @date 17:33 2018/11/21
-     * @auther lifeng
-     **/
+
+
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        System.out.println("服务端收到消息:"+msg);
+        ResponseData resp = new ResponseData();
+        if(msg instanceof RequestData){
+            RequestData reqMsg=  (RequestData)msg;
+            //如果请求信息的帧头为ox6688
+            if(reqMsg.getType()== ConstantValue.MSG_HEADER_FREAME_HEAD){
+                int cmd = reqMsg.getCmd();
+                byte[] body = reqMsg.getBody();
+                int ndName = reqMsg.getNdName();
+
+                switch (cmd) {
+                    case ConstantValue.MSG_HEADER_COMMAND_ID_NULL:
+                        if (ndName != ConstantValue.MSG_BODY_NODE_NAME_VOICE_DATA) {
+                            log.error("非法语音数据包");
+                            break;
+                        }
+                        log.info("处理语音数据");
+                        System.out.println(reqMsg.toString());
+                        String wavPath = processVoice.process(reqMsg);
+                        if (!("error").equals(wavPath)) {
+                            log.info("接收并转码成功");
+                            log.info("生成文件路径" + wavPath);
+                        }
+                        //向终端响应信息
+                        reqMsg.setCmd(ConstantValue.MSG_HEADER_COMMAND_ID_RESPONSE);
+                        reqMsg.setLength(30);
+                        reqMsg.setResult((byte) 0x55);
+                        reqMsg.setNodeCount((byte) 0x00);
+                        reqMsg.setNdName(ConstantValue.MSG_BODY_NODE_NAME_VOICE_DATA);
+                        resp.setCustomMsg(reqMsg);
+                        Client.sendCmd(resp);
+                        break;
+                    case ConstantValue.MSG_HEADER_COMMAND_ID_REQUEST:
+                        log.info("采集数据上报");
+                        switch (ndName) {
+                            case ConstantValue.MSG_BODY_NODE_NAME_SENSOR_DATA:
+                                log.info("气体信息");
+                                //TODO 存入kafka队列问题
+                                stationServerHandler.upLoadService.sendGasInfoToQueue(reqMsg);
+                                reqMsg.setLength(30);
+                                reqMsg.setCmd(ConstantValue.MSG_HEADER_COMMAND_ID_RESPONSE);
+                                reqMsg.setResult((byte) ConstantValue.MSG_BODY_RESULT_SUCCESS);
+                                reqMsg.setNodeCount((byte) 0x00);
+                                resp.setCustomMsg(reqMsg);
+                                resp.setCode((byte) 0x55);
+                                Client.sendCmd(resp);
+                                System.out.println("返回气体确认结束");
+                                break;
+                            case ConstantValue.MSG_BODY_NODE_NAME_SELFCHECK_RESULT:
+                                stationServerHandler.upLoadService.sendSelfCheckResult(reqMsg);
+                                log.info("自检结果");
+                                break;
+                            case ConstantValue.MSG_BODY_NODE_NAME_SOFTWARE_VERSION:
+                                stationServerHandler.upLoadService.sendSoftWareVersion(reqMsg);
+                                log.info("软件版本号");
+                                break;
+                            case ConstantValue.MSG_BODY_NODE_NAME_HANDWARE_VERSION:
+                                stationServerHandler.upLoadService.sendHandWareVersion(reqMsg);
+                                log.info("硬件版本号");
+                                break;
+                            case ConstantValue.MSG_BODY_NODE_NAME_UPDATE_IP:
+//                                kafkaSender.send(customMsg,"updateIp.tut");
+                                stationServerHandler.upLoadService.sendUpLoadIp(reqMsg);
+                                log.info("更新IP");
+                                break;
+                            default:
+                                log.error("未知命令包");
+                                break;
+                        }
+                        break;
+                    case ConstantValue.MSG_HEADER_COMMAND_ID_HEARTBEAT:
+                        log.info("心跳数据");
+                        reqMsg.setCmd(ConstantValue.MSG_HEADER_COMMAND_ID_RESPONSE);
+                        reqMsg.setLength(30);
+                        reqMsg.setResult((byte) 0x55);
+                        reqMsg.setNodeCount((byte) 0x00);
+                        resp.setCustomMsg(reqMsg);
+                        Client.sendCmd(resp);
+                        System.out.println("返回心跳包确认结束");
+                        break;
+                    default:
+                        log.error("未知命令");
+                        break;
+                }
+
+
+
+
+            }
+        }
+
 
     }
 
@@ -83,6 +175,8 @@ public class StationServerHandler extends ChannelInboundHandlerAdapter {
         StationChannelMap.addChannel(clientIP, ctx.channel());
         log.info("基站[" + clientIP + ":" + port + "] 加入session");
         log.info("当前连接基站数量" + StationChannelMap.getChannelNum());
+
+
     }
 
     /**

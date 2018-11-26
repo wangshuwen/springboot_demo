@@ -1,12 +1,24 @@
 package com.zkxh.demo.netty.codec;
 
+import com.zkxh.demo.netty.data.response.ResponseData;
+import com.zkxh.demo.netty.handle.ResponsePkg;
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.MessageToByteEncoder;
 /**
- * @ClassName StationEncoder    基站 编码器
- * @Description
- * @Auther lifeng
- * @DATE 2018/11/21 17:26
- * @Vserion v0.0.1
+ * @author wangshuwen
+ * @Description: 基站编码器
+ * @Date 2018/11/23/11:03
  */
 
-public class StationEncoder {
+public class StationEncoder extends MessageToByteEncoder<ResponseData>{
+    @Override
+    protected void encode(ChannelHandlerContext channelHandlerContext, ResponseData responseData, ByteBuf byteBuf) throws Exception {
+        if (responseData == null) {
+            throw new Exception("回传消息为空");
+        }
+        ResponsePkg response = new ResponsePkg();
+        byteBuf.writeBytes(response.dataResponse(responseData.getCustomMsg()));
+
+    }
 }
