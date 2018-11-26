@@ -102,7 +102,9 @@ server:
 #  config-location: classpath:resources/mapping/**/*.xml
 mybatis:
   #type-aliases-package: com.zkxh.demo.model.*.*
-  mapper-locations: com\\zkxh\\demo\\dao\\*.xml
+#  mapper-locations: com\\zkxh\\demo\\dao\\*.xml
+
+#  config-location: resources\\mybatis\\mybatis-config.xml
 # shiro 数据源配置 数据库 01
 
 redis:

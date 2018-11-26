@@ -22,7 +22,6 @@ public class Client {
         StringBuffer stringBuffer = new StringBuffer("192.168.");
         stringBuffer.append(t_ip);
         String ip = stringBuffer.toString();
-//        System.out.println(ip);
         Channel channel = ChannelMap.getChannelByName(ip);
         channel.writeAndFlush(responseData);
 

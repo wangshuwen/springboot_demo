@@ -173,6 +173,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         InetSocketAddress insocket = (InetSocketAddress) ctx.channel().remoteAddress();
 //        insocket.hashCode()
+        System.out.println(insocket.getHostName());
         String clientIP = insocket.getAddress().getHostAddress();
         int port = insocket.getPort();
         log.info("终端[" + clientIP + ":" + port + "] 连接成功");
