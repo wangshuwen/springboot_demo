@@ -60,6 +60,7 @@ public class ShiroConfig {
         // 配置不会被拦截的链接 顺序判断
         filterChainDefinitionMap.put("/static/**", "anon");
         filterChainDefinitionMap.put("/login", "anon");
+        //filterChainDefinitionMap.put("/zone/**", "anon");
 //        filterChainDefinitionMap.put("/swagger-ui.html#/**", "anon");
 
         //需要用户认证后才能访问

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 public interface ZoneMapper {
     /**
@@ -97,4 +98,6 @@ public interface ZoneMapper {
     int updateByPrimaryKey(Zone record);
 
     List<Map<String, Object>> selectZoneByParentId(int parentId);
+
+    List<Zone> findAllZoneInfo(@Param("zoneName") String zoneName);
 }

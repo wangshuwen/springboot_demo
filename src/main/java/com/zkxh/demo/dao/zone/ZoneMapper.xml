@@ -257,6 +257,15 @@
     <select id="selectZoneByParentId" parameterType="java.lang.Integer" resultType="java.util.HashMap">
 
        SELECT *
-       FROM zone
+       FROM zone WHERE zone_parent_id=#{parentId}
+  </select>
+
+  <select id="findAllZoneInfo" resultMap="BaseResultMap">
+    SELECT * FROM ZONE
+    <where>
+        <if test="null neq zoneName and '' neq zoneName" >
+          zone_name like CONCAT('%',#{zoneName},'%')
+        </if>
+    </where>
   </select>
 </mapper>

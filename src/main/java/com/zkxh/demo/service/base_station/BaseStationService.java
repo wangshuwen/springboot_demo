@@ -37,11 +37,13 @@ public interface BaseStationService {
     List<BaseStationPositionVO> findBaseStationPositionInfoNotUsed();
 
     /**
-     * @param [baseStationNum]
+     * @param
      * @return boolean
      * @description 判断 基站的ID 是否存在  ，存在返回true   不存在返回false
      * @date 10:31 2018/11/20
      * @auther lifeng
      **/
     boolean checkStationExists(Integer baseStationNum);
+
+    List<BaseStation> findAllStationByZoneId(Integer zoneId);
 }

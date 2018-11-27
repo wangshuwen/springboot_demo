@@ -8,7 +8,7 @@ package com.zkxh.demo.netty.utils;
  * @Vserion v0.0.1
  */
 
-public class ConstantValue {
+public class  ConstantValue {
 
     public static final String webBaseUrl = "http://192.168.2.180:9876/apis/";
     public static final String basePath = "d:/voice/file/";
@@ -38,6 +38,7 @@ public class ConstantValue {
     public static final int MSG_BODY_NODE_NAME_UPDATE_IP = 0x2004;    //  , "IP更新上报"),
     public static final int MSG_BODY_NODE_NAME_CHECK_ONLINE = 0x2005;    //  , "ping，查询是否在线"),
     public static final int MSG_BODY_NODE_NAME_HEARTBEAT = 0x3001;//  , "心跳"),
+    public static final int MSG_BODY_NODE_NAME_configured = 0x2006;//  ,已控制),
 
 
     //===============硬件故障代码===============

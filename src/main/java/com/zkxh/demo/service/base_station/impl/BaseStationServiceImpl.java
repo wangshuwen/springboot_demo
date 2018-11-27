@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zkxh.demo.dao.base_station.BaseStationMapper;
 import com.zkxh.demo.model.base_station.BaseStation;
+import com.zkxh.demo.model.base_station.BaseStationExample;
 import com.zkxh.demo.service.base_station.BaseStationService;
 import com.zkxh.demo.vo.resp.BaseStationPositionVO;
 import org.springframework.stereotype.Service;
@@ -127,4 +128,14 @@ public class BaseStationServiceImpl implements BaseStationService {
     public boolean checkStationExists(Integer baseStationNum) {
         return baseStationMapper.selectCountStationByBaseStationNum(baseStationNum);
     }
+
+    @Override
+    public List<BaseStation> findAllStationByZoneId(Integer zoneId) {
+        BaseStationExample stationExample = new BaseStationExample();
+        BaseStationExample.Criteria criteria = stationExample.createCriteria();
+        criteria.andZoneIdEqualTo(zoneId);
+        return baseStationMapper.selectByExample(stationExample);
+    }
+
+
 }

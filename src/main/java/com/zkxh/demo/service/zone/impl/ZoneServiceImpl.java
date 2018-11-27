@@ -54,22 +54,62 @@ public class ZoneServiceImpl implements ZoneService {
     }
 
     @Override
-    public int addZone(List<Zone> zone) {
-        return 0;
+    public int deleteByPrimaryKey(Integer zoneId) {
+
+        return zoneMapper.deleteByPrimaryKey(zoneId);
+    }
+
+    @Override
+    public int insert(Zone record) {
+        return zoneMapper.insert(record);
+    }
+
+    @Override
+    public Zone selectByPrimaryKey(Integer zoneId) {
+        return zoneMapper.selectByPrimaryKey(zoneId);
+    }
+
+    @Override
+    public int updateByPrimaryKey(Zone record) {
+        return zoneMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public List<Map<String, Object>> selectZoneByParentId(int parentId) {
+        return zoneMapper.selectZoneByParentId(parentId);
+    }
+
+    @Override
+    public int addZones(List<Zone> zones) {
+        int count=0;
+        for (Zone zone : zones) {
+            int insert = zoneMapper.insert(zone);
+            count+=insert;
+        }
+
+        return count;
     }
 
     @Override
     public int updateZone(Zone zone) {
-        return 0;
+
+        return zoneMapper.updateByPrimaryKey(zone);
     }
 
     @Override
     public int deleteZone(Integer[] ids) {
-        return 0;
+        int count=0;
+        for (Integer id : ids) {
+            int num = zoneMapper.deleteByPrimaryKey(id);
+            count+=num;
+        }
+        return count;
     }
 
     @Override
-    public void findAllZoneByParam() {
-
+    public List<Zone> findAllZoneInfo(String zoneName) {
+        return zoneMapper.findAllZoneInfo(zoneName);
     }
+
+
 }

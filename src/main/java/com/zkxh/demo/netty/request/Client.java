@@ -1,6 +1,7 @@
 package com.zkxh.demo.netty.request;
 
 import com.zkxh.demo.netty.data.response.ResponseData;
+import com.zkxh.demo.netty.station.StationChannelMap;
 import com.zkxh.demo.netty.terminal.ChannelMap;
 import io.netty.channel.Channel;
 import org.springframework.stereotype.Component;
@@ -16,13 +17,13 @@ import org.springframework.stereotype.Component;
 public class Client {
 
     public static int sendCmd(ResponseData responseData) {
-
-        String t_ip = responseData.getCustomMsg().getTerminalIp();
-
+        String t_ip = responseData.getCustomMsg().getStationIp();
         StringBuffer stringBuffer = new StringBuffer("192.168.");
         stringBuffer.append(t_ip);
         String ip = stringBuffer.toString();
-        Channel channel = ChannelMap.getChannelByName(ip);
+        System.out.println("ip地址"+ip);
+        Channel channel = StationChannelMap.getChannelByName(ip);
+        System.out.println("channel"+channel);
         channel.writeAndFlush(responseData);
 
         return 0;

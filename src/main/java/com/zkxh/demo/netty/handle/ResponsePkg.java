@@ -5,6 +5,7 @@ import com.zkxh.demo.netty.data.request.RequestData;
 import com.zkxh.demo.netty.utils.ConstantValue;
 import com.zkxh.demo.netty.utils.NettyDataUtils;
 
+import java.time.Month;
 import java.util.Calendar;
 
 /**
@@ -19,7 +20,7 @@ public class ResponsePkg {
 
 
     /**
-     * @param [msg, code]
+     * @param
      * @return byte[]
      * @description 封装响应数据的  方法  数据帧头 +  数据体的 code
      * @date 16:09 2018/9/28
@@ -93,13 +94,66 @@ public class ResponsePkg {
 
 
     /**
-     * @param [msg, code]
+     * @param
      * @return byte[]
      * @description 封装响应数据的  方法  数据帧头 +  数据体的 code
      * @date 16:09 2018/9/28
      * @auther lifeng
      **/
     public byte[] dataResponse(RequestData msg) {
+        if(msg.getNdName() == ConstantValue.MSG_BODY_NODE_NAME_configured){
+            byte[] data = new byte[38];
+            System.out.println(msg.toString());
+
+            byte[] type = NettyDataUtils.intToByteArray(msg.getType());
+            data[0] = type[2];
+            data[1] = type[3];
+            byte[] length = NettyDataUtils.intToByteArray(msg.getLength());
+            data[14] = length[2];
+            data[15] = length[3];
+
+            byte[] cmd = NettyDataUtils.intToByteArray(msg.getCmd());
+            data[16] = cmd[2];
+            data[17] = cmd[3];
+            byte[] seq = NettyDataUtils.intToByteArray(msg.getSequenceId());
+            data[18] = seq[2];
+            data[19] = seq[3];
+
+            Calendar cal = Calendar.getInstance();
+            int year = cal.get(Calendar.YEAR);//获取年份
+            int rty = year - 2000;
+            int month = cal.get(Calendar.MONTH) + 1;//获取月份
+            int day = cal.get(Calendar.DATE);//获取日
+            int hour = cal.get(Calendar.HOUR);//小时
+            int minute = cal.get(Calendar.MINUTE);//分
+            int second = cal.get(Calendar.SECOND);//秒
+
+            data[20] = (byte) rty;
+            data[21] = (byte) month;
+            data[22] = (byte) day;
+            data[23] = (byte) hour;
+            data[24] = (byte) minute;
+            data[25] = (byte) second;
+            byte[] ndName = NettyDataUtils.intToByteArray(msg.getNdName());
+            data[28] = ndName[2];
+            data[29] = ndName[3];
+            byte[] ipsNets=msg.getBody();
+            data[30]=ipsNets[0];
+            data[31]=ipsNets[1];
+            data[32]=ipsNets[2];
+            data[33]=ipsNets[3];
+            data[34]=ipsNets[4];
+            data[35]=ipsNets[5];
+            data[36]=ipsNets[6];
+            data[37]=ipsNets[7];
+
+            for (int i = 0; i < data.length; i++)
+                System.out.printf(" 0x%02x", data[i]);
+            return data;
+
+
+
+        }
 
 //        int len = msg.getLength();  //返回终端 TODO 语音下发  ，， 返回加部门和分组
         //返回封装 返回心跳结果
