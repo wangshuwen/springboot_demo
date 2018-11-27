@@ -110,4 +110,6 @@ public interface BaseStationMapper {
     List<Map<String, Object>> selectBaseStationPositionInfoNotUsed();
 
     boolean selectCountStationByBaseStationNum(Integer baseStationNum);
+
+    List<BaseStation> findAllStationByAreaId(@Param("areaId") Integer areaId);
 }

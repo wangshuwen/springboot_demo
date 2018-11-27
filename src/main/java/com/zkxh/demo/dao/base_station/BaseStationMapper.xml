@@ -26,6 +26,7 @@
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="subnet_mask" jdbcType="VARCHAR" property="subnetMask"/>
         <result column="zone_id" jdbcType="INTEGER" property="zoneId"/>
+        <result column="area_id" jdbcType="INTEGER" property="areaId"/>
     </resultMap>
     <sql id="Example_Where_Clause">
         <!--
@@ -102,7 +103,7 @@
         -->
         base_station_id, base_station_num, base_station_ip, software_version, hardware_version,
         power_supply, create_time, remark, update_time, position_x, position_y, position_z,
-        channel, emissive_power, antenna_gain, encryption, SSID, status, subnet_mask, zone_id
+        channel, emissive_power, antenna_gain, encryption, SSID, status, subnet_mask, zone_id,area_id
     </sql>
     <select id="selectByExample" parameterType="com.zkxh.demo.model.base_station.BaseStationExample"
             resultMap="BaseResultMap">
@@ -162,7 +163,7 @@
         position_x, position_y, position_z,
         channel, emissive_power, antenna_gain,
         encryption, SSID, status,
-        subnet_mask, zone_id)
+        subnet_mask, zone_id,area_id)
         values (#{baseStationId,jdbcType=INTEGER}, #{baseStationNum,jdbcType=INTEGER},
         #{baseStationIp,jdbcType=VARCHAR},
         #{softwareVersion,jdbcType=VARCHAR}, #{hardwareVersion,jdbcType=VARCHAR}, #{powerSupply,jdbcType=VARCHAR},
@@ -170,7 +171,7 @@
         #{positionX,jdbcType=DOUBLE}, #{positionY,jdbcType=DOUBLE}, #{positionZ,jdbcType=DOUBLE},
         #{channel,jdbcType=INTEGER}, #{emissivePower,jdbcType=INTEGER}, #{antennaGain,jdbcType=INTEGER},
         #{encryption,jdbcType=INTEGER}, #{ssid,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
-        #{subnetMask,jdbcType=VARCHAR}, #{zoneId,jdbcType=INTEGER})
+        #{subnetMask,jdbcType=VARCHAR}, #{zoneId,jdbcType=INTEGER}),#{areaId,jdbcType=INTEGER})
     </insert>
     <insert id="insertSelective" parameterType="com.zkxh.demo.model.base_station.BaseStation">
         <!--
@@ -239,6 +240,9 @@
             <if test="zoneId != null">
                 zone_id,
             </if>
+            <if test="areaId != null">
+                area_id,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="baseStationId != null">
@@ -300,6 +304,9 @@
             </if>
             <if test="zoneId != null">
                 #{zoneId,jdbcType=INTEGER},
+            </if>
+            <if test="areaId != null">
+                #{areaId,jdbcType=INTEGER},
             </if>
         </trim>
     </insert>
@@ -381,6 +388,9 @@
             <if test="record.zoneId != null">
                 zone_id = #{record.zoneId,jdbcType=INTEGER},
             </if>
+            <if test="record.areaId != null">
+                area_id = #{record.areaId,jdbcType=INTEGER},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
@@ -411,7 +421,8 @@
         SSID = #{record.ssid,jdbcType=VARCHAR},
         status = #{record.status,jdbcType=INTEGER},
         subnet_mask = #{record.subnetMask,jdbcType=VARCHAR},
-        zone_id = #{record.zoneId,jdbcType=INTEGER}
+        zone_id = #{record.zoneId,jdbcType=INTEGER},
+        area_id = #{record.areaId,jdbcType=INTEGER}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
@@ -480,6 +491,9 @@
             <if test="zoneId != null">
                 zone_id = #{zoneId,jdbcType=INTEGER},
             </if>
+            <if test="areaId != null">
+                areaId = #{areaId,jdbcType=INTEGER},
+            </if>
         </set>
         where base_station_id = #{baseStationId,jdbcType=INTEGER}
     </update>
@@ -507,7 +521,8 @@
         SSID = #{ssid,jdbcType=VARCHAR},
         status = #{status,jdbcType=INTEGER},
         subnet_mask = #{subnetMask,jdbcType=VARCHAR},
-        zone_id = #{zoneId,jdbcType=INTEGER}
+        zone_id = #{zoneId,jdbcType=INTEGER},
+        area_id = #{areaId,jdbcType=INTEGER}
         where base_station_id = #{baseStationId,jdbcType=INTEGER}
     </update>
 
@@ -569,4 +584,14 @@
     FROM base_station
     WHERE base_station_num = #{baseStationNum}
   </select>
+
+    <select id="findAllStationByAreaId" resultMap="BaseResultMap">
+        SELECT * FROM base_station
+        <where>
+            <if test="null neq areaId and '' neq areaId" >
+                area_id=#{areaId}
+            </if>
+        </where>
+    </select>
+
 </mapper>

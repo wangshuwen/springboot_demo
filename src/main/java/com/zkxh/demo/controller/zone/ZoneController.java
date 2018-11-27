@@ -65,18 +65,16 @@ public class ZoneController {
 
 
 
-    @GetMapping("getZones")
+    @GetMapping("getZonesInfo")
     @ApiOperation(value = "获取所有矿下大区", notes = "大区信息,以及下面的区域数量,下面的基站数量，做到分页查询")
-    public String getZone(@RequestParam(name = "page", defaultValue = "1", required = false) Integer startPage,
+    public String getZonesInfo(@RequestParam(name = "page", defaultValue = "1", required = false) Integer startPage,
                           @RequestParam(name = "limit", defaultValue = "10", required = false) Integer pageSize,
                           @RequestParam(name = "zoneName",defaultValue = "",required = false) String zoneName) {
+        Page page = PageHelper.startPage(startPage, pageSize);
         ArrayList<HashMap<String,Object>> list = new ArrayList<>();
-        //Page page = PageHelper.startPage(startPage, pageSize);
-        List<Zone> listOfZone =  new ArrayList<>();
-         listOfZone = zoneService.findAllZoneInfo(zoneName);
-//        List<Zone> zoneList = zoneService.findAllZoneInfo(zoneName);
-       if(listOfZone != null && listOfZone.size() > 0 ){
-           for (Zone zone : listOfZone) {
+        List<Zone> zoneList = zoneService.findAllZoneInfo(zoneName);
+       if(zoneList != null && zoneList.size() > 0 ){
+           for (Zone zone : zoneList) {
                HashMap<String, Object> map = new HashMap<>();
                List<Area> areaList = areaService.findAllAreaByParentId(zone.getZoneId());
                List<BaseStation> stationList=  baseStationService.findAllStationByZoneId(zone.getZoneId());
@@ -87,17 +85,9 @@ public class ZoneController {
                list.add(map);
            }
        }
-     //   PageInfo info = new PageInfo<>(page);
+        PageInfo info = new PageInfo<>(list);
 
-        /*if(list!=null&&list.size()>0){
-            Zone zone = list.get(0);
-            //获取该空间下的所有区域信息
-            List<Area> areaList = areaService.findAllAreaByParentId(zone.getZoneId());
-            //获取该空间下的基站数量信息
-            List<BaseStation> stationList=  baseStationService.findAllStationByZoneId(zone.getZoneId());
-        }*/
-
-        return ResultUtil.jsonToStringSuccess(list);
+        return ResultUtil.jsonToStringSuccess(info);
     }
 
 

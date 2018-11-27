@@ -255,4 +255,14 @@
         area_parent_id = #{areaParentId,jdbcType=INTEGER}
         where area_id = #{areaId,jdbcType=INTEGER}
     </update>
+
+    <select id="findAllAreaByParentId" resultMap="BaseResultMap">
+        SELECT * FROM area
+        <where>
+            <if test="null!= parentId and 0!=parentId" >
+                area_parent_id=#{parentId}
+            </if>
+        </where>
+    </select>
+
 </mapper>

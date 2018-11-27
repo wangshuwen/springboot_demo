@@ -11,6 +11,7 @@ import com.zkxh.demo.model.zone.Zone;
 import com.zkxh.demo.service.area.AreaService;
 import com.zkxh.demo.service.base_station.BaseStationService;
 import com.zkxh.demo.service.zone.ZoneService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,9 @@ import java.util.List;
  * @Description:
  * @Date 2018/11/27/9:12
  */
+@RestController
+@Api(value = "AreaController", tags = "空间下区域操作")
+@RequestMapping("area/")
 public class AreaController {
     @Resource
     private ZoneService zoneService;
@@ -38,24 +42,26 @@ public class AreaController {
 
     @GetMapping("getAreasInfo")
     @ApiOperation(value = "获取大区下的所有区域", notes = "所属空间  区域拥有该有的基站数量")
-    public String getZone(@RequestParam(name = "page", defaultValue = "1", required = false) Integer startPage,
+    public String getAreasInfo(@RequestParam(name = "page", defaultValue = "1", required = false) Integer startPage,
                           @RequestParam(name = "limit", defaultValue = "10", required = false) Integer pageSize,
-                          @RequestParam(name = "zoneName",defaultValue = "",required = false) String zoneName) {
+                          @RequestParam(name = "zoneId",defaultValue = "0",required = false) Integer zoneId) {
+        PageHelper.startPage(startPage, pageSize);
         ArrayList<HashMap<String,Object>> list = new ArrayList<>();
-        Page page = PageHelper.startPage(startPage, pageSize);
-        List<Zone> zoneList = zoneService.findAllZoneInfo(zoneName);
-        for (Zone zone : zoneList) {
-            HashMap<String, Object> map = new HashMap<>();
-            List<Area> areaList = areaService.findAllAreaByParentId(zone.getZoneId());
-            List<BaseStation> stationList=  baseStationService.findAllStationByZoneId(zone.getZoneId());
-            map.put("zoneId",zone.getZoneId());
-            map.put("zoneName",zone.getZoneName());
-            map.put("areaCount",areaList==null?0:areaList.size());
-            map.put("stationCount",stationList==null?0:stationList.size());
-            list.add(map);
-
+        System.out.println(zoneId);
+            List<Area> areaList = areaService.findAllAreaByParentId(zoneId);
+        if(areaList!=null&&areaList.size()>0){
+            for (Area area : areaList) {
+                List<BaseStation> stationList= baseStationService.findAllStationByAreaId(area.getAreaId());
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("areaId",area.getAreaId());
+                map.put("areaName",area.getAreaName());
+                map.put("zoneId",area.getAreaParentId());
+                map.put("stationCount",stationList.size());
+                list.add(map);
+            }
         }
-        PageInfo info = new PageInfo<>(page);
+
+        PageInfo info = new PageInfo<>(list);
         return ResultUtil.jsonToStringSuccess(info);
     }
 

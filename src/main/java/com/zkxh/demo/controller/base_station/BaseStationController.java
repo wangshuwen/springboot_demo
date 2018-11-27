@@ -38,7 +38,7 @@ public class BaseStationController extends BaseController {
     BaseStationService baseStationService;
 
     @PostMapping("station/add")
-    @ApiOperation(value = "录入基站信息", notes = "默认为未工作状态")
+    @ApiOperation(value = "录入基站信息", notes = ".0")
     public String addBaseStation(@RequestBody BaseStation station) {
         station.setCreateTime(new Date());
         Integer baseStationNum = station.getBaseStationNum();

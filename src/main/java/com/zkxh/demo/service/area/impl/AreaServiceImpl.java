@@ -23,11 +23,7 @@ public class AreaServiceImpl implements AreaService {
 
     @Override
     public List<Area> findAllAreaByParentId(int parentId) {
-        AreaExample areaExample = new AreaExample();
-        AreaExample.Criteria criteria = areaExample.createCriteria();
-        criteria.andAreaParentIdEqualTo(parentId);
-        List<Area> areas = areaMapper.selectByExample(areaExample);
-        return areas;
+        return areaMapper.findAllAreaByParentId(parentId);
     }
 
     @Override

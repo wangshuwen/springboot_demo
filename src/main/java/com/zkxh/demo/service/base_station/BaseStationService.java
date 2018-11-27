@@ -46,4 +46,6 @@ public interface BaseStationService {
     boolean checkStationExists(Integer baseStationNum);
 
     List<BaseStation> findAllStationByZoneId(Integer zoneId);
+
+    List<BaseStation> findAllStationByAreaId(Integer areaId);
 }

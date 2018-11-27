@@ -137,5 +137,11 @@ public class BaseStationServiceImpl implements BaseStationService {
         return baseStationMapper.selectByExample(stationExample);
     }
 
+    @Override
+    public List<BaseStation> findAllStationByAreaId(Integer areaId) {
+
+        return baseStationMapper.findAllStationByAreaId(areaId);
+    }
+
 
 }

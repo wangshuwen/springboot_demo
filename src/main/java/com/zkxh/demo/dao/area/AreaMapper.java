@@ -6,6 +6,7 @@ import com.zkxh.demo.model.area.AreaExample;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import sun.awt.SunHints;
 
 public interface AreaMapper {
     /**
@@ -95,4 +96,6 @@ public interface AreaMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(Area record);
+
+    List<Area> findAllAreaByParentId( @Param("parentId")  int parentId);
 }
