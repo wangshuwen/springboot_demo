@@ -112,4 +112,6 @@ public interface BaseStationMapper {
     boolean selectCountStationByBaseStationNum(Integer baseStationNum);
 
     List<BaseStation> findAllStationByAreaId(@Param("areaId") Integer areaId);
+
+    BaseStation findBaseStationById(int stationId);
 }

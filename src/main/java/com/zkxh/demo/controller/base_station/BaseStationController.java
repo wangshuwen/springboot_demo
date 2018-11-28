@@ -31,13 +31,22 @@ import java.util.List;
  * @Vserion v0.0.1
  */
 @RestController
+@RequestMapping("station/")
 @Api(value = "BaseStationController", tags = {"基站基础信息操作"})
 public class BaseStationController extends BaseController {
 
     @Resource
     BaseStationService baseStationService;
 
-    @PostMapping("station/add")
+
+    @GetMapping("findStationById")
+    @ApiOperation(value = "获取基站信息", notes = "根据id查找基站")
+    public String findStationById(@RequestParam("stationId") int stationId) {
+        BaseStation station = baseStationService.findBaseStationById(stationId);
+        return station!=null ? ResultUtil.jsonToStringSuccess(station) : ResultUtil.jsonToStringError(ResultEnum.DATA_NOT_FOUND);
+    }
+
+    @PostMapping("add")
     @ApiOperation(value = "录入基站信息", notes = ".0")
     public String addBaseStation(@RequestBody BaseStation station) {
         station.setCreateTime(new Date());
@@ -53,7 +62,7 @@ public class BaseStationController extends BaseController {
         return result == 1 ? ResultUtil.jsonToStringSuccess() : ResultUtil.jsonToStringError(ResultEnum.ADD_STATION_FAILE);
     }
 
-    @GetMapping("station/find/{begin},{end}")
+    @GetMapping("find/{begin},{end}")
     @ApiOperation(value = "查询基站信息", notes = "根据开始和结束时间获取基站的基本信息")
     public String findStationInfoByTime(@PathVariable(name = "begin") String begin
             , @PathVariable(name = "end") String end
@@ -76,7 +85,7 @@ public class BaseStationController extends BaseController {
         return ResultUtil.jsonToStringSuccess(pageInfo);
     }
 
-    @PutMapping("station/update")
+    @PutMapping("update")
     @ApiOperation(value = "更新基站信息", notes = "通过基站的ID ，更新基站的基本新")
     public String updateStationInfo(@RequestBody BaseStation station) {
         station.setUpdateTime(new Date());
@@ -84,20 +93,20 @@ public class BaseStationController extends BaseController {
     }
 
     @ApiOperation(value = "删除基站信息", notes = "通过ID删除")
-    @DeleteMapping("station/delete/{id}")
+    @DeleteMapping("delete/{id}")
     public String deleteStation(@PathVariable("id") Integer id) {
         return baseStationService.deleteStationById(id) == 1 ? ResultUtil.jsonToStringSuccess() : ResultUtil.jsonToStringError(ResultEnum.DELETE_STATION_ERROR);
     }
 
     @Transactional
-    @DeleteMapping("station/delete")
+    @DeleteMapping("delete")
     @ApiOperation(value = "批量删除基站信息", notes = "参数为id的数组，以逗号形式拼接")
     public String deleteStationByIds(@RequestParam Integer[] ids) {
         int len = ids.length;
         return baseStationService.deleteStationByIds(ids) == len ? ResultUtil.jsonToStringSuccess() : ResultUtil.jsonToStringError(ResultEnum.DELETE_STATION_ERROR);
     }
 
-    @GetMapping("station/findInUsedStation")
+    @GetMapping("findInUsedStation")
     @ApiOperation(value = "获取已被使用的基站信息", notes = "用户地图展示")
     public String getInUsedBaseStation() {
         List<BaseStationPositionVO> list = baseStationService.findBaseStationPositionInfo();
@@ -105,7 +114,7 @@ public class BaseStationController extends BaseController {
     }
 
 
-    @GetMapping("station/findNotUsedStation")
+    @GetMapping("findNotUsedStation")
     @ApiOperation(value = "获取未被使用的基站信息", notes = "用于用户向地图插入地图展示")
     public String getNotUsedBaseStation() {
         List<BaseStationPositionVO> list = baseStationService.findBaseStationPositionInfoNotUsed();

@@ -594,4 +594,10 @@
         </where>
     </select>
 
+    <select id="findBaseStationById" resultMap="BaseResultMap">
+        SELECT * FROM base_station where base_station_id=#{stationId}
+    </select>
+
+
+
 </mapper>

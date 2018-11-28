@@ -48,4 +48,7 @@ public interface BaseStationService {
     List<BaseStation> findAllStationByZoneId(Integer zoneId);
 
     List<BaseStation> findAllStationByAreaId(Integer areaId);
+
+
+    BaseStation findBaseStationById(int stationId1);
 }

@@ -75,6 +75,8 @@ public class UpLoadServiceImpl implements UpLoadService {
 
         upLoadGasDto.setGasInfo(gasInfo);
 
+
+
         if (body[2] == 1 || body[5] == 1 || body[8] == 1 || body[11] == 1 || body[14] == 1 || body[17] == 1)
             kafkaSender.send(upLoadGasDto, "warn_kafka.tut");
 

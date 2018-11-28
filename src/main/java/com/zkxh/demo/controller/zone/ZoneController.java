@@ -43,7 +43,7 @@ public class ZoneController {
     private BaseStationService baseStationService;
 
 
-    @GetMapping("getZoneInfo")
+  /*  @GetMapping("getZoneInfo")
     @ApiOperation(value = "获取大区消息", notes = "大区信息,以及下面的区域数量,下面的基站数量")
     public String getZoneInfo(@RequestParam(name = "zoneId") Integer zoneId) {
         HashMap<String, Object> map = new HashMap<>();
@@ -59,7 +59,7 @@ public class ZoneController {
         }
 
         return ResultUtil.jsonToStringSuccess(map);
-    }
+    }*/
 
 
 
@@ -70,7 +70,7 @@ public class ZoneController {
     public String getZonesInfo(@RequestParam(name = "page", defaultValue = "1", required = false) Integer startPage,
                           @RequestParam(name = "limit", defaultValue = "10", required = false) Integer pageSize,
                           @RequestParam(name = "zoneName",defaultValue = "",required = false) String zoneName) {
-        Page page = PageHelper.startPage(startPage, pageSize);
+        PageHelper.startPage(startPage, pageSize);
         ArrayList<HashMap<String,Object>> list = new ArrayList<>();
         List<Zone> zoneList = zoneService.findAllZoneInfo(zoneName);
        if(zoneList != null && zoneList.size() > 0 ){

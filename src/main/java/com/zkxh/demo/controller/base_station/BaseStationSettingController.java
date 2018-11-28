@@ -21,17 +21,6 @@ public class BaseStationSettingController {
 
     @GetMapping("/setting")
     public String settingBaseStation(@RequestParam("ip") String ip, @RequestParam("network") String network) {
-        System.out.println("setting大苏打的");
-        System.out.println("4233333333333333333333333333333333333333333333333333333");
-        System.out.println("setting大苏打的");
-        System.out.println("4233333333333333333333333333333333333333333333333333333");
-        System.out.println("4233333333333333333333333333333333333333333333333333333");
-        System.out.println("4233333333333333333333333333333333333333333333333333333");
-        System.out.println("4233333333333333333333333333333333333333333333333333333");
-        System.out.println("setting大苏打的");
-        System.out.println("4233333333333333333333333333333333333333333333333333333");
-        System.out.println(ip);
-        System.out.println(network);
 
         ResponseData responseData = new ResponseData();
 
@@ -51,7 +40,6 @@ public class BaseStationSettingController {
         for (String s : ips) {
             System.out.println(s);
         }
-        System.out.println("esdfdssfdsfddssfddsf"+ips.toString());
         String[] nets = network.split("\\.");
         body[0] = NettyDataUtils.intToByteArray(Integer.parseInt(ips[0]))[3];
         body[1]= NettyDataUtils.intToByteArray(Integer.parseInt(ips[1]))[3];
